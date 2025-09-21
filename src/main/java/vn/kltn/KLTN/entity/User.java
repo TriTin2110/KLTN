@@ -1,10 +1,13 @@
 package vn.kltn.KLTN.entity;
 
+import java.sql.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -12,13 +15,14 @@ import jakarta.persistence.OneToOne;
 public class User {
 	@Id
 	private String userName;
-	private String address, fullName;
+	private String password, email, address, fullName;
+	private Date dateOfBirth;
 
 	@OneToMany(mappedBy = "user")
 	private List<Comment> comments;
-	@OneToOne
-	@JoinColumn(name = "user_detail_id")
-	private UserDetail userDetail;
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(name = "role_id")
+	private Role role;
 	@OneToOne(mappedBy = "user")
 	private Cart cart;
 	@OneToMany(mappedBy = "user")
@@ -29,13 +33,24 @@ public class User {
 	public User() {
 	}
 
-	public User(String userName, String address, String fullName, List<Comment> comments, UserDetail userDetail,
-			Cart cart, List<Order> orders, Point point) {
+	public User(String userName, String password, String email, String address, Role role) {
 		this.userName = userName;
+		this.password = password;
+		this.email = email;
+		this.address = address;
+		this.role = role;
+	}
+
+	public User(String userName, String password, String email, String address, String fullName, Date dateOfBirth,
+			List<Comment> comments, Role role, Cart cart, List<Order> orders, Point point) {
+		this.userName = userName;
+		this.password = password;
+		this.email = email;
 		this.address = address;
 		this.fullName = fullName;
+		this.dateOfBirth = dateOfBirth;
 		this.comments = comments;
-		this.userDetail = userDetail;
+		this.role = role;
 		this.cart = cart;
 		this.orders = orders;
 		this.point = point;
@@ -47,6 +62,22 @@ public class User {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getAddress() {
@@ -65,6 +96,14 @@ public class User {
 		this.fullName = fullName;
 	}
 
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -73,12 +112,12 @@ public class User {
 		this.comments = comments;
 	}
 
-	public UserDetail getUserDetail() {
-		return userDetail;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setUserDetail(UserDetail userDetail) {
-		this.userDetail = userDetail;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public Cart getCart() {
@@ -103,6 +142,12 @@ public class User {
 
 	public void setPoint(Point point) {
 		this.point = point;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", password=" + password + ", email=" + email + ", address=" + address
+				+ ", fullName=" + fullName + ", dateOfBirth=" + dateOfBirth + ", role=" + role + "]";
 	}
 
 }

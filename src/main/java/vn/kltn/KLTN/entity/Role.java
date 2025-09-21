@@ -1,7 +1,9 @@
 package vn.kltn.KLTN.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,17 +19,18 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(name = "type", nullable = false)
 	@Enumerated(value = EnumType.STRING)
 	private RoleAvailable type;
 	@OneToMany(mappedBy = "role")
-	private List<UserDetail> userDetails;
+	private List<User> user;
 
 	public Role() {
 	}
 
-	public Role(RoleAvailable type, List<UserDetail> userDetails) {
+	public Role(RoleAvailable type) {
 		this.type = type;
-		this.userDetails = userDetails;
+		this.user = new ArrayList<User>();
 	}
 
 	public int getId() {
@@ -46,12 +49,17 @@ public class Role {
 		this.type = type;
 	}
 
-	public List<UserDetail> getUserDetails() {
-		return userDetails;
+	public List<User> getUser() {
+		return user;
 	}
 
-	public void setUserDetails(List<UserDetail> userDetails) {
-		this.userDetails = userDetails;
+	public void setUser(List<User> user) {
+		this.user = user;
+	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", type=" + type + "]";
 	}
 
 }
