@@ -110,4 +110,10 @@ public class Order {
 		this.orderItem = orderItem;
 	}
 
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", createdDate=" + createdDate + ", totalPrice=" + totalPrice + ", status=" + status
+				+ ", cart=" + cart + ", user=" + user + ", orderItem=" + orderItem + "]";
+	}
+
 }

@@ -7,5 +7,4 @@ import vn.kltn.KLTN.entity.Category;
 
 @RepositoryRestResource
 public interface CategoryRepository extends JpaRepository<Category, String> {
-
 }

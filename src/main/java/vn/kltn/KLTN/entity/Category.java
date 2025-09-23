@@ -1,5 +1,6 @@
 package vn.kltn.KLTN.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -18,10 +19,10 @@ public class Category extends Component {
 	public Category() {
 	}
 
-	public Category(String name, String image, int totalProduct, List<Product> products) {
+	public Category(String name, String image) {
 		super(name, image);
-		this.totalProduct = totalProduct;
-		this.products = products;
+		this.totalProduct = 0;
+		this.products = new ArrayList<Product>();
 	}
 
 	public int getTotalProduct() {
@@ -38,6 +39,11 @@ public class Category extends Component {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [totalProduct=" + totalProduct + ", getName()=" + getName() + "]";
 	}
 
 }

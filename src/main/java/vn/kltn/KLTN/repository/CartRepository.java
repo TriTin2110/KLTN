@@ -4,8 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import vn.kltn.KLTN.entity.Cart;
+import vn.kltn.KLTN.entity.User;
 
 @RepositoryRestResource
 public interface CartRepository extends JpaRepository<Cart, String> {
-
+	public Cart findByUser(User user);
 }

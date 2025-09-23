@@ -1,7 +1,9 @@
 package vn.kltn.KLTN.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -12,17 +14,17 @@ public class Supplier {
 	private String name;
 	private String address;
 	private int phoneNumber;
-	@OneToMany(mappedBy = "supplier")
+	@OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
 	private List<Ingredient> ingredients;
 
 	public Supplier() {
 	}
 
-	public Supplier(String name, String address, int phoneNumber, List<Ingredient> ingredients) {
+	public Supplier(String name, String address, int phoneNumber) {
 		this.name = name;
 		this.address = address;
 		this.phoneNumber = phoneNumber;
-		this.ingredients = ingredients;
+		this.ingredients = new ArrayList<Ingredient>();
 	}
 
 	public String getName() {

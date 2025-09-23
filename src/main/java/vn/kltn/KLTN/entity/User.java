@@ -23,7 +23,7 @@ public class User {
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "role_id")
 	private Role role;
-	@OneToOne(mappedBy = "user")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private Cart cart;
 	@OneToMany(mappedBy = "user")
 	private List<Order> orders;

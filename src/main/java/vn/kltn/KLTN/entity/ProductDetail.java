@@ -57,4 +57,9 @@ public class ProductDetail {
 		this.product = product;
 	}
 
+	@Override
+	public String toString() {
+		return "ProductDetail [name=" + name + ", description=" + description + ", status=" + status + "]";
+	}
+
 }

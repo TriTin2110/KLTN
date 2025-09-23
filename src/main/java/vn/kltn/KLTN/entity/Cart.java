@@ -1,11 +1,13 @@
 package vn.kltn.KLTN.entity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapKeyColumn;
@@ -15,13 +17,12 @@ import jakarta.persistence.OneToOne;
 public class Cart {
 	@Id
 	private String id;
-	private short totalOrder;
 
 	@OneToOne
 	@JoinColumn(name = "user_name")
 	private User user;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "items_in_cart", joinColumns = {
 			@JoinColumn(name = "cart_id", referencedColumnName = "id") })
 	@MapKeyColumn(name = "product_id")
@@ -33,12 +34,18 @@ public class Cart {
 	public Cart() {
 	}
 
-	public Cart(String id, short totalOrder, User user, Map<Product, Integer> cartItems, Order order) {
+	public Cart(String id, User user, Order order) {
 		this.id = id;
-		this.totalOrder = totalOrder;
 		this.user = user;
-		this.cartItems = cartItems;
+		this.cartItems = new HashMap<Product, Integer>();
 		this.order = order;
+	}
+
+	public Cart(Cart other) {
+		this.id = other.id;
+		this.user = other.user;
+		this.cartItems = other.cartItems;
+		this.order = other.order;
 	}
 
 	public String getId() {
@@ -47,14 +54,6 @@ public class Cart {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public short getTotalOrder() {
-		return totalOrder;
-	}
-
-	public void setTotalOrder(short totalOrder) {
-		this.totalOrder = totalOrder;
 	}
 
 	public User getUser() {
@@ -79,6 +78,11 @@ public class Cart {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+	@Override
+	public String toString() {
+		return "Cart [id=" + id + ", user=" + user + ", cartItems=" + cartItems + "]";
 	}
 
 }

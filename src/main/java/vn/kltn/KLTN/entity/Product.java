@@ -1,7 +1,9 @@
 package vn.kltn.KLTN.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -16,7 +18,7 @@ import jakarta.persistence.OneToOne;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Product extends Component {
 	private int price;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "category_id")
 	private Category category;
 	@ManyToMany
@@ -28,7 +30,7 @@ public class Product extends Component {
 	@OneToOne
 	@JoinColumn(name = "coupon_id")
 	private Coupon coupon;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "product_detail_id")
 	private ProductDetail productDetail;
 	@OneToMany(mappedBy = "product")
@@ -40,17 +42,19 @@ public class Product extends Component {
 	public Product() {
 	}
 
-	public Product(String name, String image, int price, Category category, List<Ingredient> ingredients, Event event,
-			Coupon coupon, ProductDetail productDetail, List<Comment> comments, List<Combo> combos) {
+	public Product(String name, String image, int price) {
+		super(name, image);
+		this.price = price;
+	}
+
+	public Product(String name, String image, int price, Category category, List<Ingredient> ingredients) {
 		super(name, image);
 		this.price = price;
 		this.category = category;
 		this.ingredients = ingredients;
-		this.event = event;
-		this.coupon = coupon;
 		this.productDetail = productDetail;
-		this.comments = comments;
-		this.combos = combos;
+		this.comments = new ArrayList<Comment>();
+		this.combos = new ArrayList<Combo>();
 	}
 
 	public int getPrice() {
@@ -115,6 +119,12 @@ public class Product extends Component {
 
 	public void setCombos(List<Combo> combos) {
 		this.combos = combos;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [price=" + price + ", category=" + category + ", event=" + event + ", coupon=" + coupon
+				+ ", productDetail=" + productDetail + ", getName()=" + getName() + "]";
 	}
 
 }

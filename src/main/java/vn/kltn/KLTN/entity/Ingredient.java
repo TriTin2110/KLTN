@@ -1,8 +1,10 @@
 package vn.kltn.KLTN.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -19,19 +21,19 @@ public class Ingredient {
 	@JoinColumn(name = "supplier_id")
 	private Supplier supplier;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "product_ingredient", joinColumns = @JoinColumn(name = "ingredient_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
 	private List<Product> products;
 
 	public Ingredient() {
 	}
 
-	public Ingredient(String name, int quantity, int price, Supplier supplier, List<Product> products) {
+	public Ingredient(String name, int quantity, int price, Supplier supplier) {
 		this.name = name;
 		this.quantity = quantity;
 		this.price = price;
 		this.supplier = supplier;
-		this.products = products;
+		this.products = new ArrayList<Product>();
 	}
 
 	public String getName() {
@@ -72,6 +74,12 @@ public class Ingredient {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+
+	@Override
+	public String toString() {
+		return "Ingredient [name=" + name + ", quantity=" + quantity + ", price=" + price + ", supplier=" + supplier
+				+ ", products=" + products + "]";
 	}
 
 }
