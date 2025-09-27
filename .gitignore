@@ -34,4 +34,3 @@ build/
 
 ### Project ###
 /src/main/resources/application.properties
-/src/test

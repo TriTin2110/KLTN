@@ -1,0 +1,72 @@
+package service;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import vn.kltn.KLTN.KltnApplication;
+import vn.kltn.KLTN.entity.Product;
+import vn.kltn.KLTN.entity.ProductDetail;
+import vn.kltn.KLTN.service.CategoryService;
+import vn.kltn.KLTN.service.IngredientService;
+import vn.kltn.KLTN.service.ProductService;
+
+@SpringBootTest(classes = KltnApplication.class)
+@TestInstance(Lifecycle.PER_CLASS)
+public class ProductServiceTest {
+	@Autowired
+	private ProductService service;
+	@Autowired
+	private CategoryService categoryService;
+	@Autowired
+	private IngredientService ingredientService;
+
+	@Test
+//	@Disabled
+	public void add() {
+		Product[] products = { new Product("Trà sữa matcha", null, 10000, categoryService.findById("Trà sữa"),
+				List.of(ingredientService.findById("Hạt Cafe"))) };
+		ProductDetail pd = new ProductDetail(products[0].getName(), "Đây là mô tả mới", "Còn hàng", products[0]);
+		products[0].setProductDetail(pd);
+		assertTrue(service.add(products[0]));
+	}
+
+	@Test
+	@Disabled
+	public void delete() {
+		String productId = "Trà sữa truyền thống";
+		assertTrue(service.remove(productId));
+	}
+
+	@Test
+	@Disabled
+	public void update() {
+		String productId = "Trà sữa truyền thống";
+		Product product = service.findById(productId);
+		product.setPrice(15000);
+		assertTrue(service.update(product));
+	}
+
+	@Test
+	@Disabled
+	public void findById() {
+		String productId = "Trà sữa truyền thống";
+		Product product = service.findById(productId);
+		assertNotNull(product);
+	}
+
+	@Test
+	@Disabled
+	public void findAll() {
+		List<Product> products = service.findAll();
+		products.forEach(System.out::println);
+	}
+}
