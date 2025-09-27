@@ -3,6 +3,7 @@ package vn.kltn.KLTN.service;
 import java.util.List;
 
 import vn.kltn.KLTN.entity.Coupon;
+import vn.kltn.KLTN.entity.Event;
 
 public interface CouponService {
 	public boolean add(Coupon coupon);
@@ -14,4 +15,6 @@ public interface CouponService {
 	public Coupon findById(String couponId);
 
 	public List<Coupon> findAll();
+
+	public boolean updateEvent(Coupon coupon, Event event);
 }

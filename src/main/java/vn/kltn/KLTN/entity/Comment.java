@@ -73,4 +73,9 @@ public class Comment {
 		this.user = user;
 	}
 
+	@Override
+	public String toString() {
+		return "Comment [id=" + id + ", content=" + content + ", datePost=" + datePost + "]";
+	}
+
 }

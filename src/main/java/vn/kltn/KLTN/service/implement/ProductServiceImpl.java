@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Category;
+import vn.kltn.KLTN.entity.Comment;
+import vn.kltn.KLTN.entity.Coupon;
+import vn.kltn.KLTN.entity.Event;
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.repository.ProductRepository;
 import vn.kltn.KLTN.service.ProductService;
@@ -22,14 +25,19 @@ public class ProductServiceImpl implements ProductService {
 	public boolean add(Product product) {
 		// TODO Auto-generated method stub
 		try {
+			if (product.getIngredients().isEmpty() || product.getProductDetail() == null
+					|| product.getCategory() == null || product.getPrice() == 0)
+				return false;
+
 			setTotalProductOfCategory(product, product.getCategory().getTotalProduct() + 1);
 			repository.save(product);
 			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return false;
+
 		}
+		return false;
 	}
 
 	@Override
@@ -80,5 +88,54 @@ public class ProductServiceImpl implements ProductService {
 	private void setTotalProductOfCategory(Product product, int totalProduct) {
 		Category category = product.getCategory();
 		category.setTotalProduct(totalProduct);
+	}
+
+	@Override
+	@Transactional
+	public boolean updateComment(Product product, Comment comment) {
+		// TODO Auto-generated method stub
+		try {
+			product = findById(product.getName());
+			List<Comment> comments = product.getComments();
+			comments.add(comment);
+			product.setComments(comments);
+			repository.saveAndFlush(product);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateEvent(Product product, Event event) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		try {
+			product = findById(product.getName());
+			product.setEvent(event);
+			repository.saveAndFlush(product);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	@Transactional
+	public boolean updateCoupon(Product product, Coupon coupon) {
+		// TODO Auto-generated method stub
+		try {
+			product.setCoupon(coupon);
+			repository.saveAndFlush(product);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

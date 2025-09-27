@@ -3,6 +3,7 @@ package vn.kltn.KLTN.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,7 +23,7 @@ public class Role {
 	@Column(name = "type", nullable = false)
 	@Enumerated(value = EnumType.STRING)
 	private RoleAvailable type;
-	@OneToMany(mappedBy = "role")
+	@OneToMany(mappedBy = "role", cascade = CascadeType.MERGE)
 	private List<User> user;
 
 	public Role() {

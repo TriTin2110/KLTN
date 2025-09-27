@@ -20,17 +20,22 @@ public class User {
 
 	@OneToMany(mappedBy = "user")
 	private List<Comment> comments;
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private Role role;
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private Cart cart;
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Order> orders;
-	@OneToOne(mappedBy = "user")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private Point point;
 
 	public User() {
+	}
+
+	public User(String userName, String password) {
+		this.userName = userName;
+		this.password = password;
 	}
 
 	public User(String userName, String password, String email, String address, Role role) {

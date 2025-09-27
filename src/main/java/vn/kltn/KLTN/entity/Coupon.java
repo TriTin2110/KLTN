@@ -2,6 +2,7 @@ package vn.kltn.KLTN.entity;
 
 import java.sql.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -15,7 +16,7 @@ public class Coupon {
 	private short discountRate;
 	private Date endAt;
 
-	@OneToOne(mappedBy = "coupon")
+	@OneToOne(mappedBy = "coupon", cascade = CascadeType.MERGE)
 	private Product product;
 	@ManyToOne
 	@JoinColumn(name = "event_id")
@@ -70,6 +71,11 @@ public class Coupon {
 
 	public void setEvent(Event event) {
 		this.event = event;
+	}
+
+	@Override
+	public String toString() {
+		return "Coupon [id=" + id + ", discountRate=" + discountRate + ", endAt=" + endAt + "]";
 	}
 
 }

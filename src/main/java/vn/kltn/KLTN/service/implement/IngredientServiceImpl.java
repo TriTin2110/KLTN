@@ -8,43 +8,63 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Ingredient;
+import vn.kltn.KLTN.entity.Supplier;
 import vn.kltn.KLTN.repository.IngredientRepository;
 import vn.kltn.KLTN.service.IngredientService;
+import vn.kltn.KLTN.service.SupplierService;
 
 @Service
 public class IngredientServiceImpl implements IngredientService {
 	@Autowired
 	private IngredientRepository repository;
+	@Autowired
+	private SupplierService supplierService;
 
 	@Override
 	@Transactional
 	public boolean add(Ingredient ingredient) {
 		// TODO Auto-generated method stub
 		try {
-			repository.save(ingredient);
-			return true;
+			Supplier supplier = ingredient.getSupplier();
+			if (supplier == null || supplierService.findById(supplier.getName()) != null) {
+				repository.save(ingredient);
+				return true;
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return false;
 		}
-	}
-
-	@Override
-	public boolean remove(String name) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Ingredient checkingStatus(String name) {
+	@Transactional
+	public boolean remove(String name) {
 		// TODO Auto-generated method stub
-		return null;
+		try {
+			Ingredient ingredient = findById(name);
+			if (ingredient != null) {
+				repository.delete(ingredient);
+				return true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override
+	@Transactional
 	public Ingredient update(Ingredient ingredient) {
 		// TODO Auto-generated method stub
+		try {
+			repository.saveAndFlush(ingredient);
+			return ingredient;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return null;
 	}
 

@@ -9,8 +9,6 @@ public interface IngredientService {
 
 	public boolean remove(String name);
 
-	public Ingredient checkingStatus(String name);
-
 	public Ingredient update(Ingredient ingredient);
 
 	public Ingredient findById(String ingredientId);

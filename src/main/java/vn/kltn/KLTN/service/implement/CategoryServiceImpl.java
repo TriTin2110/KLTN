@@ -25,8 +25,13 @@ public class CategoryServiceImpl implements CategoryService {
 	@Transactional
 	public Category add(Category category) {
 		// TODO Auto-generated method stub
-		if (findById(category.getName()) == null)
-			return repository.save(category);
+		try {
+			if (findById(category.getName()) == null)
+				return repository.save(category);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -34,7 +39,14 @@ public class CategoryServiceImpl implements CategoryService {
 	@Transactional
 	public Category update(Category category) {
 		// TODO Auto-generated method stub
-		return repository.saveAndFlush(category);
+		try {
+			if (findById(category.getName()) != null)
+				return repository.saveAndFlush(category);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
@@ -42,13 +54,16 @@ public class CategoryServiceImpl implements CategoryService {
 	public boolean remove(String categoryId) {
 		// TODO Auto-generated method stub
 		try {
-			repository.deleteById(categoryId);
-			return true;
+			Category category = findById(categoryId);
+			if (category != null) {
+				repository.delete(category);
+				return true;
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public interface CartService {
 
 	public Order ordering(User user);
 
-	public Cart add(Cart cart);
+	public boolean add(Cart cart);
 
 	public Cart update(Cart cart);
 

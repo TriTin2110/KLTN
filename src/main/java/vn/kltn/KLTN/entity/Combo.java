@@ -73,4 +73,9 @@ public class Combo {
 		this.products = products;
 	}
 
+	@Override
+	public String toString() {
+		return "Combo [id=" + id + ", total=" + total + ", discount=" + discount + "]";
+	}
+
 }

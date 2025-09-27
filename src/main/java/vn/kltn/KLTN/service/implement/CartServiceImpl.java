@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -16,6 +17,7 @@ import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.enums.OrderStatus;
 import vn.kltn.KLTN.repository.CartRepository;
 import vn.kltn.KLTN.service.CartService;
+import vn.kltn.KLTN.service.OrderService;
 import vn.kltn.KLTN.service.ProductService;
 import vn.kltn.KLTN.service.UserService;
 
@@ -24,9 +26,11 @@ public class CartServiceImpl implements CartService {
 	private CartRepository repository;
 	private ProductService productService;
 	private UserService userService;
+	@Autowired
+	private OrderService orderService;
 
 	@Autowired
-	public CartServiceImpl(CartRepository repository, UserService userService, ProductService productService) {
+	public CartServiceImpl(CartRepository repository, @Lazy UserService userService, ProductService productService) {
 		this.repository = repository;
 		this.userService = userService;
 		this.productService = productService;
@@ -43,11 +47,25 @@ public class CartServiceImpl implements CartService {
 	@Transactional
 	public boolean removeProductFromCart(String userName, String productName) {
 		// TODO Auto-generated method stub
-		Cart cart = findByUserName(userName);
-		Map<Product, Integer> cartItems = cart.getCartItems();
-		Product product = productService.findById(productName);
+		try {
+			Cart cart = findByUserName(userName);
+			if (cart == null)
+				return false;
 
-		return cartItems.remove(product) != null;
+			Map<Product, Integer> cartItems = cart.getCartItems();
+			if (cartItems == null || cartItems.isEmpty())
+				return false;
+
+			Product product = productService.findById(productName);
+			if (product == null)
+				return false;
+			cartItems.remove(product);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override
@@ -75,16 +93,20 @@ public class CartServiceImpl implements CartService {
 	@Transactional
 	public Cart updateAmount(String userName, String productName, int amount) {
 		// TODO Auto-generated method stub
-		Cart cart = findByUserName(userName);
-		Cart newCart = new Cart(cart);
-		Map<Product, Integer> cartItems = newCart.getCartItems();
+		Optional<Cart> opt = repository.findById(userName);
+		if (opt.isEmpty())
+			return null;
+		Cart cart = opt.get();
+		Map<Product, Integer> cartItems = cart.getCartItems();
 		Product product = productService.findById(productName);
-
-		if (cartItems.putIfAbsent(product, amount) == null)// if result == null => that product not exists in
+		if (product == null)
+			return null;
+		if (cartItems.put(product, amount) != null) {// if result == null => that product not exists in
 			// cartItems
-			return cart;
-
-		return newCart;
+			cart.setCartItems(cartItems);
+			return repository.saveAndFlush(cart);
+		}
+		return null;
 	}
 
 	@Override
@@ -94,18 +116,39 @@ public class CartServiceImpl implements CartService {
 		String id = user.getUserName() + "-" + System.currentTimeMillis();
 		Date date = new Date(System.currentTimeMillis());
 		int totalPrice = 0;
-		Map<Product, Integer> orderItems = user.getCart().getCartItems();
+		Optional<Cart> opt = repository.findById(user.getUserName());
+		if (opt.isEmpty())
+			return null;
+		Cart cart = opt.get();
+		Map<Product, Integer> orderItems = cart.getCartItems();
 		totalPrice = orderItems.keySet().stream().mapToInt(o -> o.getPrice() * orderItems.get(o)).sum();
-		Order order = new Order(id, date, totalPrice, OrderStatus.PENDING, user.getCart(), user, orderItems);
-		System.out.println(order);
-		return order;
+		Order order = new Order(id, date, totalPrice, OrderStatus.PENDING, cart, user, orderItems);
+		if (orderService.add(order)) {
+			orderItems.clear();
+			cart.setCartItems(orderItems);
+			repository.save(cart);
+			return order;
+		}
+		return null;
 	}
 
 	@Override
 	@Transactional
-	public Cart add(Cart cart) {
+	public boolean add(Cart cart) {
 		// TODO Auto-generated method stub
-		return repository.save(cart);
+		try {
+			User user = cart.getUser();
+			user.setCart(cart);
+			if (repository.save(cart) != null) {
+				userService.update(user);
+				return true;
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override
@@ -123,13 +166,16 @@ public class CartServiceImpl implements CartService {
 	public boolean remove(String cartId) {
 		// TODO Auto-generated method stub
 		try {
-			repository.deleteById(cartId);
+			Cart cart = findById(cartId);
+			if (cart != null) {
+				repository.delete(cart);
+				return true;
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return false;
 		}
-		return true;
+		return false;
 	}
 
 	@Override

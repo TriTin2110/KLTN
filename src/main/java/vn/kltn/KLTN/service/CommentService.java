@@ -12,6 +12,8 @@ public interface CommentService {
 	 */
 	public boolean remove(String id);
 
+	public boolean update(Comment comment);
+
 	public List<Comment> findAllByProductId(String productId);
 
 	public Comment findById(String commentId);

@@ -1,6 +1,7 @@
 package vn.kltn.KLTN.service.implement;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,37 +21,59 @@ public class SupplierServiceImpl implements SupplierService {
 	public boolean add(Supplier supplier) {
 		// TODO Auto-generated method stub
 		try {
-			repository.save(supplier);
-			return true;
+			if (findById(supplier.getName()) == null) {
+				repository.save(supplier);
+				return true;
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return false;
 		}
-	}
-
-	@Override
-	public boolean remove(String name) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
+	@Transactional
+	public boolean remove(String name) {
+		// TODO Auto-generated method stub
+		try {
+			Supplier supplier = findById(name);
+			if (supplier != null) {
+				repository.delete(supplier);
+				return true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	@Transactional
 	public Supplier update(Supplier supplier) {
 		// TODO Auto-generated method stub
+		try {
+			if (findById(supplier.getName()) != null)
+				return repository.saveAndFlush(supplier);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public Supplier findById(String supplierId) {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<Supplier> opt = repository.findById(supplierId);
+		return (opt.isEmpty()) ? null : opt.get();
 	}
 
 	@Override
 	public List<Supplier> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return repository.findAll();
 	}
 
 }

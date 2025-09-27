@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
@@ -16,7 +17,10 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Product extends Component {
+public class Product {
+	@Id
+	private String name;
+	private String image;
 	private int price;
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "category_id")
@@ -27,7 +31,7 @@ public class Product extends Component {
 	@ManyToOne
 	@JoinColumn(name = "event_id")
 	private Event event;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "coupon_id")
 	private Coupon coupon;
 	@OneToOne(cascade = CascadeType.ALL)
@@ -43,16 +47,17 @@ public class Product extends Component {
 	}
 
 	public Product(String name, String image, int price) {
-		super(name, image);
+		this.name = name;
+		this.image = image;
 		this.price = price;
 	}
 
 	public Product(String name, String image, int price, Category category, List<Ingredient> ingredients) {
-		super(name, image);
+		this.name = name;
+		this.image = image;
 		this.price = price;
 		this.category = category;
 		this.ingredients = ingredients;
-		this.productDetail = productDetail;
 		this.comments = new ArrayList<Comment>();
 		this.combos = new ArrayList<Combo>();
 	}
@@ -119,6 +124,22 @@ public class Product extends Component {
 
 	public void setCombos(List<Combo> combos) {
 		this.combos = combos;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	@Override

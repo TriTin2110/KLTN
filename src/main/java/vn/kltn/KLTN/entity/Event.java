@@ -1,6 +1,7 @@
 package vn.kltn.KLTN.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -19,6 +20,14 @@ public class Event {
 	private List<Coupon> coupons;
 
 	public Event() {
+	}
+
+	public Event(String name, Date startDate, Date endDate) {
+		this.name = name;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.products = new ArrayList<Product>();
+		this.coupons = new ArrayList<Coupon>();
 	}
 
 	public Event(String name, Date startDate, Date endDate, List<Product> products, List<Coupon> coupons) {
@@ -67,6 +76,11 @@ public class Event {
 
 	public void setCoupons(List<Coupon> coupons) {
 		this.coupons = coupons;
+	}
+
+	@Override
+	public String toString() {
+		return "Event [name=" + name + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
 
 }
