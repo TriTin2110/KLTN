@@ -34,7 +34,7 @@ public class CartServiceTest {
 	public void addCart() {
 		String username = "tinnguyen123";
 		User user = userService.findById(username);
-		Cart cart = new Cart(username, user, null);
+		Cart cart = new Cart(username, null);
 		service.add(cart);
 	}
 

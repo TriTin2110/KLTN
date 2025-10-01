@@ -24,7 +24,7 @@ public class CategoryServiceTest {
 	private CategoryService service;
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void add() {
 		Category category = new Category("Trà sữa", null);
 		assertNotNull(service.add(category));

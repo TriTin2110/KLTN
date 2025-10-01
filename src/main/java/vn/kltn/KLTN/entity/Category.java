@@ -3,6 +3,7 @@ package vn.kltn.KLTN.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -13,7 +14,7 @@ import jakarta.persistence.OneToMany;
 public class Category extends Component {
 	private int totalProduct;
 
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
 	private List<Product> products;
 
 	public Category() {

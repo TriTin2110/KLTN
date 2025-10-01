@@ -23,7 +23,7 @@ public class SupplierServiceTest {
 	private SupplierService service;
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void add() {
 		Supplier supplier = new Supplier("Trung Nguyên", "Phường Sài Gòn", 1231234123);
 		List<Ingredient> ingredients = List.of(new Ingredient("Hạt Cafe", 100, 10, supplier));

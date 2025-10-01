@@ -3,7 +3,6 @@ package service;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
-import java.util.List;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -30,22 +29,22 @@ public class EventServiceTest {
 	private CouponService couponService;
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void add() {
 		Product product = productService.findById("Trà sữa matcha");
 		String name = "Mùa hè siêu ưu đãi!";
 		Date startDate = new Date(2025 - 1900, 6 - 1, 3);
 		Date endDate = new Date(2025 - 1900, 8 - 1, 15);
 		Event event = new Event(name, startDate, endDate);
-		List<Product> products = event.getProducts();
-		products.add(product);
-		event.setProducts(products);
+
+		event.addProduct(product);
+
 		assertTrue(service.add(event));
 
 	}
 
 	@Test
-//	@Disabled
+	@Disabled
 	public void findAll() {
 		service.findAll();
 	}

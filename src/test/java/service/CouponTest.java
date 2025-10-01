@@ -31,11 +31,12 @@ public class CouponTest {
 	private EventService eventService;
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void add() {
 		long time = System.currentTimeMillis();
 		Product product = productService.findById("Trà sữa matcha");
-		Coupon coupon = new Coupon(product.getName() + " - " + time, (short) 0, new Date(time), product, null);
+		Coupon coupon = new Coupon(product.getName() + " - " + time, (short) 0, new Date(time), product);
+		product.setCoupon(coupon);
 		assertTrue(service.add(coupon));
 	}
 
@@ -51,7 +52,6 @@ public class CouponTest {
 	public void update() {
 		Coupon coupon = service.findById("Trà sữa matcha - 1758976052746");
 		Event event = eventService.findById("Mùa hè siêu ưu đãi!");
-		coupon.setEvent(event);
 		assertTrue(service.update(coupon));
 	}
 

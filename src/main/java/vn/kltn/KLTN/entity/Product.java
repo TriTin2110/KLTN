@@ -28,10 +28,10 @@ public class Product {
 	@ManyToMany
 	@JoinTable(name = "product_ingredient", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
 	private List<Ingredient> ingredients;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "event_id")
 	private Event event;
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
 	@JoinColumn(name = "coupon_id")
 	private Coupon coupon;
 	@OneToOne(cascade = CascadeType.ALL)

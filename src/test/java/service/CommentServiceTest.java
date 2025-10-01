@@ -35,7 +35,7 @@ public class CommentServiceTest {
 //	@Disabled
 	public void add() {
 		Product product = productService.findById("Trà sữa truyền thống");
-		User user = userService.findById("tinnguyen123");
+		User user = userService.findById("tinnguyen");
 		long time = System.currentTimeMillis();
 		Comment comment = new Comment(user.getUserName() + "-" + time, "So Bad!", new Date(time), product, user);
 		assertTrue(service.add(comment));

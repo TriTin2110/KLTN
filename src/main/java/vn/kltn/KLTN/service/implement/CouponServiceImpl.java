@@ -28,10 +28,10 @@ public class CouponServiceImpl implements CouponService {
 		try {
 
 			if (findById(coupon.getId()) == null) {
-				if (coupon.getProduct() != null)
-					productService.updateCoupon(coupon.getProduct(), coupon);
-				repository.save(coupon);
-				return true;
+				if (coupon.getProduct() != null) {
+					repository.save(coupon);
+					return true;
+				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -94,7 +94,7 @@ public class CouponServiceImpl implements CouponService {
 	public boolean updateEvent(Coupon coupon, Event event) {
 		try {
 			if (findById(coupon.getId()) != null) {
-				coupon.setEvent(event);
+//				coupon.setEvent(event);
 				repository.saveAndFlush(coupon);
 				return true;
 			}

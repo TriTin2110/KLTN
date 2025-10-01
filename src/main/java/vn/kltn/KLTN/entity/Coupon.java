@@ -5,8 +5,6 @@ import java.sql.Date;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -18,19 +16,15 @@ public class Coupon {
 
 	@OneToOne(mappedBy = "coupon", cascade = CascadeType.MERGE)
 	private Product product;
-	@ManyToOne
-	@JoinColumn(name = "event_id")
-	private Event event;
 
 	public Coupon() {
 	}
 
-	public Coupon(String id, short discountRate, Date endAt, Product product, Event event) {
+	public Coupon(String id, short discountRate, Date endAt, Product product) {
 		this.id = id;
 		this.discountRate = discountRate;
 		this.endAt = endAt;
 		this.product = product;
-		this.event = event;
 	}
 
 	public String getId() {
@@ -63,14 +57,6 @@ public class Coupon {
 
 	public void setProduct(Product product) {
 		this.product = product;
-	}
-
-	public Event getEvent() {
-		return event;
-	}
-
-	public void setEvent(Event event) {
-		this.event = event;
 	}
 
 	@Override

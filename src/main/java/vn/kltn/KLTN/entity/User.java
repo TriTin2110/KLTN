@@ -18,15 +18,14 @@ public class User {
 	private String password, email, address, fullName;
 	private Date dateOfBirth;
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.REMOVE })
 	private List<Comment> comments;
 	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private Role role;
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cart_id")
 	private Cart cart;
-	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-	private List<Order> orders;
 	@OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private Point point;
 
@@ -38,16 +37,17 @@ public class User {
 		this.password = password;
 	}
 
-	public User(String userName, String password, String email, String address, Role role) {
+	public User(String userName, String password, String email, String address, Role role, Cart cart) {
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
 		this.address = address;
 		this.role = role;
+		this.cart = cart;
 	}
 
 	public User(String userName, String password, String email, String address, String fullName, Date dateOfBirth,
-			List<Comment> comments, Role role, Cart cart, List<Order> orders, Point point) {
+			List<Comment> comments, Role role, Cart cart, Point point) {
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
@@ -57,7 +57,6 @@ public class User {
 		this.comments = comments;
 		this.role = role;
 		this.cart = cart;
-		this.orders = orders;
 		this.point = point;
 	}
 
@@ -131,14 +130,6 @@ public class User {
 
 	public void setCart(Cart cart) {
 		this.cart = cart;
-	}
-
-	public List<Order> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
 	}
 
 	public Point getPoint() {

@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import vn.kltn.KLTN.KltnApplication;
+import vn.kltn.KLTN.entity.Cart;
+import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.Role;
 import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.enums.RoleAvailable;
@@ -30,10 +32,13 @@ public class UserServiceTest {
 	private RoleService roleService;
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void adding() {
 		Role role = roleService.findByType(RoleAvailable.ROLE_USER);
-		User user = new User("tinnguyen123", "123", "tin@gmail.com", "123 Quận 1", role);
+		Order order = new Order("tinnguyen");
+		Cart cart = new Cart("tinnguyen", order);
+		User user = new User("tinnguyen", "123", "tin@gmail.com", "123 Quận 1", role, cart);
+
 		user = service.signUp(user);
 		assertNotNull(user);
 	}
@@ -47,7 +52,7 @@ public class UserServiceTest {
 	@Test
 	@Disabled
 	public void remove() {
-		assertTrue(service.delete("tinnguyen123"));
+		assertTrue(service.delete("tinnguyen"));
 	}
 
 	@Test

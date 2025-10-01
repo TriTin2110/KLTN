@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import vn.kltn.KLTN.entity.Coupon;
 import vn.kltn.KLTN.entity.Event;
-import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.repository.EventRepository;
 import vn.kltn.KLTN.service.CouponService;
 import vn.kltn.KLTN.service.EventService;
@@ -31,18 +29,6 @@ public class EventServiceImpl implements EventService {
 		try {
 			if (findById(event.getName()) == null) {
 				repository.saveAndFlush(event);
-				List<Product> products = event.getProducts();
-				for (Product product : products) {
-					if (productService.findById(product.getName()) != null) {
-						productService.updateEvent(product, event);
-					}
-				}
-				List<Coupon> coupons = event.getCoupons();
-				for (Coupon coupon : coupons) {
-					if (productService.findById(coupon.getId()) != null) {
-						couponService.updateEvent(coupon, event);
-					}
-				}
 				return true;
 			}
 		} catch (Exception e) {

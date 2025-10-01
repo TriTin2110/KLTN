@@ -1,6 +1,7 @@
 package vn.kltn.KLTN.entity;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.persistence.CollectionTable;
@@ -26,12 +27,8 @@ public class Order {
 
 	@Enumerated(value = EnumType.STRING)
 	private OrderStatus status;
-	@OneToOne
-	@JoinColumn(name = "cart_id")
+	@OneToOne(mappedBy = "order")
 	private Cart cart;
-	@OneToOne
-	@JoinColumn(name = "user_name")
-	private User user;
 
 	@ElementCollection
 	@CollectionTable(name = "item_ordered", joinColumns = {
@@ -43,15 +40,12 @@ public class Order {
 	public Order() {
 	}
 
-	public Order(String id, Date createdDate, int totalPrice, OrderStatus status, Cart cart, User user,
-			Map<Product, Integer> orderItem) {
+	public Order(String id) {
 		this.id = id;
-		this.createdDate = createdDate;
-		this.totalPrice = totalPrice;
-		this.status = status;
-		this.cart = cart;
-		this.user = user;
-		this.orderItem = orderItem;
+		this.createdDate = null;
+		this.totalPrice = 0;
+		this.status = null;
+		this.orderItem = new HashMap<Product, Integer>();
 	}
 
 	public String getId() {
@@ -94,14 +88,6 @@ public class Order {
 		this.cart = cart;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public Map<Product, Integer> getOrderItem() {
 		return orderItem;
 	}
@@ -113,7 +99,7 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", createdDate=" + createdDate + ", totalPrice=" + totalPrice + ", status=" + status
-				+ ", cart=" + cart + ", user=" + user + ", orderItem=" + orderItem + "]";
+				+ ", cart=" + cart + ", orderItem=" + orderItem + "]";
 	}
 
 }

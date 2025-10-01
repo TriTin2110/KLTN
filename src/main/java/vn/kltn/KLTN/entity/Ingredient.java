@@ -3,6 +3,7 @@ package vn.kltn.KLTN.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -17,7 +18,7 @@ public class Ingredient {
 	private String name;
 	private int quantity, price;
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "supplier_id")
 	private Supplier supplier;
 

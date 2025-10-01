@@ -3,6 +3,7 @@ package vn.kltn.KLTN.entity;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -18,8 +19,7 @@ public class Cart {
 	@Id
 	private String id;
 
-	@OneToOne
-	@JoinColumn(name = "user_name")
+	@OneToOne(mappedBy = "cart")
 	private User user;
 
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -28,24 +28,17 @@ public class Cart {
 	@MapKeyColumn(name = "product_id")
 	@Column(name = "quantity")
 	private Map<Product, Integer> cartItems;
-	@OneToOne(mappedBy = "cart")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "order_id")
 	private Order order;
 
 	public Cart() {
 	}
 
-	public Cart(String id, User user, Order order) {
+	public Cart(String id, Order order) {
 		this.id = id;
-		this.user = user;
 		this.cartItems = new HashMap<Product, Integer>();
 		this.order = order;
-	}
-
-	public Cart(Cart other) {
-		this.id = other.id;
-		this.user = other.user;
-		this.cartItems = other.cartItems;
-		this.order = other.order;
 	}
 
 	public String getId() {

@@ -1,6 +1,5 @@
 package vn.kltn.KLTN.service.implement;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,7 +13,6 @@ import vn.kltn.KLTN.entity.Cart;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.entity.User;
-import vn.kltn.KLTN.enums.OrderStatus;
 import vn.kltn.KLTN.repository.CartRepository;
 import vn.kltn.KLTN.service.CartService;
 import vn.kltn.KLTN.service.OrderService;
@@ -113,22 +111,22 @@ public class CartServiceImpl implements CartService {
 	@Transactional
 	public Order ordering(User user) {
 		// TODO Auto-generated method stub
-		String id = user.getUserName() + "-" + System.currentTimeMillis();
-		Date date = new Date(System.currentTimeMillis());
-		int totalPrice = 0;
-		Optional<Cart> opt = repository.findById(user.getUserName());
-		if (opt.isEmpty())
-			return null;
-		Cart cart = opt.get();
-		Map<Product, Integer> orderItems = cart.getCartItems();
-		totalPrice = orderItems.keySet().stream().mapToInt(o -> o.getPrice() * orderItems.get(o)).sum();
-		Order order = new Order(id, date, totalPrice, OrderStatus.PENDING, cart, user, orderItems);
-		if (orderService.add(order)) {
-			orderItems.clear();
-			cart.setCartItems(orderItems);
-			repository.save(cart);
-			return order;
-		}
+//		String id = user.getUserName() + "-" + System.currentTimeMillis();
+//		Date date = new Date(System.currentTimeMillis());
+//		int totalPrice = 0;
+//		Optional<Cart> opt = repository.findById(user.getUserName());
+//		if (opt.isEmpty())
+//			return null;
+//		Cart cart = opt.get();
+//		Map<Product, Integer> orderItems = cart.getCartItems();
+//		totalPrice = orderItems.keySet().stream().mapToInt(o -> o.getPrice() * orderItems.get(o)).sum();
+//		Order order = new Order(id, date, totalPrice, OrderStatus.PENDING, cart, user, orderItems);
+//		if (orderService.add(order)) {
+//			orderItems.clear();
+//			cart.setCartItems(orderItems);
+//			repository.save(cart);
+//			return order;
+//		}
 		return null;
 	}
 

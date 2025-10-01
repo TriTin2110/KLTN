@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -14,10 +15,8 @@ public class Event {
 	private String name;
 	private Date startDate, endDate;
 
-	@OneToMany(mappedBy = "event")
+	@OneToMany(mappedBy = "event", cascade = { CascadeType.MERGE })
 	private List<Product> products;
-	@OneToMany(mappedBy = "event")
-	private List<Coupon> coupons;
 
 	public Event() {
 	}
@@ -27,15 +26,13 @@ public class Event {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.products = new ArrayList<Product>();
-		this.coupons = new ArrayList<Coupon>();
 	}
 
-	public Event(String name, Date startDate, Date endDate, List<Product> products, List<Coupon> coupons) {
+	public Event(String name, Date startDate, Date endDate, List<Product> products) {
 		this.name = name;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.products = products;
-		this.coupons = coupons;
 	}
 
 	public String getName() {
@@ -70,12 +67,9 @@ public class Event {
 		this.products = products;
 	}
 
-	public List<Coupon> getCoupons() {
-		return coupons;
-	}
-
-	public void setCoupons(List<Coupon> coupons) {
-		this.coupons = coupons;
+	public void addProduct(Product product) {
+		this.products.add(product);
+		product.setEvent(this);
 	}
 
 	@Override
