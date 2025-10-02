@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -29,6 +30,9 @@ public class Order {
 	private OrderStatus status;
 	@OneToOne(mappedBy = "order")
 	private Cart cart;
+
+	@OneToOne(mappedBy = "order", cascade = CascadeType.REMOVE)
+	private Point point;
 
 	@ElementCollection
 	@CollectionTable(name = "item_ordered", joinColumns = {
@@ -94,6 +98,14 @@ public class Order {
 
 	public void setOrderItem(Map<Product, Integer> orderItem) {
 		this.orderItem = orderItem;
+	}
+
+	public Point getPoint() {
+		return point;
+	}
+
+	public void setPoint(Point point) {
+		this.point = point;
 	}
 
 	@Override

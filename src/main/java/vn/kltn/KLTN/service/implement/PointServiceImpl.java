@@ -7,28 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import vn.kltn.KLTN.entity.Event;
-import vn.kltn.KLTN.repository.EventRepository;
-import vn.kltn.KLTN.service.CouponService;
-import vn.kltn.KLTN.service.EventService;
-import vn.kltn.KLTN.service.ProductService;
+import vn.kltn.KLTN.entity.Point;
+import vn.kltn.KLTN.repository.PointRepository;
+import vn.kltn.KLTN.service.PointService;
 
 @Service
-public class EventServiceImpl implements EventService {
+public class PointServiceImpl implements PointService {
 	@Autowired
-	private EventRepository repository;
-	@Autowired
-	private ProductService productService;
-	@Autowired
-	private CouponService couponService;
+	private PointRepository repository;
 
 	@Override
 	@Transactional
-	public boolean add(Event event) {
+	public boolean add(Point point) {
 		// TODO Auto-generated method stub
 		try {
-			if (findById(event.getName()) == null) {
-				repository.saveAndFlush(event);
+			if (findById(point.getId()) == null) {
+				repository.save(point);
 				return true;
 			}
 		} catch (Exception e) {
@@ -40,13 +34,11 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	@Transactional
-	public boolean remove(String name) {
+	public boolean update(Point point) {
 		// TODO Auto-generated method stub
 		try {
-			Event event = findById(name);
-			if (event != null) {
-				event.getProducts().forEach(o -> o.setEvent(null));
-				repository.delete(event);
+			if (findById(point.getId()) != null) {
+				repository.saveAndFlush(point);
 				return true;
 			}
 		} catch (Exception e) {
@@ -58,11 +50,12 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	@Transactional
-	public boolean update(Event event) {
+	public boolean remove(String pointId) {
 		// TODO Auto-generated method stub
 		try {
-			if (findById(event.getName()) != null) {
-				repository.saveAndFlush(event);
+			Point point = findById(pointId);
+			if (point != null) {
+				repository.delete(point);
 				return true;
 			}
 		} catch (Exception e) {
@@ -73,14 +66,14 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Event findById(String eventId) {
+	public Point findById(String pointId) {
 		// TODO Auto-generated method stub
-		Optional<Event> opt = repository.findById(eventId);
+		Optional<Point> opt = repository.findById(pointId);
 		return (opt.isEmpty()) ? null : opt.get();
 	}
 
 	@Override
-	public List<Event> findAll() {
+	public List<Point> findAll() {
 		// TODO Auto-generated method stub
 		return repository.findAll();
 	}

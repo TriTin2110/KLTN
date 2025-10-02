@@ -31,7 +31,7 @@ public class IngredientServiceTest {
 	public void add() {
 		Supplier supplier = supplierService.findById("Trung Nguyên");
 //		Supplier supplier = new Supplier("Vingroup", "Việt Nam", 123123121);
-		Ingredient ingredient = new Ingredient("Hạt Cafe", 100, 10000, supplier);
+		Ingredient ingredient = new Ingredient("Hạt Cafe", 100, 10000);
 		assertFalse(service.add(ingredient));
 	}
 

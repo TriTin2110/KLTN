@@ -29,11 +29,10 @@ public class Ingredient {
 	public Ingredient() {
 	}
 
-	public Ingredient(String name, int quantity, int price, Supplier supplier) {
+	public Ingredient(String name, int quantity, int price) {
 		this.name = name;
 		this.quantity = quantity;
 		this.price = price;
-		this.supplier = supplier;
 		this.products = new ArrayList<Product>();
 	}
 
@@ -80,7 +79,7 @@ public class Ingredient {
 	@Override
 	public String toString() {
 		return "Ingredient [name=" + name + ", quantity=" + quantity + ", price=" + price + ", supplier=" + supplier
-				+ ", products=" + products + "]";
+				+ "]";
 	}
 
 }

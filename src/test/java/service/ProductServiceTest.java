@@ -13,11 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import vn.kltn.KLTN.KltnApplication;
+import vn.kltn.KLTN.entity.Category;
+import vn.kltn.KLTN.entity.Ingredient;
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.entity.ProductDetail;
+import vn.kltn.KLTN.entity.Supplier;
 import vn.kltn.KLTN.service.CategoryService;
 import vn.kltn.KLTN.service.IngredientService;
 import vn.kltn.KLTN.service.ProductService;
+import vn.kltn.KLTN.service.SupplierService;
 
 @SpringBootTest(classes = KltnApplication.class)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -28,15 +32,25 @@ public class ProductServiceTest {
 	private CategoryService categoryService;
 	@Autowired
 	private IngredientService ingredientService;
+	@Autowired
+	private SupplierService supplierService;
 
 	@Test
 //	@Disabled
 	public void add() {
-		Product[] products = { new Product("Trà sữa matcha", null, 10000, categoryService.findById("Trà sữa"),
-				List.of(ingredientService.findById("Hạt Cafe"))) };
-		ProductDetail pd = new ProductDetail(products[0].getName(), "Đây là mô tả mới", "Còn hàng", products[0]);
-		products[0].setProductDetail(pd);
-		assertTrue(service.add(products[0]));
+		Category category = new Category("Cafe", null);
+		Supplier supplier = supplierService.findById("The Coffe House");
+		if (supplier == null) {
+			supplier = new Supplier("The Coffe House", "Quận 1", 1231231232);
+		}
+		Ingredient ingredient = new Ingredient("Đá", 100, 10000);
+		Product product = new Product("Cafe đá", null, 10000);
+		ProductDetail productDetai = new ProductDetail(product.getName(), "Cafe đá", "Còn hàng", product);
+		product.setProductDetail(productDetai);
+		product.addIngredient(ingredient);
+		supplier.addIngredient(ingredient);
+		category.addProduct(product);
+		assertTrue(service.add(product));
 	}
 
 	@Test

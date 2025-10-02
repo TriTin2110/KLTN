@@ -31,19 +31,19 @@ public class CouponTest {
 	private EventService eventService;
 
 	@Test
-//	@Disabled
+	@Disabled
 	public void add() {
 		long time = System.currentTimeMillis();
-		Product product = productService.findById("Trà sữa matcha");
+		Product product = productService.findById("Cafe đá");
 		Coupon coupon = new Coupon(product.getName() + " - " + time, (short) 0, new Date(time), product);
-		product.setCoupon(coupon);
+		product.addCoupon(coupon);
 		assertTrue(service.add(coupon));
 	}
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void remove() {
-		String name = "Trà sữa matcha - 1758961447766";
+		String name = "Cafe đá - 1759313762558";
 		assertTrue(service.remove(name));
 	}
 

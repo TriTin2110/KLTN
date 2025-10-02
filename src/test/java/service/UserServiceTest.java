@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import vn.kltn.KLTN.KltnApplication;
 import vn.kltn.KLTN.entity.Cart;
 import vn.kltn.KLTN.entity.Order;
+import vn.kltn.KLTN.entity.Point;
 import vn.kltn.KLTN.entity.Role;
 import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.enums.RoleAvailable;
@@ -35,9 +36,15 @@ public class UserServiceTest {
 //	@Disabled
 	public void adding() {
 		Role role = roleService.findByType(RoleAvailable.ROLE_USER);
-		Order order = new Order("tinnguyen");
-		Cart cart = new Cart("tinnguyen", order);
-		User user = new User("tinnguyen", "123", "tin@gmail.com", "123 Quận 1", role, cart);
+		Cart cart = new Cart("tinnguyen");
+		Order order = new Order("tinnguyen" + System.currentTimeMillis());
+		Point point = new Point("tinnguyen");
+		User user = new User("tinnguyen", "123", "tin@gmail.com", "123 Quận 1", role);
+
+		user.addCart(cart);
+		cart.addOrder(order);
+		point.addOrder(order);
+		point.addUser(user);
 
 		user = service.signUp(user);
 		assertNotNull(user);

@@ -59,6 +59,11 @@ public class Supplier {
 		this.ingredients = ingredients;
 	}
 
+	public void addIngredient(Ingredient ingredient) {
+		this.ingredients.add(ingredient);
+		ingredient.setSupplier(this);
+	}
+
 	@Override
 	public String toString() {
 		return "Supplier [name=" + name + ", address=" + address + ", phoneNumber=" + phoneNumber + "]";

@@ -24,7 +24,7 @@ public class CategoryServiceTest {
 	private CategoryService service;
 
 	@Test
-//	@Disabled
+	@Disabled
 	public void add() {
 		Category category = new Category("Trà sữa", null);
 		assertNotNull(service.add(category));
@@ -48,9 +48,9 @@ public class CategoryServiceTest {
 	}
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void remove() {
-		String categoryId = "Trà sữa";
+		String categoryId = "Cafe";
 		assertTrue(service.remove(categoryId));
 	}
 
@@ -62,6 +62,7 @@ public class CategoryServiceTest {
 	}
 
 	@Test
+	@Disabled
 	public void findAll() {
 		List<Category> categories = service.findAll();
 		categories.forEach(System.out::println);

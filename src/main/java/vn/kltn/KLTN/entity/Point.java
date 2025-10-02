@@ -25,13 +25,10 @@ public class Point {
 	public Point() {
 	}
 
-	public Point(String id, int totalSpent, int accumulatedPoint, Rank userRank, Order order, User user) {
+	public Point(String id) {
 		this.id = id;
-		this.totalSpent = totalSpent;
-		this.accumulatedPoint = accumulatedPoint;
-		this.userRank = userRank;
-		this.order = order;
-		this.user = user;
+		this.totalSpent = 0;
+		this.accumulatedPoint = 0;
 	}
 
 	public String getId() {
@@ -82,4 +79,13 @@ public class Point {
 		this.user = user;
 	}
 
+	public void addOrder(Order order) {
+		this.order = order;
+		order.setPoint(this);
+	}
+
+	public void addUser(User user) {
+		this.user = user;
+		user.setPoint(this);
+	}
 }

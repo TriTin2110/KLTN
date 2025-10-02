@@ -22,10 +22,10 @@ public class Product {
 	private String name;
 	private String image;
 	private int price;
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "category_id")
 	private Category category;
-	@ManyToMany
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "product_ingredient", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
 	private List<Ingredient> ingredients;
 	@ManyToOne(cascade = CascadeType.MERGE)
@@ -37,7 +37,7 @@ public class Product {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "product_detail_id")
 	private ProductDetail productDetail;
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
 	private List<Comment> comments;
 	@ManyToMany
 	@JoinTable(name = "product_combo", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "combo_id"))
@@ -50,14 +50,7 @@ public class Product {
 		this.name = name;
 		this.image = image;
 		this.price = price;
-	}
-
-	public Product(String name, String image, int price, Category category, List<Ingredient> ingredients) {
-		this.name = name;
-		this.image = image;
-		this.price = price;
-		this.category = category;
-		this.ingredients = ingredients;
+		this.ingredients = new ArrayList<Ingredient>();
 		this.comments = new ArrayList<Comment>();
 		this.combos = new ArrayList<Combo>();
 	}
@@ -140,6 +133,16 @@ public class Product {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public void addIngredient(Ingredient ingredient) {
+		this.ingredients.add(ingredient);
+		ingredient.getProducts().add(this);
+	}
+
+	public void addCoupon(Coupon coupon) {
+		this.coupon = coupon;
+		coupon.setProduct(this);
 	}
 
 	@Override

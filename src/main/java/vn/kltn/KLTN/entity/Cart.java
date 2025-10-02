@@ -35,10 +35,9 @@ public class Cart {
 	public Cart() {
 	}
 
-	public Cart(String id, Order order) {
+	public Cart(String id) {
 		this.id = id;
 		this.cartItems = new HashMap<Product, Integer>();
-		this.order = order;
 	}
 
 	public String getId() {
@@ -78,4 +77,13 @@ public class Cart {
 		return "Cart [id=" + id + ", user=" + user + ", cartItems=" + cartItems + "]";
 	}
 
+	public void returnToOriginState() {
+		this.cartItems = new HashMap<Product, Integer>();
+		this.order = null;
+	}
+
+	public void addOrder(Order order) {
+		this.order = order;
+		order.setCart(this);
+	}
 }

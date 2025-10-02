@@ -14,7 +14,7 @@ import jakarta.persistence.OneToMany;
 public class Category extends Component {
 	private int totalProduct;
 
-	@OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "category", cascade = { CascadeType.REMOVE, CascadeType.MERGE })
 	private List<Product> products;
 
 	public Category() {
@@ -40,6 +40,12 @@ public class Category extends Component {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+
+	public void addProduct(Product product) {
+		this.products.add(product);
+		this.totalProduct = this.products.size();
+		product.setCategory(this);
 	}
 
 	@Override

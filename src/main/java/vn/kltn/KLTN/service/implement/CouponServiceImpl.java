@@ -48,10 +48,9 @@ public class CouponServiceImpl implements CouponService {
 			Coupon coupon = findById(id);
 			if (coupon != null) {
 				Product product = coupon.getProduct();
-				if (productService.updateCoupon(product, null)) {
-					repository.delete(coupon);
-					return true;
-				}
+				product.setCoupon(null);
+				repository.delete(coupon);
+				return true;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

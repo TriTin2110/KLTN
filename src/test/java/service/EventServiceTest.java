@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import vn.kltn.KLTN.KltnApplication;
 import vn.kltn.KLTN.entity.Event;
 import vn.kltn.KLTN.entity.Product;
-import vn.kltn.KLTN.service.CouponService;
 import vn.kltn.KLTN.service.EventService;
 import vn.kltn.KLTN.service.ProductService;
 
@@ -25,13 +24,11 @@ public class EventServiceTest {
 	private EventService service;
 	@Autowired
 	private ProductService productService;
-	@Autowired
-	private CouponService couponService;
 
 	@Test
 //	@Disabled
 	public void add() {
-		Product product = productService.findById("Trà sữa matcha");
+		Product product = productService.findById("Cafe đá");
 		String name = "Mùa hè siêu ưu đãi!";
 		Date startDate = new Date(2025 - 1900, 6 - 1, 3);
 		Date endDate = new Date(2025 - 1900, 8 - 1, 15);

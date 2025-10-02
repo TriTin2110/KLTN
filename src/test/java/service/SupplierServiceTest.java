@@ -23,18 +23,18 @@ public class SupplierServiceTest {
 	private SupplierService service;
 
 	@Test
-//	@Disabled
+	@Disabled
 	public void add() {
 		Supplier supplier = new Supplier("Trung Nguyên", "Phường Sài Gòn", 1231234123);
-		List<Ingredient> ingredients = List.of(new Ingredient("Hạt Cafe", 100, 10, supplier));
+		List<Ingredient> ingredients = List.of(new Ingredient("Hạt Cafe", 100, 10));
 		supplier.setIngredients(ingredients);
 		assertTrue(service.add(supplier));
 	}
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void remove() {
-		assertTrue(service.remove("Trung Nguyên"));
+		assertTrue(service.remove("The Coffe House"));
 	}
 
 	@Test
@@ -46,6 +46,7 @@ public class SupplierServiceTest {
 	}
 
 	@Test
+	@Disabled
 	public void findAll() {
 		List<Supplier> suppliers = service.findAll();
 		suppliers.forEach(System.out::println);

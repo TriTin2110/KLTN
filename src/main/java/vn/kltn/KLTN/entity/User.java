@@ -26,7 +26,7 @@ public class User {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cart_id")
 	private Cart cart;
-	@OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private Point point;
 
 	public User() {
@@ -37,13 +37,12 @@ public class User {
 		this.password = password;
 	}
 
-	public User(String userName, String password, String email, String address, Role role, Cart cart) {
+	public User(String userName, String password, String email, String address, Role role) {
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
 		this.address = address;
 		this.role = role;
-		this.cart = cart;
 	}
 
 	public User(String userName, String password, String email, String address, String fullName, Date dateOfBirth,
@@ -138,6 +137,11 @@ public class User {
 
 	public void setPoint(Point point) {
 		this.point = point;
+	}
+
+	public void addCart(Cart cart) {
+		this.cart = cart;
+		cart.setUser(this);
 	}
 
 	@Override

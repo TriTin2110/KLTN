@@ -29,7 +29,6 @@ public class ProductServiceImpl implements ProductService {
 					|| product.getCategory() == null || product.getPrice() == 0)
 				return false;
 
-			setTotalProductOfCategory(product, product.getCategory().getTotalProduct() + 1);
 			repository.save(product);
 			return true;
 		} catch (Exception e) {
