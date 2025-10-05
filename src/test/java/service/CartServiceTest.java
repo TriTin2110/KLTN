@@ -56,9 +56,9 @@ public class CartServiceTest {
 	}
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void addProductToCart() {
-		String userName = "tinnguyen123", productName = "Trà sữa truyền thống";
+		String userName = "tinnguyen", productName = "Cafe đá";
 		int amount = 1;
 		assertNotNull(service.addProductToCart(userName, productName, amount));
 	}
@@ -72,7 +72,7 @@ public class CartServiceTest {
 	}
 
 	@Test
-//	@Disabled
+	@Disabled
 	public void ordering() {
 		User user = userService.findById("tinnguyen123");
 		assertNotNull(service.ordering(user));

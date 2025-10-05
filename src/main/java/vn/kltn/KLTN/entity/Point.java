@@ -88,4 +88,11 @@ public class Point {
 		this.user = user;
 		user.setPoint(this);
 	}
+
+	@Override
+	public String toString() {
+		return "Point [id=" + id + ", totalSpent=" + totalSpent + ", accumulatedPoint=" + accumulatedPoint
+				+ ", userRank=" + userRank + "]";
+	}
+
 }

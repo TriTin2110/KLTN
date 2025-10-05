@@ -28,7 +28,7 @@ public class Order {
 
 	@Enumerated(value = EnumType.STRING)
 	private OrderStatus status;
-	@OneToOne(mappedBy = "order")
+	@OneToOne(mappedBy = "order", cascade = CascadeType.MERGE)
 	private Cart cart;
 
 	@OneToOne(mappedBy = "order", cascade = CascadeType.REMOVE)
@@ -111,7 +111,7 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", createdDate=" + createdDate + ", totalPrice=" + totalPrice + ", status=" + status
-				+ ", cart=" + cart + ", orderItem=" + orderItem + "]";
+				+ ", orderItem=" + orderItem + "]";
 	}
 
 }

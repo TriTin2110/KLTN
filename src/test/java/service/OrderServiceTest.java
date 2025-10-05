@@ -1,8 +1,10 @@
 package service;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -13,9 +15,11 @@ import vn.kltn.KLTN.KltnApplication;
 import vn.kltn.KLTN.entity.Cart;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.Product;
+import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.enums.OrderStatus;
 import vn.kltn.KLTN.service.CartService;
 import vn.kltn.KLTN.service.OrderService;
+import vn.kltn.KLTN.service.UserService;
 
 @SpringBootTest(classes = KltnApplication.class)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -31,17 +35,36 @@ public class OrderServiceTest {
 	private CartService cartService;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private UserService userService;
 
 	@Test
+//	@Disabled
 	public void order() {
 		Cart cart = cartService.findById("tinnguyen");
-		Order order = cart.getOrder();
+		Order order = new Order(cart.getId());
 		Map<Product, Integer> orderedItems = cart.getCartItems();
-		order.setOrderItem(orderedItems);
-		order.setTotalPrice(orderedItems.keySet().stream().mapToInt(o -> o.getPrice() * orderedItems.get(o)).sum());
-		order.setStatus(OrderStatus.PENDING);
-		order.setCreatedDate(new Date(System.currentTimeMillis()));
-		cart.returnToOriginState();
-		orderService.add(order);
+		if (!orderedItems.isEmpty()) {
+			order.setOrderItem(orderedItems);
+			order.setTotalPrice(orderedItems.keySet().stream().mapToInt(o -> o.getPrice() * orderedItems.get(o)).sum());
+			order.setStatus(OrderStatus.PENDING);
+			order.setCreatedDate(new Date(System.currentTimeMillis()));
+			cart.returnToOriginState();
+			orderService.add(order);
+		}
+	}
+
+	@Test
+	@Disabled
+	public void showOrder() {
+		User user = userService.findById("tinnguyen");
+		List<Order> orders = orderService.checkingAll(user.getUserName());
+		orders.forEach(System.out::println);
+	}
+
+	@Test
+	@Disabled
+	public void remove() {
+		orderService.remove("tinnguyen1759404280007");
 	}
 }
