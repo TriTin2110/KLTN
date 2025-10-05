@@ -7,5 +7,5 @@ import vn.kltn.KLTN.entity.User;
 
 @RepositoryRestResource
 public interface UserRepository extends JpaRepository<User, String> {
-
+	public User findByEmail(String email);
 }

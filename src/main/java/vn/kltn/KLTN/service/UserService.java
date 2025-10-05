@@ -21,4 +21,6 @@ public interface UserService extends UserDetailsService {
 	public boolean delete(String userName);
 
 	public boolean updateComment(User user, Comment comment);
+
+	public User findByEmail(String email);
 }
