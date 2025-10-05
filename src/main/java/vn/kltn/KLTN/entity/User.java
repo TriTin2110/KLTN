@@ -10,19 +10,30 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 
 @Entity
 public class User implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	@Id
-	private String userName;
-	private String password, email, address, fullName, phoneNumber;
+	@Column(name = "user_name", nullable = false)
+	@Min(value = 4)
+	private String username;
+	@Column(name = "password", nullable = false)
+	@Min(value = 4)
+	private String password;
+	@Email
+	@Column(name = "email", nullable = false)
+	private String email;
+	private String address, fullName, phoneNumber;
 	private Date dateOfBirth;
 
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.REMOVE })
@@ -39,13 +50,13 @@ public class User implements UserDetails {
 	public User() {
 	}
 
-	public User(String userName, String password) {
-		this.userName = userName;
+	public User(String username, String password) {
+		this.username = username;
 		this.password = password;
 	}
 
-	public User(String userName, String password, String email, String address, String phoneNumber, Role role) {
-		this.userName = userName;
+	public User(String username, String password, String email, String address, String phoneNumber, Role role) {
+		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.address = address;
@@ -53,9 +64,9 @@ public class User implements UserDetails {
 		this.role = role;
 	}
 
-	public User(String userName, String password, String email, String address, String fullName, Date dateOfBirth,
+	public User(String username, String password, String email, String address, String fullName, Date dateOfBirth,
 			List<Comment> comments, Role role, Cart cart, Point point) {
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.address = address;
@@ -69,11 +80,11 @@ public class User implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return userName;
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -163,8 +174,9 @@ public class User implements UserDetails {
 
 	@Override
 	public String toString() {
-		return "User [userName=" + userName + ", password=" + password + ", email=" + email + ", address=" + address
-				+ ", fullName=" + fullName + ", dateOfBirth=" + dateOfBirth + ", role=" + role + "]";
+		return "User [userName=" + username + ", password=" + password + ", email=" + email + ", address=" + address
+				+ ", fullName=" + fullName + ", dateOfBirth=" + dateOfBirth + ", role=" + role + ", phone="
+				+ phoneNumber + "]";
 	}
 
 	@Override

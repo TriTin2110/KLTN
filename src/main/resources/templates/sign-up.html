@@ -16,8 +16,14 @@
   <link rel="stylesheet" href="/plugins/uikit/uikit.min.css" />
   <link rel="stylesheet" href="/css/sign.css">
 
-  <title>Sign up</title>
-
+  <title>Sign up</title>	
+	<style type="text/css">
+		.invalid-field{
+			display: none;
+			color: red; font-weight: bold;
+		}
+		
+	</style>
 </head>
 
 <body>
@@ -244,35 +250,31 @@
                 </div>
             </div>
             <div class="signin-right ">
-                <form action="">
+                <form th:action="@{/user/sign-up}" th:method="post" th:object="${user}" onsubmit="return checkValidation()">
+                	<div class="firstname form-control1">
+                		<div class="invalid-field" style="color: red; font-weight: bold;">Tài khoản phải có độ dài tối thiểu 4 kí tự</div>
+                        <input type="text" th:field="*{username}" id="username" placeholder="Tài khoản (*)" required="required">
+                    </div>
+                     <div class="password form-control1">
+                     	<div class="invalid-field" style="color: red; font-weight: bold;">Mật khẩu phải có độ dài tối thiểu 4 kí tự</div>
+                        <input type="password" th:field="*{password}" id="password" placeholder="Mật khẩu (*)" required="required">
+                    </div>
+                    <hr>
                     <div class="firstname form-control1">
-                        <input type="text" name="fullname"  id="fullname" placeholder="Họ và tên">
+                        <input type="text" th:field="*{fullName}"  id="fullname" placeholder="Họ và tên">
                     </div>
                     <div class="birthday form-control1">
-                        <input type="date" name="birthday" id="birthday" placeholder="mm/dd/yyyy">
+                        <input type="date" th:field="*{dateOfBirth}" id="birthday" placeholder="mm/dd/yyyy">
                     </div>
                     <div class="number form-control1">
-                        <input type="text" name="number" id="number" placeholder="Số điện thoại">
+                    	<div class="invalid-field">Số điện thoại không hợp lệ</div>
+                        <input type="text" th:field="*{phoneNumber}" id="number" placeholder="Số điện thoại">
                     </div>
                     <div class="form-control1">
-                      <input type="text" name="address" id="address" placeholder="Địa chỉ">
-                    </div>
-                    <div class="sex form-control1">
-                       <div class="female">
-                          <input type="radio" name="gender" id="female" checked  >
-                          <label for="female">Nữ</label>
-                       </div>
-                       <div class="male">
-                        
-                        <input type="radio" name="gender" id="male"  >
-                        <label for="male" >Nam</label>
-                     </div>
+                      <input type="text" th:field="*{address}" id="address" placeholder="Địa chỉ">
                     </div>
                     <div class="email form-control1">
-                        <input type="email" name="email"  id="email" placeholder="Email">
-                    </div>
-                    <div class="password form-control1">
-                        <input type="password" name="password" id="password" placeholder="Password">
+                        <input type="email" th:field="*{email}"  id="email" placeholder="Email" required="required">
                     </div>
                     <div class="recaptcha form-control1">This site is protected by reCAPTCHA and the Google <a href="">Privacy Policy</a> and <a href="">Terms of Service</a> apply.</div>
                     <button class="submit" type="submit" >
@@ -392,6 +394,7 @@
   <script src="/js/script.js"></script>
   <script src="/plugins/uikit/uikit.min.js"></script>
   <script src="/plugins/uikit/uikit-icons.min.js"></script>
+  <script src="/js/sign-up-validation.js"></script>
 </body>
 
 </html>

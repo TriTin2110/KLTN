@@ -33,7 +33,7 @@ public class UserServiceTest {
 	private RoleService roleService;
 
 	@Test
-//	@Disabled
+	@Disabled
 	public void adding() {
 		Role role = roleService.findByType(RoleAvailable.ROLE_USER);
 		Cart cart = new Cart("tinnguyen");
@@ -57,9 +57,9 @@ public class UserServiceTest {
 	}
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void remove() {
-		assertTrue(service.delete("tinnguyen"));
+		assertTrue(service.delete("nguyen"));
 	}
 
 	@Test

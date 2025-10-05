@@ -43,7 +43,12 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public Role findByType(RoleAvailable type) {
 		// TODO Auto-generated method stub
-		return repository.findByType(type);
+		Role role = repository.findByType(type);
+		if (role == null) {
+			role = new Role(type);
+			role = repository.save(role);
+		}
+		return role;
 	}
 
 }
