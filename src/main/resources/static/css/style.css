@@ -9,6 +9,150 @@
   font-family: "Quicksand", sans-serif;
   font-weight: 700;
 }
+.admin-sidebar { background-color: #343a40; height: 100vh; position: fixed; width: 250px; }
+.admin-sidebar .nav-link { color: #adb5bd; }
+.admin-sidebar .nav-link:hover, .admin-sidebar .nav-link.active { color: #fff; background-color: #495057; }
+.admin-main { margin-left: 250px; padding: 20px; }
+.admin-product-card { border: 1px solid #dee2e6; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+.admin-product-image { width: 80px; height: 80px; background-color: #e9ecef; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+.admin-header { background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-radius: 8px; }
+.admin-logo { font-size: 24px; font-weight: bold; color: #4CAF50; }
+.admin-logo img { height: 40px; width: auto; }
+.right-section { display: flex; align-items: center; gap: 20px; }
+.admin-search-section { display: flex; align-items: center; gap: 10px; }
+.admin-search-section input { padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; width: 250px; }
+.admin-search-section button { padding: 8px 12px; background: #4CAF50; color: white; border: none; border-radius: 4px; }
+.admin-profile { display: flex; align-items: center; gap: 10px; }
+.admin-profile img { width: 40px; height: 40px; border-radius: 50%; }
+.container-product {
+display: flex;
+max-width: 1200px;
+margin: 0 auto;
+}
+.sidebar {
+position: sticky;
+top: 0;
+height: 100vh;
+width: 200px;
+padding: 20px;
+background-color: #fff;
+border-radius: 8px;
+
+box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+margin-right: 20px;
+}
+
+.sidebar h3 {
+color: #000000;
+margin-bottom: 20px;
+}
+.sidebar ul {
+list-style: none;
+padding: 0;
+}
+.sidebar li {
+margin-bottom: 10px;
+color: #666;
+}
+.sidebar h3 a{
+  text-decoration: none;
+  color: #333;         
+  display: block;        
+  padding: 5px 0;      
+}
+
+.sidebar ul li a {
+  text-decoration: none; 
+  color: #333;         
+  display: block;        
+  padding: 5px 0;      
+}
+
+.sidebar ul li a:hover {
+  color: #0859ee;    
+  font-weight: bold; 
+}
+.sidebar li.active {
+font-weight: bold;
+color: #007bff;
+}
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+.drink-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.drink-card {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+    text-align: left;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Khung ảnh vuông */
+.drink-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;       /* khung luôn vuông */
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 14px;
+    overflow: hidden;          /* tránh ảnh tràn ra ngoài */
+}
+
+/* Nếu có ảnh thì hiển thị full */
+.drink-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;         /* ảnh tự crop vừa khung */
+}
+
+.drink-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.drink-price {
+    color: #000000;
+    font-size: 15px;
+}
+
+
+/*custom ảnh product*/
+
+
+
+
+
+
+
+
 /* custom form nhận đăng khuyến mãi */
 .registratior_custom {
   width: 100%;

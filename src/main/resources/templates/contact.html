@@ -4,19 +4,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="plugins/animate/animate.min.css">
-  <link rel="stylesheet" href="plugins/fontawesome/all.css">
-  <link rel="stylesheet" href="plugins/webfonts/font.css">
-  <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-  <link rel="stylesheet" href="css/owl.theme.default.min.css" type="text/css">
+
   <link rel="stylesheet" type="text/css" href="css/style.css">
+
+  <link rel="stylesheet" href="plugins/animate/animate.min.css">
+
+  <link rel="stylesheet" href="plugins/fontawesome/all.css">
+
+  <link href="plugins/webfonts/font.css"
+    rel="stylesheet">
+  <link rel="stylesheet" href="plugins/owl.carousel/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="plugins/owl.carousel/owl.theme.default.min.css" type="text/css">
 
   <!-- UIkit CSS -->
   <link rel="stylesheet" href="plugins/uikit/uikit.min.css" />
-  <link rel="stylesheet" href="css/sign.css">
 
-  <title>Sign up</title>
+
+  <title>Liên hệ</title>
 
 </head>
 
@@ -28,7 +34,7 @@
 
   <!--Navbar-->
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
 
     <div class="container">
       <a class="navbar-brand" href="index.html">
@@ -36,17 +42,17 @@
       </a>
       <div class="desk-menu collapse navbar-collapse justify-content-md-center" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="index.html">TRANG CHỦ</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="product.html">BỘ SƯU TẬP</a>
+            <a class="nav-link" href="Product.html">BỘ SƯU TẬP</a>
           </li>
-          <li class="nav-item lisanpham">
-            <a class="nav-link" href="detailproduct.html">SẢN PHẨM
-              <i class="fa fa-chevron-down" aria-hidden="true"></i>
-            </a>
-            <ul class="sub_menu">
+          <li class="nav-item">
+              <a class="nav-link" href="all.html">SẢN PHẨM
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+              </a>
+              <ul class="sub_menu">
               <li class="">
                 <a href="detailproduct.html" title="Cà phê"> 
                   cà phê
@@ -73,62 +79,59 @@
                 </a>
               </li>
             </ul>
-          </li>
+            </li>
           <li class="nav-item">
             <a class="nav-link" href="introduce.html">GIỚI THIỆU</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="blog.html">BLOG</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">LIÊN HỆ</a>
+          <li class="nav-item active">
+            <a class="nav-link" href="Contact.html">LIÊN HỆ</a>
           </li>
         </ul>
       </div>
       <div id="offcanvas-flip1" uk-offcanvas="flip: true; overlay: true">
         <div class="uk-offcanvas-bar" style="background: white;
-        width: 100%;">
+        width: 350px;">
 
           <button class="uk-offcanvas-close" style="color:#272727" type="button" uk-close></button>
           <h3 style="font-size: 14px;
-          color: #272727;
-          text-transform: uppercase;
-          margin: 3px 0 30px 0;
-          font-weight: 500; letter-spacing: 2px;">MENU</h3>
-            <div class="justify-content-md-center">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="index.html">TRANG CHỦ</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="Product.html">BỘ SƯU TẬP</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle aaaa"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false" >
-                    <p>SẢN PHẨM</p>
-                    <i class="fa fa-angle-double-right"></i>
+                color: #272727;
+                text-transform: uppercase;
+                margin: 3px 0 30px 0;
+                font-weight: 500; letter-spacing: 2px;">MENU</h3>
+          <div class="justify-content-md-center">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">TRANG CHỦ</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="Product.html">BỘ SƯU TẬP</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  Sản phẩm
 
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="border:0;">
-                    <a class="dropdown-item" href="detailproduct.html" title="Cà phê">Cà phê</a>
-                    <a class="dropdown-item" href="detailproduct.html" title="Trà sữa">Trà sữa</a>
-                    <a class="dropdown-item" href="detailproduct.html" title="Matcha">Matcha</a>
-                    <a class="dropdown-item" href="detailproduct.html" title="Socola">Socola</a>
-                    <a class="dropdown-item" href="detailproduct.html" title="Trà trái cây">Trà trái cây</a>
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="introduce.html">GIỚI THIỆU</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="blog.html">BLOG</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="Contact.html">LIÊN HỆ</a>
-                </li>
-              </ul>
-            </div>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="border:0;">
+                  <a class="dropdown-item" href="detailproduct.html" title="Sản phẩm - Style 1">Sản phẩm - Style 1</a>
+                  <a class="dropdown-item" href="detailproduct.html" title="Sản phẩm - Style 2">Sản phẩm - Style 2</a>
+                  <a class="dropdown-item" href="detailproduct.html" title="Sản phẩm - Style 3">Sản phẩm - Style 3</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="introduce.html">GIỚI THIỆU</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="blog.html">BLOG</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="Contact.html">LIÊN HỆ</a>
+              </li>
+            </ul>
+          </div>
 
         </div>
       </div>
@@ -159,19 +162,20 @@
               <div class="resultsContent"></div>
             </div>
           </div>
+
         </div>
       </div>
       <div id="offcanvas-flip2" uk-offcanvas="flip: true; overlay: true">
         <div class="uk-offcanvas-bar" style="    background: white;
-            width: 350px;">
+                  width: 350px;">
 
           <button class="uk-offcanvas-close" style="color:#272727" type="button" uk-close></button>
 
           <h3 style="font-size: 14px;
-                color: #272727;
-                text-transform: uppercase;
-                margin: 3px 0 30px 0;
-                font-weight: 500; letter-spacing: 2px;">Giỏ hàng</h3>
+                      color: #272727;
+                      text-transform: uppercase;
+                      margin: 3px 0 30px 0;
+                      font-weight: 500; letter-spacing: 2px;">Giỏ hàng</h3>
           <div class="site-nav-container-last" style="color:#272727">
             <div class="cart-view clearfix">
               <table id="cart-view">
@@ -211,7 +215,6 @@
           </div>
         </div>
       </div>
-
       <div class="icon-ol">
         <a style="color: #272727" href="">
           <i class="fas fa-user-alt"></i>
@@ -219,10 +222,10 @@
         <a href="#" class="" uk-toggle="target: #offcanvas-flip">
           <i class="fas fa-search" style="color: black"></i>
         </a>
-        
-        <!-- <a style="color: #272727" href="#" uk-toggle="target: #offcanvas-flip2">
+       
+        <a style="color: #272727" href="#" uk-toggle="target: #offcanvas-flip2">
           <i class="fas fa-shopping-cart"></i>
-        </a> -->
+        </a>
         <button class="navbar-toggler" type="button" uk-toggle="target: #offcanvas-flip1" data-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -232,61 +235,155 @@
     </div>
 
   </nav>
-
- 
-  <!--Content-->
-  <div class="content">
-    <section class="signup">
-        <div class="container">
-            <div class="signin-left">
-                <div class="sign-title">
-                    <h1>Tạo tài khoản</h1>
-                </div>
-            </div>
-            <div class="signin-right ">
-                <form action="">
-                    <div class="firstname form-control1">
-                        <input type="text" name="fullname"  id="fullname" placeholder="Họ và tên">
-                    </div>
-                    <div class="birthday form-control1">
-                        <input type="date" name="birthday" id="birthday" placeholder="mm/dd/yyyy">
-                    </div>
-                    <div class="number form-control1">
-                        <input type="text" name="number" id="number" placeholder="Số điện thoại">
-                    </div>
-                    <div class="form-control1">
-                      <input type="text" name="address" id="address" placeholder="Địa chỉ">
-                    </div>
-                    <div class="sex form-control1">
-                       <div class="female">
-                          <input type="radio" name="gender" id="female" checked  >
-                          <label for="female">Nữ</label>
-                       </div>
-                       <div class="male">
-                        
-                        <input type="radio" name="gender" id="male"  >
-                        <label for="male" >Nam</label>
-                     </div>
-                    </div>
-                    <div class="email form-control1">
-                        <input type="email" name="email"  id="email" placeholder="Email">
-                    </div>
-                    <div class="password form-control1">
-                        <input type="password" name="password" id="password" placeholder="Password">
-                    </div>
-                    <div class="recaptcha form-control1">This site is protected by reCAPTCHA and the Google <a href="">Privacy Policy</a> and <a href="">Terms of Service</a> apply.</div>
-                    <button class="submit" type="submit" >
-                      <p>Đăng ký</p>
-                    </button>
-                    <div class="backto">
-                      <a href="signin.html"><i class="fa fa-long-arrow-alt-left"></i> Quay lại đăng nhập</a>
-                    </div>
-                </form>
-            </div>
+  <!--Banner-->
+  <div>
+    <div>
+      <img src="images/collection_banner.jpg" alt="Products">
+    </div>
+  </div>
+  <div class="breadcrumb-shop">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pd5">
+          <ol class="breadcrumb breadcrumb-arrows">
+            <li>
+              <a href="index.html">
+                <span>Trang chủ</span>
+              </a>
+            </li>
+            <li>
+              <span><span style="color: #777777">Liên hệ</span></span>
+            </li>
+          </ol>
         </div>
-    </section>    
-    
-    <footer class="main-footer">
+      </div>
+    </div>
+  </div>
+  <section>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-6 col-sm-12 col-xs-12 box-heading-contact">
+          <div class="box-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.676888961929!2d106.75474927480587!3d10.844626289308314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527bb6a9794b7%3A0xbd800ef476470e16!2zNDIgxJAuIFPhu5EgOCwgVHLGsOG7nW5nIFRo4buNLCBUaOG7pyDEkOG7qWMsIEjhu5MgQ2jDrSBNaW5oIDAwNzAwLCBWaeG7h3QgTmFt!5e1!3m2!1svi!2s!4v1758995357524!5m2!1svi!2s"
+              width="100%" height="700" frameborder="0" style="border:0" allowfullscreen=""></iframe>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12  wrapbox-content-page-contact">
+          <div class="header-page-contact clearfix">
+            <h1>Liên hệ</h1>
+          </div>
+          <div class="box-info-contact">
+            <ul class="list-info">
+              <li>
+                <p>Địa chỉ chúng tôi</p>
+                <p><strong>42 Đường số 8, Phường Trường Thọ, Thủ Đức, TP Hồ Chí Minh.</strong></p>
+              </li>
+              <li>
+                <p>Email chúng tôi</p>
+                <p><strong>khanhhuy2323@gmail.com</strong></p>
+              </li>
+              <li>
+                <p>Điện thoại</p>
+                <p><strong>0378 941 321</strong></p>
+              </li>
+              <li>
+                <p>Thời gian làm việc</p>
+                <p><strong>07h-22h hằng ngày </strong></p>
+              </li>
+            </ul>
+          </div>
+          <div class="box-send-contact">
+            <h2>Gửi thắc mắc cho chúng tôi</h2>
+            <div id="col-left contactFormWrapper menuList-links">
+              <form accept-charset="UTF-8" action="/contact" class="contact-form" method="post">
+                <div class="contact-form">
+                  <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                      <div class="input-group">
+                        <input required="" type="text" class="form-control"
+                          placeholder="Tên của bạn">
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">  
+                      <div class="input-group">
+                        <input required="" type="text" class="form-control"
+                          placeholder="Email của bạn">
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="input-group">
+                        <input  required="" type="text" class="form-control"
+                          placeholder="Số điện thoại của bạn">
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-xs-12">
+                      <div class="input-group">
+                        <textarea placeholder="Nội dung"></textarea>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <button class="button dark">Gửi cho chúng tôi</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </section>
+  <!--gallery-->
+  <section class="section section-gallery">
+    <div class="">
+      <div class="hot_sp" style="padding-top: 70px;padding-bottom: 50px;">
+        <h2 style="text-align:center;padding-top: 10px">
+          <a style="font-size: 28px;color: black;text-decoration: none" href="">Khách hàng và AUNES</a>
+        </h2>
+      </div>
+      <div class="list-gallery clearfix">
+        <ul class="drink-gp">
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/drink/gallery_item_1.jpg" alt="">
+            </div>
+          </li>
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/drink/gallery_item_2.jpg" alt="">
+            </div>
+          </li>
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/drink/gallery_item_3.jpg" alt="">
+            </div>
+          </li>
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/drink/gallery_item_4.jpg" alt="">
+            </div>
+          </li>
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/drink/gallery_item_5.jpg" alt="">
+            </div>
+          </li>
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/drink/gallery_item_6.jpg" alt="">
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <footer class="main-footer">
       <div class="container">
         <div class="">
           <div class="row">
@@ -380,18 +477,15 @@
         </div>
       </div>
     </footer>
-  </div>
- 
   <script async defer crossorigin="anonymous" src="plugins/sdk.js"></script>
-  <script src="plugins/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-  <script src="plugins/bootstrap/popper.min.js"></script>
-  <script src="plugins/bootstrap/bootstrap.min.js"></script>
-  <script src="plugins/owl.carousel/owl.carousel.min.js"></script>
-  <script src="js/home.js"></script>
-  <script src="js/script.js"></script>
-  <script src="plugins/uikit/uikit.min.js"></script>
-  <script src="plugins/uikit/uikit-icons.min.js"></script>
+  <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit-icons.min.js"></script>
 </body>
 
 </html>

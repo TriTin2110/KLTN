@@ -58,7 +58,7 @@ public class OrderServiceTest {
 	@Disabled
 	public void showOrder() {
 		User user = userService.findById("tinnguyen");
-		List<Order> orders = orderService.checkingAll(user.getUserName());
+		List<Order> orders = orderService.checkingAll(user.getUsername());
 		orders.forEach(System.out::println);
 	}
 

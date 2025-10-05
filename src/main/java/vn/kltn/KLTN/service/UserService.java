@@ -2,10 +2,12 @@ package vn.kltn.KLTN.service;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import vn.kltn.KLTN.entity.Comment;
 import vn.kltn.KLTN.entity.User;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 	public User signIn(String userName, String password);
 
 	public User signUp(User user);

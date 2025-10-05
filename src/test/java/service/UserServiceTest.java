@@ -39,7 +39,7 @@ public class UserServiceTest {
 		Cart cart = new Cart("tinnguyen");
 		Order order = new Order("tinnguyen" + System.currentTimeMillis());
 		Point point = new Point("tinnguyen");
-		User user = new User("tinnguyen", "123", "tin@gmail.com", "123 Quận 1", role);
+		User user = new User("tinnguyen", "123", "tin@gmail.com", "123 Quận 1", "123123123", role);
 
 		user.addCart(cart);
 		cart.addOrder(order);

@@ -1,7 +1,13 @@
 package vn.kltn.KLTN.entity;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -12,10 +18,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class User {
+public class User implements UserDetails {
+	private static final long serialVersionUID = 1L;
 	@Id
 	private String userName;
-	private String password, email, address, fullName;
+	private String password, email, address, fullName, phoneNumber;
 	private Date dateOfBirth;
 
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.REMOVE })
@@ -37,11 +44,12 @@ public class User {
 		this.password = password;
 	}
 
-	public User(String userName, String password, String email, String address, Role role) {
+	public User(String userName, String password, String email, String address, String phoneNumber, Role role) {
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
 		this.address = address;
+		this.phoneNumber = phoneNumber;
 		this.role = role;
 	}
 
@@ -59,7 +67,8 @@ public class User {
 		this.point = point;
 	}
 
-	public String getUserName() {
+	@Override
+	public String getUsername() {
 		return userName;
 	}
 
@@ -144,10 +153,24 @@ public class User {
 		cart.setUser(this);
 	}
 
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", password=" + password + ", email=" + email + ", address=" + address
 				+ ", fullName=" + fullName + ", dateOfBirth=" + dateOfBirth + ", role=" + role + "]";
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return Arrays.asList(new SimpleGrantedAuthority(this.role.getType().name()));
 	}
 
 }

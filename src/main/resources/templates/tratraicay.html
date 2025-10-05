@@ -4,19 +4,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="plugins/animate/animate.min.css">
-  <link rel="stylesheet" href="plugins/fontawesome/all.css">
-  <link rel="stylesheet" href="plugins/webfonts/font.css">
-  <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-  <link rel="stylesheet" href="css/owl.theme.default.min.css" type="text/css">
+
   <link rel="stylesheet" type="text/css" href="css/style.css">
 
+  <link rel="stylesheet" href="plugins/animate/animate.min.css">
+
+  <link rel="stylesheet" href="plugins/fontawesome/all.css">
+
+  <link href="plugins/webfonts/font.css"
+    rel="stylesheet">
+  <link rel="stylesheet" href="plugins/owl.carousel/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="plugins/owl.carousel/owl.theme.default.min.css">
   <!-- UIkit CSS -->
   <link rel="stylesheet" href="plugins/uikit/uikit.min.css" />
-  <link rel="stylesheet" href="css/sign.css">
 
-  <title>Sign up</title>
+
+  <title>TRATRAICAY - AUNES</title>
 
 </head>
 
@@ -28,7 +33,7 @@
 
   <!--Navbar-->
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
 
     <div class="container">
       <a class="navbar-brand" href="index.html">
@@ -36,11 +41,11 @@
       </a>
       <div class="desk-menu collapse navbar-collapse justify-content-md-center" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item active">
+          <li class="nav-item ">
             <a class="nav-link" href="index.html">TRANG CHỦ</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="product.html">BỘ SƯU TẬP</a>
+            <a class="nav-link" href="Product.html">BỘ SƯU TẬP</a>
           </li>
           <li class="nav-item lisanpham">
             <a class="nav-link" href="detailproduct.html">SẢN PHẨM
@@ -77,11 +82,11 @@
           <li class="nav-item">
             <a class="nav-link" href="introduce.html">GIỚI THIỆU</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="blog.html">BLOG</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="contact.html">LIÊN HỆ</a>
+            <a class="nav-link" href="Contact.html">LIÊN HỆ</a>
           </li>
         </ul>
       </div>
@@ -108,15 +113,7 @@
                     aria-haspopup="true" aria-expanded="false" >
                     <p>SẢN PHẨM</p>
                     <i class="fa fa-angle-double-right"></i>
-
                   </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="border:0;">
-                    <a class="dropdown-item" href="detailproduct.html" title="Cà phê">Cà phê</a>
-                    <a class="dropdown-item" href="detailproduct.html" title="Trà sữa">Trà sữa</a>
-                    <a class="dropdown-item" href="detailproduct.html" title="Matcha">Matcha</a>
-                    <a class="dropdown-item" href="detailproduct.html" title="Socola">Socola</a>
-                    <a class="dropdown-item" href="detailproduct.html" title="Trà trái cây">Trà trái cây</a>
-                  </div>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="introduce.html">GIỚI THIỆU</a>
@@ -154,11 +151,44 @@
               <button type="submit" class="btn-search btn" id="search-header-btn">
                 <i style="font-weight:bold" class="fas fa-search"></i>
               </button>
+              <div class="search-item">
+                  <div class="search-item-left">
+                      <div class="item-name">Adidas</div>
+                      <div class="item-price">1.600.000$</div>
+                  </div>
+                  <div class="search-item-right">
+                      <div class="img">
+                          <img src="images/shoes/1.jpg" alt="">
+                      </div>
+                  </div>
+              </div>
+              <div class="search-item">
+                <div class="search-item-left">
+                    <div class="item-name">Adidas</div>
+                    <div class="item-price">1.600.000$</div>
+                </div>
+                <div class="search-item-right">
+                    <div class="img">
+                        <img src="images/shoes/1.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="search-item">
+                <div class="search-item-left">
+                    <div class="item-name">Adidas</div>
+                    <div class="item-price">1.600.000$</div>
+                </div>
+                <div class="search-item-right">
+                    <div class="img">
+                        <img src="images/shoes/1.jpg" alt="">
+                    </div>
+                </div>
+            </div>
             </form>
             <div id="ajaxSearchResults" class="smart-search-wrapper ajaxSearchResults" style="display: none">
               <div class="resultsContent"></div>
             </div>
-          </div>
+          </div>    
         </div>
       </div>
       <div id="offcanvas-flip2" uk-offcanvas="flip: true; overlay: true">
@@ -220,9 +250,9 @@
           <i class="fas fa-search" style="color: black"></i>
         </a>
         
-        <!-- <a style="color: #272727" href="#" uk-toggle="target: #offcanvas-flip2">
+        <a style="color: #272727" href="#" uk-toggle="target: #offcanvas-flip2">
           <i class="fas fa-shopping-cart"></i>
-        </a> -->
+        </a>
         <button class="navbar-toggler" type="button" uk-toggle="target: #offcanvas-flip1" data-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -233,60 +263,76 @@
 
   </nav>
 
- 
-  <!--Content-->
-  <div class="content">
-    <section class="signup">
-        <div class="container">
-            <div class="signin-left">
-                <div class="sign-title">
-                    <h1>Tạo tài khoản</h1>
+  <!--List Prodct-->
+<div class="container-product">
+        <div class="sidebar">
+            <h3>
+                <a href="all.html">Tất Cả</a>
+            </h3>
+            <h4>Cà Phê Việt Nam</h4>
+            <ul>
+                <li>
+                    <a href="caphetruyenthong.html ">Cà Phê Truyền Thống </a>
+                </li>
+                <li>
+                    <a href="caphesangtao.html">Cà Phê Sáng Tạo </a>
+                </li>
+            </ul>
+            <h4>Trà Sữa</h4>
+            <ul>
+                <li>
+                    <a href="trasua.html">Trà Sữa</a>
+                </li>
+            </ul>
+            <h4>Matcha</h4>
+            <ul>
+                <li>
+                    <a href="matcha.html">Matcha</a>
+                </li>
+            </ul>
+            <h4>Socola</h4>
+            <ul>
+                <li>
+                    <a href="socola.html">Socola</a>
+                </li>
+            </ul>
+            <h4>Trà Trái Cây</h4>
+            <ul>
+                <li>
+                    <a href="tratraicay.html">Trà Trái Cây</a>
+                </li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <h2 class="section-title">Trà Trái Cây</h2>
+            <div class="drink-grid">
+                <div class="drink-card">
+                    <div class="drink-image" >
+                        <img src="#" alt="">
+                    </div>  
+                    <div class="drink-name">Trà Đào Hạt Đác</div>
+                    <div class="drink-price">25.000đ</div>
+                </div>
+                <div class="drink-card">
+                    <div class="drink-image" >
+                        <img src="#" alt="">
+                    </div>  
+                    <div class="drink-name">Trà Phúc Bồn Tử</div>
+                    <div class="drink-price">25.000đ</div>
+                </div>
+                <div class="drink-card">
+                    <div class="drink-image" >
+                        <img src="#" alt="">
+                    </div>
+                    <div class="drink-name">Trà Xoài Nhiệt Đới</div>
+                    <div class="drink-price">25.000đ</div>
                 </div>
             </div>
-            <div class="signin-right ">
-                <form action="">
-                    <div class="firstname form-control1">
-                        <input type="text" name="fullname"  id="fullname" placeholder="Họ và tên">
-                    </div>
-                    <div class="birthday form-control1">
-                        <input type="date" name="birthday" id="birthday" placeholder="mm/dd/yyyy">
-                    </div>
-                    <div class="number form-control1">
-                        <input type="text" name="number" id="number" placeholder="Số điện thoại">
-                    </div>
-                    <div class="form-control1">
-                      <input type="text" name="address" id="address" placeholder="Địa chỉ">
-                    </div>
-                    <div class="sex form-control1">
-                       <div class="female">
-                          <input type="radio" name="gender" id="female" checked  >
-                          <label for="female">Nữ</label>
-                       </div>
-                       <div class="male">
-                        
-                        <input type="radio" name="gender" id="male"  >
-                        <label for="male" >Nam</label>
-                     </div>
-                    </div>
-                    <div class="email form-control1">
-                        <input type="email" name="email"  id="email" placeholder="Email">
-                    </div>
-                    <div class="password form-control1">
-                        <input type="password" name="password" id="password" placeholder="Password">
-                    </div>
-                    <div class="recaptcha form-control1">This site is protected by reCAPTCHA and the Google <a href="">Privacy Policy</a> and <a href="">Terms of Service</a> apply.</div>
-                    <button class="submit" type="submit" >
-                      <p>Đăng ký</p>
-                    </button>
-                    <div class="backto">
-                      <a href="signin.html"><i class="fa fa-long-arrow-alt-left"></i> Quay lại đăng nhập</a>
-                    </div>
-                </form>
-            </div>
         </div>
-    </section>    
-    
-    <footer class="main-footer">
+    </div>
+
+
+ <footer class="main-footer">
       <div class="container">
         <div class="">
           <div class="row">
@@ -380,16 +426,12 @@
         </div>
       </div>
     </footer>
-  </div>
- 
   <script async defer crossorigin="anonymous" src="plugins/sdk.js"></script>
   <script src="plugins/jquery-3.4.1/jquery-3.4.1.min.js"></script>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
   <script src="plugins/bootstrap/popper.min.js"></script>
   <script src="plugins/bootstrap/bootstrap.min.js"></script>
   <script src="plugins/owl.carousel/owl.carousel.min.js"></script>
-  <script src="js/home.js"></script>
-  <script src="js/script.js"></script>
   <script src="plugins/uikit/uikit.min.js"></script>
   <script src="plugins/uikit/uikit-icons.min.js"></script>
 </body>

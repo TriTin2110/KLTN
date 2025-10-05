@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
 	public User signUp(User user) {
 		// TODO Auto-generated method stub
 		try {
-			if (findById(user.getUserName()) == null) {
+			if (findById(user.getUsername()) == null) {
 				return repository.save(user);
 			}
 
@@ -48,7 +50,7 @@ public class UserServiceImpl implements UserService {
 	public User update(User user) {
 		// TODO Auto-generated method stub
 		try {
-			if (findById(user.getUserName()) != null)
+			if (findById(user.getUsername()) != null)
 				return repository.saveAndFlush(user);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -94,7 +96,7 @@ public class UserServiceImpl implements UserService {
 	public boolean updateComment(User user, Comment comment) {
 		// TODO Auto-generated method stub
 		try {
-			user = findById(user.getUserName());
+			user = findById(user.getUsername());
 			List<Comment> comments = user.getComments();
 			comments.add(comment);
 			user.setComments(comments);
@@ -107,4 +109,13 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		// TODO Auto-generated method stub
+		User user = findById(username);
+		if (user != null) {
+			return user;
+		}
+		return null;
+	}
 }

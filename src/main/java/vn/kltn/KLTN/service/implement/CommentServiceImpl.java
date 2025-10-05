@@ -39,7 +39,7 @@ public class CommentServiceImpl implements CommentService {
 			Product product = comment.getProduct();
 			if (product != null && productService.findById(product.getName()) != null) {
 				User user = comment.getUser();
-				if (user != null && userService.findById(user.getUserName()) != null) {
+				if (user != null && userService.findById(user.getUsername()) != null) {
 					if (findById(comment.getId()) == null) {
 						repository.save(comment);
 						productService.updateComment(product, comment);
