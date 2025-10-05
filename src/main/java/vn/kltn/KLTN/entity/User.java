@@ -17,20 +17,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 
 @Entity
 public class User implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "user_name", nullable = false)
-	@Min(value = 4)
 	private String username;
 	@Column(name = "password", nullable = false)
-	@Min(value = 4)
 	private String password;
-	@Email
 	@Column(name = "email", nullable = false)
 	private String email;
 	private String address, fullName, phoneNumber;

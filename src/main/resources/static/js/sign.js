@@ -19,7 +19,7 @@ $('#huy').click(function () {
     )
 });
 
-$('#dangnhap').click(function (e) {
+/*$('#dangnhap').click(function (e) {
     e.preventDefault();
 
     const email = document.getElementById('username');
@@ -37,4 +37,4 @@ $('#dangnhap').click(function (e) {
     }
 
 
-});
+});*/

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Comment;
 import vn.kltn.KLTN.entity.User;
+import vn.kltn.KLTN.modules.PasswordEncode;
 import vn.kltn.KLTN.repository.UserRepository;
 import vn.kltn.KLTN.service.UserService;
 
@@ -35,6 +36,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		try {
 			if (findById(user.getUsername()) == null) {
+				user.setPassword(PasswordEncode.encodePassword(user.getPassword()));
 				return repository.save(user);
 			}
 

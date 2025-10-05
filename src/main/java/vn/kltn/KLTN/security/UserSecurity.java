@@ -3,8 +3,10 @@ package vn.kltn.KLTN.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 import vn.kltn.KLTN.service.UserService;
 
@@ -24,4 +26,20 @@ public class UserSecurity {
 		return dao;
 	}
 
+	@Bean
+	public SecurityFilterChain creatChain(HttpSecurity http) {
+		try {
+			http.authorizeHttpRequests(
+					auth -> auth.requestMatchers("/user/**").permitAll().anyRequest().authenticated())
+					.formLogin(form -> form.loginPage("/user/sign-in").loginProcessingUrl("/authenticateTheUser")
+							.defaultSuccessUrl("/user/sign-in-success", true).failureUrl("/user/sign-in?error=true")
+							.permitAll())
+					.csrf(csrf -> csrf.disable());
+			return http.build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

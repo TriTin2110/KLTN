@@ -17,7 +17,14 @@
   <link rel="stylesheet" href="css/sign.css">
 
   <title>Signin</title>
-
+  <style>
+    #quenmk{
+      transition: 0.5s;
+    }
+    #quenmk:hover{
+      color: red;
+    }
+  </style>
 </head>
 
 <body>
@@ -244,22 +251,19 @@
                 </div>
             </div>
             <div class="signin-right " id="a-sign">
-                <form action="">
+                <form action="/user/sign-in" method="post">
                     <div class="username form-control1 ">
-                        <input type="email"   id="username" placeholder="Email">
+                        <input type="text" id="username" placeholder="Tài khoản">
                     </div>
                     <div class="password form-control1">
                         <input type="password" id="password" placeholder="Mật khẩu">
-                        <div class="error" style="position: absolute; bottom: 0;background: #fff; padding:10px; border:1px solid #ccc; color: red">Please fill out this field </div>
-                        
-                       
                     </div>
                  
                     <div class="recaptcha form-control1">This site is protected by reCAPTCHA and the Google <a href="">Privacy Policy</a> and <a href="">Terms of Service</a> apply.</div>
                     <div class="submit">
                       <input class="btn" type="submit" id="dangnhap" value="Đăng Nhập">
                     <div class="forgetpassword">
-                            <p id="quenmk">Quên mật khẩu?</p> hoặc <a href="signup.html">Đăng kí</a>
+                            <p style="cursor: pointer;" id="quenmk">Quên mật khẩu?</p> hoặc <a href="signup.html">Đăng kí</a>
                       </div>
                        
                     </div>
@@ -267,7 +271,7 @@
                 </form>
             </div>
             <div class="signin-right " id="b-sign">
-                <form action="">
+                <form action="/user/reset-password" method="post">
                     <div class="username form-control1 ">
                        <h2>Phục hồi mật khẩu</h2>
                     </div>
@@ -281,9 +285,7 @@
                       <div class="forgetpassword">
                             <a href="" id="huy">Hủy</a>
                       </div>
-                       
                     </div>
-                    
                 </form>
             </div>
         </div>
