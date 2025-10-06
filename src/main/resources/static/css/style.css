@@ -1,3 +1,9 @@
+.modal .fade .modal-dialog .modal-dialog-centered .show{
+	display: flex;
+}
+.modal-backdrop{
+	z-index: 600;
+}
 * {
   font-family: "Quicksand", sans-serif;
   margin: 0;
@@ -110,10 +116,10 @@ color: #007bff;
     justify-content: space-between;
 }
 
-/* Khung ảnh vuông */
+/* Khung áº£nh vuÃ´ng */
 .drink-image {
     width: 100%;
-    aspect-ratio: 1 / 1;       /* khung luôn vuông */
+    aspect-ratio: 1 / 1;       /* khung luÃ´n vuÃ´ng */
     background-color: #e0e0e0;
     border-radius: 8px;
     margin-bottom: 10px;
@@ -122,14 +128,14 @@ color: #007bff;
     justify-content: center;
     color: #999;
     font-size: 14px;
-    overflow: hidden;          /* tránh ảnh tràn ra ngoài */
+    overflow: hidden;          /* trÃ¡nh áº£nh trÃ n ra ngoÃ i */
 }
 
-/* Nếu có ảnh thì hiển thị full */
+/* Náº¿u cÃ³ áº£nh thÃ¬ hiá»n thá» full */
 .drink-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;         /* ảnh tự crop vừa khung */
+    object-fit: cover;         /* áº£nh tá»± crop vá»«a khung */
 }
 
 .drink-name {
@@ -144,7 +150,7 @@ color: #007bff;
 }
 
 
-/*custom ảnh product*/
+/*custom aÌnh product*/
 
 
 
@@ -153,7 +159,7 @@ color: #007bff;
 
 
 
-/* custom form nhận đăng khuyến mãi */
+/* custom form nháº­n ÄÄng khuyáº¿n mÃ£i */
 .registratior_custom {
   width: 100%;
   /* padding-top: 50px; */
@@ -2705,7 +2711,7 @@ label[for="product-select-option-2"] {
   }
 }
 
-/* Setting varian màu sắc */
+/* Setting varian mÃ u sáº¯c */
 
 .color.swatch-element label.cam span {
   background: #fb4727 !important;

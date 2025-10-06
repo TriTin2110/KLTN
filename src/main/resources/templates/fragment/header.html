@@ -198,8 +198,8 @@
       </div>
 
       <div class="icon-ol">
-     	<a sec:authorize="isAuthenticated()" style="color: #272727" th:href="@{/user/profile}">
-          <i class="fas fa-user-alt"></i>
+		<a sec:authorize="isAuthenticated()" style="color: #272727" th:href="@{/user/profile}">
+          <i class="fas fa-user-alt" style="color: blue;"></i>
         </a>
         <a sec:authorize="!isAuthenticated()" style="color: #272727" th:href="@{/user/sign-in}">
           <i class="fas fa-user-alt"></i>
@@ -218,8 +218,8 @@
       </div>
     </div>
     </div>
-
   </nav>
+  
 </div>
 </body>
 </html>

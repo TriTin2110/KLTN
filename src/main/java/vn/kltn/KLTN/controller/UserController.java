@@ -118,4 +118,40 @@ public class UserController {
 		}
 		return response;
 	}
+
+	@GetMapping("/profile")
+	public String userProfile(Model model, HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		model.addAttribute("user", user);
+		return "profile";
+	}
+
+	@PostMapping("/profile-update")
+	@ResponseBody
+	public Map<String, Object> profileUpdate(@RequestBody Map<String, String> data, HttpServletRequest request) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		User user = (User) request.getSession().getAttribute("user");
+		String fullName = data.get("fullName");
+		String address = data.get("address");
+		String phoneNumber = data.get("phoneNumber");
+		if (!fullName.isBlank() || fullName != null) {
+			user.setFullName(fullName);
+		}
+		if (!address.isBlank() || address != null) {
+			user.setAddress(address);
+		}
+		if (!phoneNumber.isBlank() || phoneNumber != null) {
+			user.setPhoneNumber(phoneNumber);
+		}
+		try {
+			service.update(user);
+			response.put("success", true);
+			response.put("text", "Đã cập nhật thông tin thành công!");
+			return response;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

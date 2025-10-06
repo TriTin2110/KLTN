@@ -37,7 +37,6 @@ public class VerifyServiceImpl implements VerifyService {
 		try {
 			mailSender.send(mailMessage);
 			verifyPool.put(to, String.valueOf(result));
-			System.out.println(result);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -51,6 +50,7 @@ public class VerifyServiceImpl implements VerifyService {
 			return false;
 		if (!verifyPool.get(email).equals(code))
 			return false;
+		verifyPool.remove(email);
 		return true;
 	}
 

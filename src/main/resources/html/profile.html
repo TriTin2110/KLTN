@@ -38,8 +38,21 @@
                 .avatar-container:hover img {
                         opacity: 0.8;
                 }
-                .input-form{
+
+                .input-form {
                         margin-top: 10px;
+                }
+
+                .input-field {
+                        border: none;
+                        background-color: white !important;
+                        display: inline-block;
+                        width: 80%;
+                }
+
+                .btn-update {
+                        opacity: 0;
+                        pointer-events: none;
                 }
         </style>
 </head>
@@ -304,24 +317,104 @@
         <!--Content-->
         <div class="content">
                 <div class="container">
-                        <div style="display: flex; justify-content: center; margin: 20px 0px;" >
-                                <div style="text-align: center;">
-                                        <div class="avatar-container">
-                                                <img id="userAvatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6gP2cXHCBfE3Q4snVK7RZuquprmqEBFHkg&s" alt="Avatar">
+                        <div class="row" style="margin: 30px 0px;">
+                                <div class="col-md-6">
+                                        <div style="display: flex; justify-content: center;">
+                                                <div style="text-align: center;">
+                                                        <div class="avatar-container">
+                                                                <img id="userAvatar"
+                                                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6gP2cXHCBfE3Q4snVK7RZuquprmqEBFHkg&s"
+                                                                        alt="Avatar">
 
-                                                <input type="file" id="avatarInput" accept="image/*"
-                                                        style="display:none;">
+                                                                <input type="file" id="avatarInput" accept="image/*"
+                                                                        style="display:none;">
+                                                        </div>
+                                                        <div class="input-form" onmousemove="showUpdateButton(this)"
+                                                                onmouseout="hideUpdateButton(this)">
+                                                                <input class="form-control input-field" type="text"
+                                                                        name="fullName" id="fullName" placeholder="Họ tên"
+                                                                        disabled onchange="showSaveButton()"><span
+                                                                        class="btn-update"><button onclick="allowUpdate(this)">mở</button></span>
+                                                        </div>
+                                                        <div class="input-form" onmousemove="showUpdateButton(this)"
+                                                                onmouseout="hideUpdateButton(this)"
+                                                                onmousemove="showUpdateButton(this)"
+                                                                onmouseout="hideUpdateButton(this)"><input
+                                                                        class="form-control input-field" type="text"
+                                                                        name="address" id="address" placeholder="Địa chỉ"
+                                                                        disabled><span
+                                                                        class="btn-update"><button onclick="allowUpdate(this)">mở</button></span>
+                                                        </div>
+                                                        <div class="input-form" onmousemove="showUpdateButton(this)"
+                                                                onmouseout="hideUpdateButton(this)"
+                                                                onmousemove="showUpdateButton(this)"
+                                                                onmouseout="hideUpdateButton(this)"><input
+                                                                        class="form-control input-field" type="number"
+                                                                        name="phoneNumber" id="phoneNumber" placeholder="Số điện thoại"
+                                                                        disabled><span
+                                                                        class="btn-update"><button onclick="allowUpdate(this)">mở</button></span>
+                                                        </div>
+                                                        <div class="input-form"><input class="form-control btn-success"
+                                                                        type="submit" value="Lưu thay đổi"
+                                                                        style="display: none;" id="submit-button" onclick="submitChange()"></div>
+                                                </div>
                                         </div>
-                                        <div class="input-form">
-                                                <input class="form-control" type="text" placeholder="Họ và tên">
+                                </div>
+                                <div class="col-md-6">
+                                        <h2 style="text-align: center;">Đơn hàng của bạn</h2>
+                                        <div style="overflow-y: auto; height: 220px;">
+                                                <table class="table table-hover table-bordered">
+                                                        <tr class="bg-info">
+                                                                <th>Mã đơn hàng</th>
+                                                                <th>Ngày đặt hàng</th>
+                                                                <th>Tổng tiền</th>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Đơn hàng 1</td>
+                                                                <td>06/10/2025</td>
+                                                                <td>100000</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Đơn hàng 1</td>
+                                                                <td>06/10/2025</td>
+                                                                <td>100000</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Đơn hàng 1</td>
+                                                                <td>06/10/2025</td>
+                                                                <td>100000</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Đơn hàng 1</td>
+                                                                <td>06/10/2025</td>
+                                                                <td>100000</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Đơn hàng 1</td>
+                                                                <td>06/10/2025</td>
+                                                                <td>100000</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Đơn hàng 1</td>
+                                                                <td>06/10/2025</td>
+                                                                <td>100000</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Đơn hàng 1</td>
+                                                                <td>06/10/2025</td>
+                                                                <td>100000</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>Đơn hàng 1</td>
+                                                                <td>06/10/2025</td>
+                                                                <td>100000</td>
+                                                        </tr>
+                                                </table>
                                         </div>
-                                        <div class="input-form">
-                                                <input class="form-control" type="password" placeholder="Mật khẩu"></div>
-                                        <div class="input-form"><input class="form-control" type="text" placeholder="Địa chỉ"></div>
-                                        <div class="input-form"><input class="form-control" type="number" placeholder="Số điện thoại"></div>
                                 </div>
                         </div>
                 </div>
+
                 <footer class="main-footer">
                         <div class="container">
                                 <div class="">
@@ -489,7 +582,53 @@
                                         });
                         }
                 });
+                function showUpdateButton(element) {
+                        if (element instanceof HTMLElement) {
+                                let button = element.children[1]
+                                button.style.opacity = 1
+                                button.style.pointerEvents = 'all';
+                        }
+                }
+                function hideUpdateButton(element) {
+                        if (element instanceof HTMLElement) {
+                                let button = element.children[1]
+                                button.style.opacity = 0
+                        }
+                }
 
+                function allowUpdate(element)
+                {
+                        if(element instanceof HTMLElement)
+                        {
+                                let input = element.parentElement.previousSibling
+                                input.disabled = false
+                                input.focus()
+                        }
+                }
+
+                function showSaveButton(){
+                        let submitButton = document.getElementById('submit-button')
+                        submitButton.style.display = 'block'
+                }
+
+                function submitChange(){
+                        let fullName = document.getElementById('fullName').value
+                        let address = document.getElementById('address').value
+                        let phoneNumber = document.getElementById('phoneNumber').value
+                        fetch('/user/profile-update', {
+                                headers: 'application/json',
+                                method: 'POST',
+                                body: JSON.stringify({fullName: fullName, address: address, phoneNumber: phoneNumber})
+                        }).then(res =>{
+                                if(!res.ok)
+                                {
+                                        console.log('Đã có lỗi!')
+                                }
+                                return res.json()
+                        }).then(data =>{
+                                if(data.su)
+                        })
+                }
         </script>
 </body>
 
