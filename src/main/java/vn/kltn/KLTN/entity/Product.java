@@ -22,6 +22,7 @@ public class Product {
 	private String name;
 	private String image;
 	private int price;
+	private String size;
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "category_id")
 	private Category category;
@@ -46,10 +47,11 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(String name, String image, int price) {
+	public Product(String name, String image, int price, String size) {
 		this.name = name;
 		this.image = image;
 		this.price = price;
+		this.size = size;
 		this.ingredients = new ArrayList<Ingredient>();
 		this.comments = new ArrayList<Comment>();
 		this.combos = new ArrayList<Combo>();
