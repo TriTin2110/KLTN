@@ -2,6 +2,7 @@ package vn.kltn.KLTN.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -21,8 +22,8 @@ public class Product {
 	@Id
 	private String name;
 	private String image;
-	private int price;
-	private String size;
+	private List<Integer> prices;
+	private List<String> sizes;
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "category_id")
 	private Category category;
@@ -47,22 +48,30 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(String name, String image, int price, String size) {
+	public Product(String name, String image) {
 		this.name = name;
 		this.image = image;
-		this.price = price;
-		this.size = size;
+		this.prices = new ArrayList<Integer>();
+		this.sizes = new ArrayList<String>();
 		this.ingredients = new ArrayList<Ingredient>();
 		this.comments = new ArrayList<Comment>();
 		this.combos = new ArrayList<Combo>();
 	}
 
-	public int getPrice() {
-		return price;
+	public List<Integer> getPrices() {
+		return prices;
 	}
 
-	public void setPrice(int price) {
-		this.price = price;
+	public void setPrices(List<Integer> prices) {
+		this.prices = prices;
+	}
+
+	public List<String> getSizes() {
+		return sizes;
+	}
+
+	public void setSizes(List<String> sizes) {
+		this.sizes = sizes;
 	}
 
 	public Category getCategory() {
@@ -149,8 +158,15 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [price=" + price + ", category=" + category + ", event=" + event + ", coupon=" + coupon
-				+ ", productDetail=" + productDetail + ", getName()=" + getName() + "]";
+		List<Ingredient> ingredients = this.ingredients;
+		List<Integer> prices = this.getPrices();
+		List<String> sizes = this.getSizes();
+		String ingredientString = ingredients.stream().map(o -> o.getName()).collect(Collectors.joining("|"));
+		String pricesString = prices.stream().map(o -> String.valueOf(o)).collect(Collectors.joining("|"));
+		String sizeString = sizes.stream().map(o -> o).collect(Collectors.joining("|"));
+		return "Product [name=" + getName() + ", price=" + pricesString + ", size=" + sizeString + ", category="
+				+ category + ", ingredients=" + ingredientString + ", event=" + event + ", coupon=" + coupon
+				+ ", productDetail=" + productDetail + "]";
 	}
 
 }

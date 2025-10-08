@@ -26,8 +26,8 @@ public class ComboServiceImpl implements ComboService {
 
 		if (!product1.getName().equals(product2.getName())) {
 			try {
-				int totalPrice = (int) Math
-						.ceil(((1 - ((float) discount / 100)) * (product1.getPrice() + product2.getPrice())));
+				int totalPrice = (int) Math.ceil(
+						((1 - ((float) discount / 100)) * (product1.getPrices().get(0) + product2.getPrices().get(0))));
 				Combo combo = new Combo(product1Name + "-" + product2Name, shortDescription, totalPrice, discount,
 						List.of(product1, product2));
 				return repository.saveAndFlush(combo);

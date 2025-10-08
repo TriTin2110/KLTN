@@ -46,7 +46,8 @@ public class OrderServiceTest {
 		Map<Product, Integer> orderedItems = cart.getCartItems();
 		if (!orderedItems.isEmpty()) {
 			order.setOrderItem(orderedItems);
-			order.setTotalPrice(orderedItems.keySet().stream().mapToInt(o -> o.getPrice() * orderedItems.get(o)).sum());
+			order.setTotalPrice(
+					orderedItems.keySet().stream().mapToInt(o -> o.getPrices().get(0) * orderedItems.get(o)).sum());
 			order.setStatus(OrderStatus.PENDING);
 			order.setCreatedDate(new Date(System.currentTimeMillis()));
 			cart.returnToOriginState();

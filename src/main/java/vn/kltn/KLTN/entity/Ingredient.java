@@ -78,8 +78,7 @@ public class Ingredient {
 
 	@Override
 	public String toString() {
-		return "Ingredient [name=" + name + ", quantity=" + quantity + ", price=" + price + ", supplier=" + supplier
-				+ "]";
+		return "Ingredient [name=" + name + "]";
 	}
 
 }

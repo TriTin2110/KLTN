@@ -24,4 +24,6 @@ public interface ProductService {
 
 	public boolean updateCoupon(Product product, Coupon coupon);
 
+	public void insertAddtionInformation(Product product, String size, String price, String ingredientId,
+			String categoryId, String discount);
 }
