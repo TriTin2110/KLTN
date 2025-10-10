@@ -2,674 +2,782 @@
 <html lang="en" xmlns:th="www.thymeleaf.org">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="plugins/animate/animate.min.css">
-  <link rel="stylesheet" href="plugins/fontawesome/all.css">
-  <link rel="stylesheet" href="plugins/webfonts/font.css">
-  <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-  <link rel="stylesheet" href="css/owl.theme.default.min.css" type="text/css">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" th:href="@{plugins/bootstrap/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{plugins/animate/animate.min.css}">
+<link rel="stylesheet" th:href="@{plugins/fontawesome/all.css}">
+<link rel="stylesheet" th:href="@{plugins/webfonts/font.css}">
+<link rel="stylesheet" th:href="@{css/owl.carousel.min.css}"
+	type="text/css">
+<link rel="stylesheet" th:href="@{css/owl.theme.default.min.css}"
+	type="text/css">
+<link rel="stylesheet" type="text/css" th:href="@{css/style.css}">
 
-  <!-- UIkit CSS -->
-  <link rel="stylesheet" href="plugins/uikit/uikit.min.css" />
+<!-- UIkit CSS -->
+<link rel="stylesheet" th:href="@{plugins/uikit/uikit.min.css}" />
 
-  <title>AUNES</title>
+<title>AUNES</title>
 
 </head>
 
 <body>
-  <span th:replace="~{/fragment/header.html :: header}"></span>
-  <!-- Owl-Carousel -->
-  <div class="owl-carousel owl-theme owl-carousel-setting">
-    <div class="item"><img src="images/slideshow_1.jpg" class="d-block w-100" alt="..."></div>
-    <div class="item"><img src="images/slideshow_2.png" class="d-block w-100" alt="..."></div>
-</div>
- 
+	<div class="header">
+		<a style="color: #ffffff; text-decoration: none;" href="index.html">MIỄN
+			PHÍ VẬN CHUYỂN VỚI ĐƠN HÀNG NỘI THÀNH > 200K - ĐẶT HÀNG NGAY</a>
+	</div>
 
-  <!--Content-->
-  <div class="content">
-    <div class="container">
-      <div class="hot_sp" style="padding-bottom: 10px;">
-        <h2 style="text-align:center;padding-top: 10px">
-          <a style="font-size: 28px;color: black;text-decoration: none" href="">Sản phẩm bán chạy</a>
-        </h2>
-        <div class="view-all" style="text-align:center;padding-top: -10px;">
-          <a style="color: black;text-decoration: none" href="">Xem thêm</a>
-        </div>
-      </div>
-    </div>
-    <!--Product-->
-    <div class="container" style="padding-bottom: 50px;">
-      <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-6 col-6">
-          <div class="product-block">
-            <div class="product-img fade-box">
-              <a href="#" title="Cà Phê Sữa Tươi" class="img-resize">
-                <img src="images/drink/801740_1_e4adfa6d09b7468a8c9fb21bf8e02bd4_medium (1).jpg"
-                  alt="Cà Phê Sữa Tươi" class="lazyloaded">
-                <img src="images/drink/drink fade 1.jpg" alt="Cà Phê Sữa Tươi" class="lazyloaded">
-              </a>
-             
-            </div>
-            <div class="product-detail clearfix">
-              <div class="pro-text">
-                <a style=" color: black;
-                                                  font-size: 14px;text-decoration: none;" href="#"
-                  title="Cà phê" inspiration pack>
-                  Cà Phê Sữa Tươi
-                </a>
-              </div>
-              <div class="pro-price">
-                <p class="">20,000₫</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6 col-6">
-          <div class="product-block">
-            <div class="product-img fade-box">
-              <a href="#" title="Cà Phê Đen Đá" class="img-resize">
-                <img src="images/drink/201493_1_017364c87c3e4802a8cda5259e3d5a95_grande.jpg" alt="Cà Phê Đen Đá"
-                  class="lazyloaded">
-                <img src="images/drink/drink fade 2.jpg" alt="Cà Phê Đen Đá" class="lazyloaded">
-              </a>
-             
-            </div>
-            <div class="product-detail clearfix">
-              <div class="pro-text">
-                <a style=" color: black;
-                                          font-size: 14px;text-decoration: none;" title="Cà Phê Đen Đá" href="">
-                  Cà Phê Đen Đá
-                </a>
-              </div>
-              <div class="pro-price">
-                <p class="">15,000₫</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6 col-6">
-          <div class="product-block">
-            <div class="product-img fade-box">
-              <a href="#" title="Sữa Tươi Trân Chau Đường Đen" class="img-resize">
-                <img src="images/drink/805266_02_b8b2cdd1782246febf8879a44a7e5021_grande.jpg"
-                  alt="Sữa Tươi Trân Chau Đường Đen" class="lazyloaded">
-                <img src="images/drink/drink fade 3.jpg" alt="Sữa Tươi Trân Chau Đường Đen" class="lazyloaded">
-              </a>
-             
-            </div>
-            <div class="product-detail clearfix">
-              <div class="pro-text">
-                <a style=" color: black;
-                            font-size: 14px;text-decoration: none;" href="#" title="Sữa Tươi Trân Chau Đường Đen" inspiration
-                  pack>
-                  Sữa Tươi Trân Chau Đường Đen
-                </a>
-              </div>
-              <div class="pro-price">
-                <p class="">25,000₫</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6 col-6">
-          <div class="product-block">
-            <div class="product-img fade-box">
-              <a href="#" title="Socola Latte" class="img-resize">
-                <img src="images/drink/801432_01_b16d089f8bda434bacfe4620e8480be1_grande.jpg" alt="Socola Latte"
-                  class="lazyloaded">
-                <img src="images/drink/drink fade 4.jpg" alt="Socola Latte" class="lazyloaded">
-              </a>
-             
-            </div>
-            <div class="product-detail clearfix">
-              <div class="pro-text">
-                <a style=" color: black;
-                       font-size: 14px;text-decoration: none;" href="#" title="Socola Latte" inspiration pack>
-                  Socola Latte
-                </a>
-              </div>
-              <div class="pro-price">
-                <p class="">20,000₫</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-6 col-6">
-          <div class="product-block">
-            <div class="product-img fade-box">
-              <a href="#" title="Trà Đào Hạt Đác" class="img-resize">
-                <img class="lazyloaded" src="images/drink/800502_01_e92c3b2bb8764b52a791846d84a3a360_grande.jpg"
-                  alt="Trà Đào Hạt Đác">
-                <img class="lazyloaded" src="images/drink/drink fade 5.jpg" alt="Trà Đào Hạt Đác">
-              </a>
-             
-            </div>
-            <div class="product-detail clearfix">
-              <div class="pro-text">
-                <a style=" color: black;
-                      font-size: 14px;text-decoration: none;" href="#" title="Adidas Yeezy boost 350 v2" inspiration
-                  pack>
+	<!--Navbar-->
 
-                  Trà Đào Hạt Đác
+	<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
 
-                </a>
-              </div>
-              <div class="pro-price">
-                <p class="">25,000₫</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6 col-6">
-          <div class="product-block">
-            <div class="product-img fade-box">
-              <a href="#" title="Matcha Latte" class="img-resize">
-                <img class="lazyloaded" src="images/drink/802501_01_eccb69b5bcdf4ef5b209557ec6547774_grande.jpg"
-                  alt="Matcha Latte">
-                <img class="lazyloaded" src="images/drink/drink fade 6.jpg" alt="Matcha Latte">
-              </a>
-             
-            </div>
-            <div class="product-detail clearfix">
-              <div class="pro-text">
-                <a style=" color: black;
-                      font-size: 14px;text-decoration: none;" href="">
-                  Matcha Latte
-                </a>
-              </div>
-              <div class="pro-price">
-                <p class="">22,000₫</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6 col-6">
-          <div class="product-block">
-            <div class="product-img fade-box">
-              <a href="#" title="Matcha Sữa Gấu" class="img-resize">
-                <img class="lazyloaded" src="images/drink/806859_01_1ad7dd36e7b5403286b95a253e00718d_grande.jpg"
-                  alt="Matcha Sữa Gấu">
-                <img class="lazyloaded" src="images/drink/drink fade 7.jpg" alt="Matcha Sữa Gấu">
-              </a>
-            
-            </div>
-            <div class="product-detail clearfix">
-              <div class="pro-text">
-                <a style=" color: black;
-                      font-size: 14px;text-decoration: none;" href="#" title="Matcha Sữa Gấu" inspiration pack>
-                  Matcha Sữa Gấu
-                </a>
-              </div>
-              <div class="pro-price">
-                <p class="">32,000₫</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6 col-6">
-          <div class="product-block">
-            <div class="product-img fade-box">
-              <a href="#" title="Matcha Sữa Hạt" class="img-resize">
-                <img class="lazyloaded" src="images/drink/805338_01_eb7365e97d3f471d872159918a8526a9_grande.jpg"
-                  alt="Matcha Sữa Hạt">
-                <img class="lazyloaded" src="images/drink/drink fade 8.jpg" alt="Matcha Sữa Hạt">
-              </a>
-             
-            </div>
-            <div class="product-detail clearfix">
-              <div class="pro-text">
-                <a style=" color: black;
-                       font-size: 14px;text-decoration: none;" href="#" title="Matcha Sữa Hạt" inspiration
-                  pack>
-                  Matcha Sữa Hạt
-                </a>
-              </div>
-              <div class="pro-price">
-                <p class="">27,000₫</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <section class="section wrapper-home-banner">
-      <div class="container-fluid" style="padding-bottom: 50px;">
-        <div class="row">
-          <div class="col-xs-12 col-sm-4 home-banner-pd">
-            <div class="block-banner-category">
-              <a href="#" class="link-banner wrap-flex-align flex-column">
-                <div class="fg-image fade-box">
-                  <img class="lazyloaded" src="images/drink/block_home_category1_grande.jpg" alt="drink">
-                </div>
-                <figcaption class="caption_banner site-animation">
-                  <!-- <p>Bộ sưu tập</p> -->
-                  <h2>
-                    Bánh
-                  </h2>
-                </figcaption>
-              </a>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-4 home-banner-pd">
-            <div class="block-banner-category">
-              <a href="#" class="link-banner wrap-flex-align flex-column">
-                <div class="fg-image fade-box">
-                  <img class="lazyloaded" src="images/drink/block_home_category2_grande.jpg" alt="drink">
-                </div>
-                <figcaption class="caption_banner site-animation">
-                  <!-- <p>Bộ sưu tập</p> -->
-                  <h2>
-                    Đồ uống
-                  </h2>
-                </figcaption>
-              </a>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-4 home-banner-pd">
-            <div class="block-banner-category">
-              <a href="#" class="link-banner wrap-flex-align flex-column">
-                <div class="fg-image">
-                  <img class="lazyloaded" src="images/drink/block_home_category3_grande.jpg" alt="drink">
-                </div>
-                <figcaption class="caption_banner site-animation">
-                  <p></p>
-                  <h2>
-                    Blog
-                  </h2>
-                </figcaption>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section>
-      <div class="content">
-        <div class="container">
-          <div class="hot_sp">
-            <h2 style="text-align:center;">
-              <a style="font-size: 28px;color: black;text-decoration: none" href="">Sản phẩm mới</a>
-            </h2>
-            <div class="view-all" style="text-align:center;">
-              <a style="color: black;text-decoration: none" href="">Xem thêm</a>
-            </div>
-          </div>
-        </div>
-        <!--Product-->
-      </div>
-      <div class="container product" style="width: 100%;margin: auto;">
-        <div class="owl-carousel owl-theme owl-product-setting">
-          <div class="item">
-            <div class="">
-              <div class="product-block">
-                <div class="product-img fade-box">
-                  <a href="#" title="Trà Đào Hạt Đác" class="img-resize">
-                    <img src="images/drink/gallery_item_5.jpg" alt="Trà Đào Hạt Đác"
-                      class="lazyloaded">
-                    <img src="images/drink/1-1.jpg" alt="Trà Đào Hạt Đác" class="lazyloaded">
-                  </a>
-                 
-                </div>
-                <div class="product-detail clearfix">
-                  <div class="pro-text">
-                    <a style=" color: black;
-                           font-size: 14px;text-decoration: none;" href="#" title="Sữa tươi trân châu đường đen" inspiration pack>
-                      Sữa tươi trân châu đường đen
-                    </a>
-                  </div>
-                  <div class="pro-price">
-                    <p class="">25,000₫</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="">
-              <div class="product-block">
-                <div class="product-img fade-box">
-                  <a href="#" title="Cà Phê Sữa Đá" class="img-resize">
-                    <img src="images/drink/3-3.jpg" alt="Cà Phê Sữa Đá"
-                      class="lazyloaded">
-                    <img src="images/drink/3-3.jpg" alt="Cà Phê Sữa Đá" class="lazyloaded">
-                  </a>
-                 
-                </div>
-                <div class="product-detail clearfix">
-                  <div class="pro-text">
-                    <a style=" color: black;
-                           font-size: 14px;text-decoration: none;" href="#" title="Cà Phê Sữa Đá" inspiration pack>
-                      Cà Phê Sữa Đá
-                    </a>
-                  </div>
-                  <div class="pro-price">
-                    <p class="">16,000₫</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="">
-              <div class="product-block">
-                <div class="product-img fade-box">
-                  <a href="#" title="Cà Phê Đen Đá" class="img-resize">
-                    <img src="images/drink/801432_01_b16d089f8bda434bacfe4620e8480be1_grande.jpg" alt="Cà Phê Đen Đá"
-                      class="lazyloaded">
-                    <img src="images/drink/drink fade 4.jpg" alt="Cà Phê Đen Đá" class="lazyloaded">
-                  </a>
-                 
-                </div>
-                <div class="product-detail clearfix">
-                  <div class="pro-text">
-                    <a style=" color: black;
-                           font-size: 14px;text-decoration: none;" href="#" title="Cà Phê Đen Đá" inspiration pack>
-                      Cà Phê Đen Đá
-                    </a>
-                  </div>
-                  <div class="pro-price">
-                    <p class="">15,000₫</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="">
-              <div class="product-block">
-                <div class="product-img fade-box">
-                  <a href="#" title="Matcha Latte" class="img-resize">
-                    <img src="images/drink/3.jpg" alt="Matcha Latte"
-                      class="lazyloaded">
-                    <img src="images/drink/drink fade 4.jpg" alt="Matcha Latte" class="lazyloaded">
-                  </a>
-                 
-                </div>
-                <div class="product-detail clearfix">
-                  <div class="pro-text">
-                    <a style=" color: black;
-                           font-size: 14px;text-decoration: none;" href="#" title="Matcha Latte" inspiration pack>
-                      Matcha Latte
-                    </a>
-                  </div>
-                  <div class="pro-price">
-                    <p class="">22,000₫</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="">
-              <div class="product-block">
-                <div class="product-img fade-box">
-                  <a href="#" title="Trà Sữa Hokkaido" class="img-resize">
-                    <img src="images/drink/1.jpg" alt="Trà Sữa Hokkaido"
-                      class="lazyloaded">
-                    <img src="images/drink/drink fade 4.jpg" alt="Trà Sữa Hokkaido" class="lazyloaded">
-                  </a>
-                 
-                </div>
-                <div class="product-detail clearfix">
-                  <div class="pro-text">
-                    <a style=" color: black;
-                           font-size: 14px;text-decoration: none;" href="#" title="Trà Sữa Hokkaido" inspiration pack>
-                      Trà Sữa Hokkaido
-                    </a>
-                  </div>
-                  <div class="pro-price">
-                    <p class="">29,000₫</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="">
-              <div class="product-block">
-                <div class="product-img fade-box">
-                  <a href="#" title="Socola Sữa Gấu" class="img-resize">
-                    <img src="images/drink/6.jpg" alt="Socola Sữa Gấu"
-                      class="lazyloaded">
-                    <img src="images/drink/801740_1_e4adfa6d09b7468a8c9fb21bf8e02bd4_medium (1).jpg" alt="Socola Sữa Gấu" class="lazyloaded">
-                  </a>
-                 
-                </div>
-                <div class="product-detail clearfix">
-                  <div class="pro-text">
-                    <a style=" color: black;
-                           font-size: 14px;text-decoration: none;" href="#" title="Socola Sữa Gấu" inspiration pack>
-                      Socola Sữa Gấu
-                    </a>
-                  </div>
-                  <div class="pro-price">
-                    <p class="">30,000₫</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-      </div>
+		<div class="container">
+			<a class="navbar-brand" href="index.html"> <img
+				src="images/logo.jpg" class="logo-top" alt="">
+			</a>
+			<div
+				class="desk-menu collapse navbar-collapse justify-content-md-center"
+				id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item active"><a class="nav-link"
+						href="index.html">TRANG CHỦ</a></li>
+					<li class="nav-item"><a class="nav-link" href="product.html">BỘ
+							SƯU TẬP</a></li>
+					<li class="nav-item lisanpham"><a class="nav-link"
+						href="all.html">SẢN PHẨM <i class="fa fa-chevron-down"
+							aria-hidden="true"></i>
+					</a>
+						<ul class="sub_menu">
+							<li class=""><a href="detailproduct.html" title="Cà phê">
+									cà phê </a></li>
+							<li class=""><a href="detailproduct.html" title="Trà sữa">
+									Trà sữa </a></li>
+							<li class=""><a href="detailproduct.html" title="Matcha">
+									Matcha </a></li>
+							<li class=""><a href="detailproduct.html" title="Socola">
+									Socola </a></li>
+							<li class=""><a href="detailproduct.html"
+								title="Trà trái cây"> Trà trái cây </a></li>
+						</ul></li>
+					<li class="nav-item"><a class="nav-link" href="introduce.html">GIỚI
+							THIỆU</a></li>
+					<li class="nav-item"><a class="nav-link" href="blog.html">BLOG</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="contact.html">LIÊN
+							HỆ</a></li>
+				</ul>
+			</div>
+			<div id="offcanvas-flip1" uk-offcanvas="flip: true; overlay: true">
+				<div class="uk-offcanvas-bar"
+					style="background: white; width: 100%;">
+
+					<button class="uk-offcanvas-close" style="color: #272727"
+						type="button" uk-close></button>
+					<h3
+						style="font-size: 14px; color: #272727; text-transform: uppercase; margin: 3px 0 30px 0; font-weight: 500; letter-spacing: 2px;">MENU</h3>
+					<div class="justify-content-md-center">
+						<ul class="navbar-nav">
+							<li class="nav-item"><a class="nav-link" href="index.html">TRANG
+									CHỦ</a></li>
+							<li class="nav-item"><a class="nav-link" href="Product.html">BỘ
+									SƯU TẬP</a></li>
+							<li class="nav-item dropdown"><a
+								class="nav-link dropdown-toggle aaaa" href="#"
+								id="navbarDropdown" role="button" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">
+									<p>SẢN PHẨM</p> <i class="fa fa-angle-double-right"></i>
+
+							</a>
+								<div class="dropdown-menu" aria-labelledby="navbarDropdown"
+									style="border: 0; display: inline-block;">
+									<a class="dropdown-item" href="detailproduct.html"
+										title="Cà phê">Cà phê</a> <a class="dropdown-item"
+										href="detailproduct.html" title="Trà sữa">Trà sữa</a> <a
+										class="dropdown-item" href="detailproduct.html" title="Matcha">Matcha</a>
+									<a class="dropdown-item" href="detailproduct.html"
+										title="Socola">Socola</a> <a class="dropdown-item"
+										href="detailproduct.html" title="Trà trái cây">Trà trái
+										cây</a>
+								</div></li>
+							<li class="nav-item"><a class="nav-link"
+								href="introduce.html">GIỚI THIỆU</a></li>
+							<li class="nav-item"><a class="nav-link" href="blog.html">BLOG</a>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="Contact.html">LIÊN
+									HỆ</a></li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<div id="offcanvas-flip" uk-offcanvas="flip: true; overlay: true">
+				<div class="uk-offcanvas-bar"
+					style="background: white; width: 350px;">
+
+					<button class="uk-offcanvas-close" style="color: #272727"
+						type="button" uk-close></button>
+
+					<h3
+						style="font-size: 14px; color: #272727; text-transform: uppercase; margin: 3px 0 30px 0; font-weight: 500; letter-spacing: 2px;">Tìm
+						kiếm</h3>
+					<div class="search-box wpo-wrapper-search">
+						<form action="search"
+							class="searchform searchform-categoris ultimate-search">
+							<div class="wpo-search-inner" style="display: inline">
+								<input type="hidden" name="type" value="product"> <input
+									required="" id="inputSearchAuto" name="q" maxlength="40"
+									autocomplete="off"
+									class="searchinput input-search search-input" type="text"
+									size="20" placeholder="Tìm kiếm sản phẩm...">
+							</div>
+							<button type="submit" class="btn-search btn"
+								id="search-header-btn">
+								<i style="font-weight: bold" class="fas fa-search"></i>
+							</button>
+						</form>
+						<div id="ajaxSearchResults"
+							class="smart-search-wrapper ajaxSearchResults"
+							style="display: none">
+							<div class="resultsContent"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="offcanvas-flip2" uk-offcanvas="flip: true; overlay: true">
+				<div class="uk-offcanvas-bar"
+					style="background: white; width: 350px;">
+
+					<button class="uk-offcanvas-close" style="color: #272727"
+						type="button" uk-close></button>
+
+					<h3
+						style="font-size: 14px; color: #272727; text-transform: uppercase; margin: 3px 0 30px 0; font-weight: 500; letter-spacing: 2px;">Giỏ
+						hàng</h3>
+					<div class="site-nav-container-last" style="color: #272727">
+						<div class="cart-view clearfix">
+							<table id="cart-view">
+								<tbody>
+									<tr class="item_1">
+										<td class="img"><a href=""
+											title="Matcha latte &quot;Grape&quot;"><img
+												src="images/drink/1.jpg" alt="/products/matcha latte"></a></td>
+										<td><a class="pro-title-view" style="color: #272727"
+											href="" title="Matcha latte &quot;Grape&quot;">Matcha
+												latte</a> <!-- <span class="variant">Tím / 36</span> --> <span
+											class="pro-quantity-view">1</span> <span
+											class="pro-price-view">22,000₫</span> <span
+											class="remove_link remove-cart"><a href=""><i
+													style="color: #272727;" class="fas fa-times"></i></a></span></td>
+									</tr>
+								</tbody>
+							</table>
+							<span class="line"></span>
+							<table class="table-total">
+								<tbody>
+									<tr>
+										<td class="text-left">TỔNG TIỀN:</td>
+										<td class="text-right" id="total-view-cart">22,000₫</td>
+									</tr>
+									<tr>
+										<td class="distance-td"><a href=""
+											class="linktocart button dark">Xem giỏ hàng</a></td>
+										<td><a href="" class="linktocheckout button dark">Thanh
+												toán</a></td>
+									</tr>
+								</tbody>
+							</table>
+
+							<a href="" target="_blank" class="button btn-check"
+								style="text-decoration: none;"><span>Click nhận mã
+									giảm giá!</span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="icon-ol">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+					data-bs-target="#staticBackdrop">Launch static backdrop
+					modal</button>
+				<!-- Modal -->
+				<div class="modal fade" id="staticBackdrop"
+					data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+					aria-labelledby="staticBackdropLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="staticBackdropLabel">Modal
+									title</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">...</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary">Understood</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<a href="#" class="" uk-toggle="target: #offcanvas-flip"> <i
+					class="fas fa-search" style="color: black"></i>
+				</a> <a style="color: #272727" href="#"
+					uk-toggle="target: #offcanvas-flip2"> <i
+					class="fas fa-shopping-cart"></i>
+				</a>
+				<button class="navbar-toggler" type="button"
+					uk-toggle="target: #offcanvas-flip1" data-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</div>
+		</div>
+
+	</nav>
+	<!-- Owl-Carousel -->
+	<div class="owl-carousel owl-theme owl-carousel-setting">
+		<div class="item">
+			<img src="images/slideshow_1.jpg" class="d-block w-100" alt="...">
+		</div>
+		<div class="item">
+			<img src="images/slideshow_2.png" class="d-block w-100" alt="...">
+		</div>
+	</div>
+
+
+	<!--Content-->
+	<div class="content">
+		<!--Sản phẩm mới-->
+		<section>
+			<div class="content">
+				<div class="container">
+					<div class="hot_sp">
+						<h2 style="text-align: center;">
+							<a style="font-size: 28px; color: black; text-decoration: none"
+								href="">Sản phẩm mới</a>
+						</h2>
+					</div>
+				</div>
+
+			</div>
+			<div class="container product" style="width: 100%; margin: auto;">
+				<div class="owl-carousel owl-theme owl-product-setting" th:each="product: ${products}">
+					<div th:insert="~{fragment/product.html :: product(${product})}"></div>
+				</div>
 
 
 
 
-      </div>
-    </section>
-    <section class="">
-      <div class="content">
-        <div class="container">
-          <div class="hot_sp">
-            <h2 style="text-align:center;padding-top: 10px">
-              <a style="font-size: 28px;color: black;text-decoration: none" href="">Bài viết mới nhất</a>
-            </h2>
-            <br />
-          </div>
-        </div>
-      </div>
-      <!--New-->
-      <div>
+			</div>
+		</section>
 
-        <div class="container">
+		<!--Sản phẩm bán chạy-->
+		<div class="container">
+			<div class="hot_sp" style="padding-bottom: 10px;">
+				<h2 style="text-align: center; padding-top: 10px">
+					<a style="font-size: 28px; color: black; text-decoration: none"
+						href="">Sản phẩm bán chạy</a>
+				</h2>
+			</div>
+		</div>
+		<!--Product-->
+		<div class="container" style="padding-bottom: 50px;">
+			<div class="row">
+				<div class="col-md-3 col-sm-6 col-xs-6 col-6">
+					<div class="product-block">
+						<div class="product-img fade-box">
+							<a href="#" title="Cà Phê Sữa Tươi" class="img-resize"> <img
+								src="images/drink/801740_1_e4adfa6d09b7468a8c9fb21bf8e02bd4_medium (1).jpg"
+								alt="Cà Phê Sữa Tươi" class="lazyloaded"> <img
+								src="images/drink/drink fade 1.jpg" alt="Cà Phê Sữa Tươi"
+								class="lazyloaded">
+							</a>
 
-          <div class="row">
-            <div class="col-md-4">
-              <div class="post_item">
-                <div class="post_featured">
-                  <a href="#" title="matcha">
-                    <img class="img-resize" style="padding-bottom:15px;" src="images/drink/new-1.jpg"
-                      alt="matcha">
-                  </a>
-                </div>
-                <div class="pro-text">
-                  <span class="post_info_item">
+						</div>
+						<div class="product-detail clearfix">
+							<div class="pro-text">
+								<a style="color: black; font-size: 14px; text-decoration: none;"
+									href="#" title="Cà phê" inspiration pack> Cà Phê Sữa
+									Tươi </a>
+							</div>
+							<div class="pro-price">
+								<p class="">20,000₫</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-6 col-6">
+					<div class="product-block">
+						<div class="product-img fade-box">
+							<a href="#" title="Cà Phê Đen Đá" class="img-resize"> <img
+								src="images/drink/201493_1_017364c87c3e4802a8cda5259e3d5a95_grande.jpg"
+								alt="Cà Phê Đen Đá" class="lazyloaded"> <img
+								src="images/drink/drink fade 2.jpg" alt="Cà Phê Đen Đá"
+								class="lazyloaded">
+							</a>
 
-                    Thứ Ba 24,09,2025
+						</div>
+						<div class="product-detail clearfix">
+							<div class="pro-text">
+								<a style="color: black; font-size: 14px; text-decoration: none;"
+									title="Cà Phê Đen Đá" href=""> Cà Phê Đen Đá </a>
+							</div>
+							<div class="pro-price">
+								<p class="">15,000₫</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-6 col-6">
+					<div class="product-block">
+						<div class="product-img fade-box">
+							<a href="#" title="Sữa Tươi Trân Chau Đường Đen"
+								class="img-resize"> <img
+								src="images/drink/805266_02_b8b2cdd1782246febf8879a44a7e5021_grande.jpg"
+								alt="Sữa Tươi Trân Chau Đường Đen" class="lazyloaded"> <img
+								src="images/drink/drink fade 3.jpg"
+								alt="Sữa Tươi Trân Chau Đường Đen" class="lazyloaded">
+							</a>
 
-                  </span>
-                </div>
-                <div class="pro-text">
-                  <h3 class="post_title">
-                    <a style=" color: black;
-                                  font-size: 18px;text-decoration: none;" href="#" inspiration pack>
-                      MATCHA THÚ VỊ ĐỘC ĐÁO: Đánh Thức Năng Lượng Xanh!
-                    </a>
-                  </h3>
-                </div>
-                <div style="text-align:center; padding-bottom: 30px;">
-                  <span>Trải nghiệm ngay sự kết hợp hương vị mới lạ từ bột matcha thượng hạng. Không chỉ giải khát, đây còn là nguồn năng lượng xanh, tươi mát cho mọi cuộc vui của giới trẻ.
-                    Đồ uống phải thử trong tháng 9 này!
-                    👉 THÊM VÀO GIỎ HÀNG...</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="post_item">
-                <div class="post_featured">
-                  <a href="#" title="Trà sữa">
-                    <img class="img-resize" style="padding-bottom:15px;" src="images/drink/new-2.jpg"
-                      alt="Trà sữa">
-                  </a>
-                </div>
-                <div class="pro-text">
-                  <span class="post_info_item">
+						</div>
+						<div class="product-detail clearfix">
+							<div class="pro-text">
+								<a style="color: black; font-size: 14px; text-decoration: none;"
+									href="#" title="Sữa Tươi Trân Chau Đường Đen" inspiration
+									pack> Sữa Tươi Trân Chau Đường Đen </a>
+							</div>
+							<div class="pro-price">
+								<p class="">25,000₫</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-6 col-6">
+					<div class="product-block">
+						<div class="product-img fade-box">
+							<a href="#" title="Socola Latte" class="img-resize"> <img
+								src="images/drink/801432_01_b16d089f8bda434bacfe4620e8480be1_grande.jpg"
+								alt="Socola Latte" class="lazyloaded"> <img
+								src="images/drink/drink fade 4.jpg" alt="Socola Latte"
+								class="lazyloaded">
+							</a>
 
-                    Thứ Ba 25,09,2025
+						</div>
+						<div class="product-detail clearfix">
+							<div class="pro-text">
+								<a style="color: black; font-size: 14px; text-decoration: none;"
+									href="#" title="Socola Latte" inspiration pack> Socola
+									Latte </a>
+							</div>
+							<div class="pro-price">
+								<p class="">20,000₫</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 col-sm-6 col-xs-6 col-6">
+					<div class="product-block">
+						<div class="product-img fade-box">
+							<a href="#" title="Trà Đào Hạt Đác" class="img-resize"> <img
+								class="lazyloaded"
+								src="images/drink/800502_01_e92c3b2bb8764b52a791846d84a3a360_grande.jpg"
+								alt="Trà Đào Hạt Đác"> <img class="lazyloaded"
+								src="images/drink/drink fade 5.jpg" alt="Trà Đào Hạt Đác">
+							</a>
 
-                  </span>
-                </div>
-                <div class="pro-text">
-                  <h3 class="post_title">
-                    <a style=" color: black;
-                                                  font-size: 18px;text-decoration: none;" href="#" inspiration pack>
-                      CÀ PHÊ ĐỘC ĐÁO: Hương Vị Mới Lạ Đánh Thức Năng Lượng!
-                    </a>
-                  </h3>
-                </div>
-                <div style="text-align:center; padding-bottom: 30px;">
-                  <span>Vừa ra mắt với mùi hương rất thú vị và độc đáo, pha trộn giữa truyền thống và hiện đại. Lý tưởng cho các bạn trẻ cần nguồn năng lượng sáng tạo.
+						</div>
+						<div class="product-detail clearfix">
+							<div class="pro-text">
+								<a style="color: black; font-size: 14px; text-decoration: none;"
+									href="#" title="Adidas Yeezy boost 350 v2" inspiration pack>
 
-Là một trong những loại đồ uống đang hot hit nhất thị trường, được giới trẻ yêu thích...</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="post_item">
-                <div class="post_featured">
-                  <a href="#" title="Adidas EQT Cushion ADV">
-                    <img class="img-resize" style="padding-bottom:15px;" src="images/drink/new-3.jpg"
-                      alt="Nike Vapormax Plus trở lại với sắc tím mộng mơ và thiết kế chuyển màu đẹp mắt">
-                  </a>
-                </div>
-                <div class="pro-text">
-                  <span class="post_info_item">
+									Trà Đào Hạt Đác </a>
+							</div>
+							<div class="pro-price">
+								<p class="">25,000₫</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-6 col-6">
+					<div class="product-block">
+						<div class="product-img fade-box">
+							<a href="#" title="Matcha Latte" class="img-resize"> <img
+								class="lazyloaded"
+								src="images/drink/802501_01_eccb69b5bcdf4ef5b209557ec6547774_grande.jpg"
+								alt="Matcha Latte"> <img class="lazyloaded"
+								src="images/drink/drink fade 6.jpg" alt="Matcha Latte">
+							</a>
 
-                    Thứ Ba 25,09,2025
+						</div>
+						<div class="product-detail clearfix">
+							<div class="pro-text">
+								<a style="color: black; font-size: 14px; text-decoration: none;"
+									href=""> Matcha Latte </a>
+							</div>
+							<div class="pro-price">
+								<p class="">22,000₫</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-6 col-6">
+					<div class="product-block">
+						<div class="product-img fade-box">
+							<a href="#" title="Matcha Sữa Gấu" class="img-resize"> <img
+								class="lazyloaded"
+								src="images/drink/806859_01_1ad7dd36e7b5403286b95a253e00718d_grande.jpg"
+								alt="Matcha Sữa Gấu"> <img class="lazyloaded"
+								src="images/drink/drink fade 7.jpg" alt="Matcha Sữa Gấu">
+							</a>
 
-                  </span>
-                </div>
-                <div class="pro-text">
-                  <h3 class="post_title">
-                    <a style=" color: black;
-                                      font-size: 18px;text-decoration: none;" href="#" inspiration pack>
-                      Trà Đào Hạt Đác vừa ra mắt với mùi hương rất thú vị và độc đáo
-                    </a>
-                  </h3>
-                </div>
-                <div style="text-align:center; padding-bottom: 30px;">
-                  <span>Là một trong những loại đồ uống đang hot hit nhất thị trường tiếp cận được nhiều với giới trẻ...</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section wrapper-home-newsletter">
-      <div class="container-fluid">
-        <div class="content-newsletter">
-          <h2>Đăng ký</h2>
-          <p>Đăng ký nhận bản tin của AUNES để cập nhật những sản phẩm mới, nhận thông tin ưu đãi đặc biệt và thông
-            tin
-            giảm giá khác.</p>
-          <div class="form-newsletter">
-            <form action="" accept-charset="UTF-8" class="">
-              <div class="form-group">
-                <input type="hidden" id="contact_tags">
-                <input required="" type="email" value="" placeholder="Nhập email của bạn" aria-label="Email Address"
-                  class="">
-                <button type="submit" class=""><span>Gửi</span></button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section section-gallery">
-      <div class="">
-        <div class="hot_sp" style="padding-top: 70px;padding-bottom: 50px;">
-          <h2 style="text-align:center;padding-top: 10px">
-            <a style="font-size: 28px;color: black;text-decoration: none" href="">Khách hàng và AUNES</a>
-          </h2>
-        </div>
-        <div class="list-gallery clearfix">
-          <ul class="drink-gp">
-            <li>
-              <div class="gallery_item">
-                <img class="img-resize" src="images/drink/gallery_item_1.jpg" alt="">
-              </div>
-            </li>
-            <li>
-              <div class="gallery_item">
-                <img class="img-resize" src="images/drink/gallery_item_2.jpg" alt="">
-              </div>
-            </li>
-            <li>
-              <div class="gallery_item">
-                <img class="img-resize" src="images/drink/gallery_item_3.jpg" alt="">
-              </div>
-            </li>
-            <li>
-              <div class="gallery_item">
-                <img class="img-resize" src="images/drink/gallery_item_4.jpg" alt="">
-              </div>
-            </li>
-            <li>
-              <div class="gallery_item">
-                <img class="img-resize" src="images/drink/gallery_item_5.jpg" alt="">
-              </div>
-            </li>
-            <li>
-              <div class="gallery_item">
-                <img class="img-resize" src="images/drink/gallery_item_6.jpg" alt="">
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-    <span th:replace="~{/fragment/footer.html :: footer}"></span>
-  </div>
-  <div class="registratior_custom">
-    <form action="">
-        <div class="content">
-          <div class="x-close">
-            <i class="fa fa-times"></i>
-          </div>
-          <h3>Nhận các ưu đãi cùng AUNES</h3>
-          <p>Chúng tôi sẽ cập nhật các chương trình khuyến mãi mới đến bạn</p>
-          <ul>
-            <li>
-              <span>Giảm giá sản phẩm</span>
-            </li>
-            <li>
-              <span>Sản phẩm mới</span>
-            </li>
-            <li>
-              <span>Sản phẩm bán chạy</span>
-            </li>
-          </ul>
-          <input type="text" placeholder="Đăng kí nhận thông tin">
-          <button class="button_register"><p>ĐĂNG KÍ</p></button>
-        </div>
-    </form>
-  </div>
-  <script async defer crossorigin="anonymous" src="plugins/sdk.js"></script>
-  <script src="plugins/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-  <script src="plugins/bootstrap/popper.min.js"></script>
-  <script src="plugins/bootstrap/bootstrap.min.js"></script>
-  <script src="plugins/owl.carousel/owl.carousel.min.js"></script>
-  <script src="js/home.js"></script>
-  <script src="js/script.js"></script>
-  <script src="plugins/uikit/uikit.min.js"></script>
-  <script src="plugins/uikit/uikit-icons.min.js"></script>
+						</div>
+						<div class="product-detail clearfix">
+							<div class="pro-text">
+								<a style="color: black; font-size: 14px; text-decoration: none;"
+									href="#" title="Matcha Sữa Gấu" inspiration pack> Matcha
+									Sữa Gấu </a>
+							</div>
+							<div class="pro-price">
+								<p class="">32,000₫</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 col-xs-6 col-6">
+					<div class="product-block">
+						<div class="product-img fade-box">
+							<a href="#" title="Matcha Sữa Hạt" class="img-resize"> <img
+								class="lazyloaded"
+								src="images/drink/805338_01_eb7365e97d3f471d872159918a8526a9_grande.jpg"
+								alt="Matcha Sữa Hạt"> <img class="lazyloaded"
+								src="images/drink/drink fade 8.jpg" alt="Matcha Sữa Hạt">
+							</a>
+
+						</div>
+						<div class="product-detail clearfix">
+							<div class="pro-text">
+								<a style="color: black; font-size: 14px; text-decoration: none;"
+									href="#" title="Matcha Sữa Hạt" inspiration pack> Matcha
+									Sữa Hạt </a>
+							</div>
+							<div class="pro-price">
+								<p class="">27,000₫</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<section class="">
+			<div class="content">
+				<div class="container">
+					<div class="hot_sp">
+						<h2 style="text-align: center; padding-top: 10px">
+							<a style="font-size: 28px; color: black; text-decoration: none"
+								href="">Bài viết mới nhất</a>
+						</h2>
+						<br />
+					</div>
+				</div>
+			</div>
+			<!--New-->
+			<div>
+
+				<div class="container">
+
+					<div class="row">
+						<div class="col-md-4">
+							<div class="post_item">
+								<div class="post_featured">
+									<a href="#" title="matcha"> <img class="img-resize"
+										style="padding-bottom: 15px;" src="images/drink/new-1.jpg"
+										alt="matcha">
+									</a>
+								</div>
+								<div class="pro-text">
+									<span class="post_info_item"> Thứ Ba 24,09,2025 </span>
+								</div>
+								<div class="pro-text">
+									<h3 class="post_title">
+										<a
+											style="color: black; font-size: 18px; text-decoration: none;"
+											href="#" inspiration pack> MATCHA THÚ VỊ ĐỘC ĐÁO: Đánh
+											Thức Năng Lượng Xanh! </a>
+									</h3>
+								</div>
+								<div style="text-align: center; padding-bottom: 30px;">
+									<span>Trải nghiệm ngay sự kết hợp hương vị mới lạ từ bột
+										matcha thượng hạng. Không chỉ giải khát, đây còn là nguồn năng
+										lượng xanh, tươi mát cho mọi cuộc vui của giới trẻ. Đồ uống
+										phải thử trong tháng 9 này! 👉 THÊM VÀO GIỎ HÀNG...</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="post_item">
+								<div class="post_featured">
+									<a href="#" title="Trà sữa"> <img class="img-resize"
+										style="padding-bottom: 15px;" src="images/drink/new-2.jpg"
+										alt="Trà sữa">
+									</a>
+								</div>
+								<div class="pro-text">
+									<span class="post_info_item"> Thứ Ba 25,09,2025 </span>
+								</div>
+								<div class="pro-text">
+									<h3 class="post_title">
+										<a
+											style="color: black; font-size: 18px; text-decoration: none;"
+											href="#" inspiration pack> CÀ PHÊ ĐỘC ĐÁO: Hương Vị Mới
+											Lạ Đánh Thức Năng Lượng! </a>
+									</h3>
+								</div>
+								<div style="text-align: center; padding-bottom: 30px;">
+									<span>Vừa ra mắt với mùi hương rất thú vị và độc đáo,
+										pha trộn giữa truyền thống và hiện đại. Lý tưởng cho các bạn
+										trẻ cần nguồn năng lượng sáng tạo. Là một trong những loại đồ
+										uống đang hot hit nhất thị trường, được giới trẻ yêu thích...</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="post_item">
+								<div class="post_featured">
+									<a href="#" title="Adidas EQT Cushion ADV"> <img
+										class="img-resize" style="padding-bottom: 15px;"
+										src="images/drink/new-3.jpg"
+										alt="Nike Vapormax Plus trở lại với sắc tím mộng mơ và thiết kế chuyển màu đẹp mắt">
+									</a>
+								</div>
+								<div class="pro-text">
+									<span class="post_info_item"> Thứ Ba 25,09,2025 </span>
+								</div>
+								<div class="pro-text">
+									<h3 class="post_title">
+										<a
+											style="color: black; font-size: 18px; text-decoration: none;"
+											href="#" inspiration pack> Trà Đào Hạt Đác vừa ra mắt với
+											mùi hương rất thú vị và độc đáo </a>
+									</h3>
+								</div>
+								<div style="text-align: center; padding-bottom: 30px;">
+									<span>Là một trong những loại đồ uống đang hot hit nhất
+										thị trường tiếp cận được nhiều với giới trẻ...</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="section wrapper-home-newsletter">
+			<div class="container-fluid">
+				<div class="content-newsletter">
+					<h2>Đăng ký</h2>
+					<p>Đăng ký nhận bản tin của AUNES để cập nhật những sản phẩm
+						mới, nhận thông tin ưu đãi đặc biệt và thông tin giảm giá khác.</p>
+					<div class="form-newsletter">
+						<form action="" accept-charset="UTF-8" class="">
+							<div class="form-group">
+								<input type="hidden" id="contact_tags"> <input
+									required="" type="email" value=""
+									placeholder="Nhập email của bạn" aria-label="Email Address"
+									class="">
+								<button type="submit" class="">
+									<span>Gửi</span>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="section section-gallery">
+			<div class="">
+				<div class="hot_sp" style="padding-top: 70px; padding-bottom: 50px;">
+					<h2 style="text-align: center; padding-top: 10px">
+						<a style="font-size: 28px; color: black; text-decoration: none"
+							href="">Khách hàng và AUNES</a>
+					</h2>
+				</div>
+				<div class="list-gallery clearfix">
+					<ul class="drink-gp">
+						<li>
+							<div class="gallery_item">
+								<img class="img-resize" src="images/drink/gallery_item_1.jpg"
+									alt="">
+							</div>
+						</li>
+						<li>
+							<div class="gallery_item">
+								<img class="img-resize" src="images/drink/gallery_item_2.jpg"
+									alt="">
+							</div>
+						</li>
+						<li>
+							<div class="gallery_item">
+								<img class="img-resize" src="images/drink/gallery_item_3.jpg"
+									alt="">
+							</div>
+						</li>
+						<li>
+							<div class="gallery_item">
+								<img class="img-resize" src="images/drink/gallery_item_4.jpg"
+									alt="">
+							</div>
+						</li>
+						<li>
+							<div class="gallery_item">
+								<img class="img-resize" src="images/drink/gallery_item_5.jpg"
+									alt="">
+							</div>
+						</li>
+						<li>
+							<div class="gallery_item">
+								<img class="img-resize" src="images/drink/gallery_item_6.jpg"
+									alt="">
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+		<footer class="main-footer">
+			<div class="container">
+				<div class="">
+					<div class="row">
+						<div class="col-xs-12 col-sm-6 col-md-3">
+							<div class="footer-col footer-block">
+								<h4 class="footer-title">Giới thiệu</h4>
+								<div class="footer-content">
+									<p>AUNES trang mua bán các sản phẩm đồ uống chất lượng mà
+										bạn cần tìm.</p>
+									<!-- <div class="logo-footer">
+                    <img src="images/logo-bct.png" alt="Bộ Công Thương">
+                  </div> -->
+									<div class="social-list">
+										<a
+											href="https://www.facebook.com/profile.php?id=61567950280264"
+											class="fab fa-facebook"></a> <a href="#"
+											class="fab fa-google"></a> <a href="#"
+											class="fab fa-instagram"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-3">
+							<div class="footer-col footer-link">
+								<h4 class="footer-title">&amp; CÂU HỎI</h4>
+								<div class="footer-content toggle-footer">
+									<ul>
+										<li class="item"><a href="#" title="Tìm kiếm">Tìm
+												kiếm</a></li>
+										<li class="item"><a href="#" title="Giới thiệu">Giới
+												thiệu</a></li>
+										<li class="item"><a href="#" title="Chính sách bảo mật">Chính
+												sách bảo mật thông tin</a></li>
+										<li class="item"><a href="#" title="Điều khoản dịch vụ">Điều
+												khoản sử dụng</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-3">
+							<div class="footer-col footer-block">
+								<h4 class="footer-title">Thông tin liên hệ</h4>
+								<div class="footer-content toggle-footer">
+									<ul>
+										<li><span>Địa chỉ:</span> 42 Đường số 8, Phường Trường
+											Thọ, TP. Thủ Đức, TP. Hồ Chí Minh</li>
+										<li><span>Điện thoại:</span> 0378 941 321</li>
+										<!-- <li><span>Fax:</span> +84 (028) 38800659</li> -->
+										<li><span>Mail:</span> khanhhuy2323@gmail.com</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-3">
+							<div class="footer-col footer-block">
+								<h4 class="footer-title">FANPAGE</h4>
+								<div class="footer-content">
+									<div id="fb-root">
+										<div class="footer-static-content">
+											<div class="fb-page"
+												data-href="https://www.facebook.com/profile.php?id=61567950280264"
+												data-tabs="timeline" data-width="" data-height="215"
+												data-small-header="false" data-adapt-container-width="true"
+												data-hide-cover="false" data-show-facepile="true">
+												<blockquote
+													cite="https://www.facebook.com/profile.php?id=61567950280264"
+													class="fb-xfbml-parse-ignore">
+													<a
+														href="https://www.facebook.com/profile.php?id=61567950280264">AUNES
+														coffee&cake</a>
+												</blockquote>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="main-footer--copyright">
+				<div class="container">
+					<hr>
+					<div class="main-footer--border"
+						style="text-align: center; padding-bottom: 15px;">
+						<p>
+							Huy and Tin make this web <a href="#"> AUNES</a>. <a
+								target="_blank" href="https://www.facebook.com/khanhhuy.214">Powered
+								by GVHD</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<div class="registratior_custom">
+		<form action="">
+			<div class="content">
+				<div class="x-close">
+					<i class="fa fa-times"></i>
+				</div>
+				<h3>Nhận các ưu đãi cùng AUNES</h3>
+				<p>Chúng tôi sẽ cập nhật các chương trình khuyến mãi mới đến bạn</p>
+				<ul>
+					<li><span>Giảm giá sản phẩm</span></li>
+					<li><span>Sản phẩm mới</span></li>
+					<li><span>Sản phẩm bán chạy</span></li>
+				</ul>
+				<input type="text" placeholder="Đăng kí nhận thông tin">
+				<button class="button_register">
+					<p>ĐĂNG KÍ</p>
+				</button>
+			</div>
+		</form>
+	</div>
+	<script async defer crossorigin="anonymous" th:src="@{plugins/sdk.js}"></script>
+	<script th:src="@{plugins/jquery-3.4.1/jquery-3.4.1.min.js}"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+	<script th:src="@{plugins/bootstrap/popper.min.js}"></script>
+	<script th:src="@{plugins/bootstrap/bootstrap.min.js}"></script>
+	<script th:src="@{plugins/owl.carousel/owl.carousel.min.js}"></script>
+	<script th:src="@{js/home.js}"></script>
+	<script th:src="@{js/script.js}"></script>
+	<script th:src="@{plugins/uikit/uikit.min.js}"></script>
+	<script th:src="@{plugins/uikit/uikit-icons.min.js}"></script>
+	<script th:src="@{js/bootstrap.min.js}"></script>
 </body>
 
 </html>

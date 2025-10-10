@@ -51,10 +51,22 @@ public class FileServiceImpl implements FileService {
 		}
 
 		String keyName = "images/" + file.getName();
-		PutObjectRequest request = new PutObjectRequest(bucketName, keyName, file);
+		PutObjectRequest request = new PutObjectRequest(bucketName, keyName, file); // Tạo request để gửi file lên
 
+		return uploadFileToCloud(request, file, keyName);
+	}
+
+	public String uploadImageFileToCloudFly(String path) {
+		// TODO Auto-generated method stub
+		File file = new File(path);
+		String keyName = "images/" + file.getName();
+		PutObjectRequest request = new PutObjectRequest(bucketName, keyName, file); // Tạo request để gửi file lên
+		return uploadFileToCloud(request, file, keyName);
+	}
+
+	private String uploadFileToCloud(PutObjectRequest request, File file, String keyName) {
 		try {
-			amazonS3.putObject(request);
+			amazonS3.putObject(request); // Tiến hành gửi file
 		} catch (NullPointerException e) {
 			// TODO: handle exception
 			file.delete();
