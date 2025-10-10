@@ -148,7 +148,6 @@ public class Product {
 
 	public void addIngredient(Ingredient ingredient) {
 		this.ingredients.add(ingredient);
-		ingredient.getProducts().add(this);
 	}
 
 	public void addCoupon(Coupon coupon) {
@@ -156,17 +155,24 @@ public class Product {
 		coupon.setProduct(this);
 	}
 
+	public boolean alreadyContainIngredient(String input) {
+		for (Ingredient ingredient : ingredients) {
+			if (ingredient.getName().equals(input))
+				return true;
+		}
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		List<Ingredient> ingredients = this.ingredients;
 		List<Integer> prices = this.getPrices();
-		List<String> sizes = this.getSizes();
-		String ingredientString = ingredients.stream().map(o -> o.getName()).collect(Collectors.joining("|"));
+		String ingredientString = ingredients.stream().map(o -> o.toString()).collect(Collectors.joining("|"));
 		String pricesString = prices.stream().map(o -> String.valueOf(o)).collect(Collectors.joining("|"));
 		String sizeString = sizes.stream().map(o -> o).collect(Collectors.joining("|"));
 		return "Product [name=" + getName() + ", price=" + pricesString + ", size=" + sizeString + ", category="
-				+ category + ", ingredients=" + ingredientString + ", event=" + event + ", coupon=" + coupon
-				+ ", productDetail=" + productDetail + "]";
+				+ category + ", ingredients=" + ingredientString + ", coupon=" + coupon + ", productDetail="
+				+ productDetail + "]";
 	}
 
 }

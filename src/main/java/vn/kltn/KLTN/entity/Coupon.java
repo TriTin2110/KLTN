@@ -20,11 +20,10 @@ public class Coupon {
 	public Coupon() {
 	}
 
-	public Coupon(String id, short discountRate, Date endAt, Product product) {
+	public Coupon(String id, short discountRate, Date endAt) {
 		this.id = id;
 		this.discountRate = discountRate;
 		this.endAt = endAt;
-		this.product = product;
 	}
 
 	public String getId() {

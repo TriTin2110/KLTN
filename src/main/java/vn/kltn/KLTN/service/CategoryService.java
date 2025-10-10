@@ -17,4 +17,7 @@ public interface CategoryService {
 	public Category findById(String categoryId);
 
 	public List<Category> findAll();
+
+	public Category addProductToList(String categoryId, Product product);
+
 }

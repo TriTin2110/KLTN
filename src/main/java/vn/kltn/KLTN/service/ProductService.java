@@ -2,6 +2,8 @@ package vn.kltn.KLTN.service;
 
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Workbook;
+
 import vn.kltn.KLTN.entity.Comment;
 import vn.kltn.KLTN.entity.Coupon;
 import vn.kltn.KLTN.entity.Event;
@@ -24,6 +26,8 @@ public interface ProductService {
 
 	public boolean updateCoupon(Product product, Coupon coupon);
 
-	public void insertAddtionInformation(Product product, String size, String price, String ingredientId,
-			String categoryId, String discount);
+	public void insertAddtionInformation(Product product, String categoryId, String discount, String endAt);
+
+	public void addMultipleProductFromFile(Workbook workbook, IngredientService ingredientService,
+			SupplierService supplierService);
 }

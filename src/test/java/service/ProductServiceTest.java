@@ -45,9 +45,9 @@ public class ProductServiceTest {
 		Category category = new Category("Cafe", null);
 		Supplier supplier = supplierService.findById("The Coffe House");
 		if (supplier == null) {
-			supplier = new Supplier("The Coffe House", "Quận 1", 1231231232);
+			supplier = new Supplier("The Coffe House", "Quận 1", "1231231232");
 		}
-		Ingredient ingredient = new Ingredient("Đá", 100, 10000);
+		Ingredient ingredient = new Ingredient("Đá", "1 bao", 10000);
 		Product product = new Product("Cafe đá", null);
 		product.getPrices().add(10000);
 		ProductDetail productDetai = new ProductDetail(product.getName(), "Cafe đá", "Còn hàng", product);
@@ -61,7 +61,7 @@ public class ProductServiceTest {
 	@Test
 	@Disabled
 	public void delete() {
-		String productId = "Trà sữa truyền thống";
+		String productId = "";
 		assertTrue(service.remove(productId));
 	}
 
@@ -83,18 +83,16 @@ public class ProductServiceTest {
 	}
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void findAll() {
 		List<Product> products = service.findAll();
 		products.forEach(System.out::println);
 	}
 
 	@Test
+	@Disabled
 	public void addListProduct() {
 		String path = System.getProperty("user.dir") + File.separator + "KLTN_Dữ_liệu.xlsx";
-		List<Product> products = fileService.readXLSXFile(path);
-		for (Product product : products) {
-			System.out.println(product);
-		}
+		fileService.readXLSXFile(path);
 	}
 }

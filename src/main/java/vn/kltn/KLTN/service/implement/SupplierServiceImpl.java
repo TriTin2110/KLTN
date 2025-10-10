@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import vn.kltn.KLTN.entity.Ingredient;
 import vn.kltn.KLTN.entity.Supplier;
 import vn.kltn.KLTN.repository.SupplierRepository;
 import vn.kltn.KLTN.service.SupplierService;
@@ -18,18 +19,17 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Override
 	@Transactional
-	public boolean add(Supplier supplier) {
+	public Supplier add(Supplier supplier) {
 		// TODO Auto-generated method stub
 		try {
 			if (findById(supplier.getName()) == null) {
-				repository.save(supplier);
-				return true;
+				return repository.save(supplier);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
 	@Override
@@ -42,6 +42,20 @@ public class SupplierServiceImpl implements SupplierService {
 				repository.delete(supplier);
 				return true;
 			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	@Transactional
+	public boolean removeAll() {
+		// TODO Auto-generated method stub
+		try {
+			repository.deleteAll();
+			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -74,6 +88,13 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<Supplier> findAll() {
 		// TODO Auto-generated method stub
 		return repository.findAll();
+	}
+
+	@Override
+	public Supplier addIngredientsToList(Supplier supplier, Ingredient ingredient) {
+		// TODO Auto-generated method stub
+		supplier.addIngredient(ingredient);
+		return supplier;
 	}
 
 }

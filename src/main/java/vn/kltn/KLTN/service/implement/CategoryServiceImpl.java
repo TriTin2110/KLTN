@@ -87,4 +87,13 @@ public class CategoryServiceImpl implements CategoryService {
 				.filter(o -> o.getCategory().getName().equals(categoryId)).collect(Collectors.toList());
 	}
 
+	@Transactional
+	public Category addProductToList(String categoryId, Product product) {
+		Category category = findById(categoryId);
+		if (category == null)
+			return null;
+		category.getProducts().add(product);
+		product.setCategory(category);
+		return category;
+	}
 }

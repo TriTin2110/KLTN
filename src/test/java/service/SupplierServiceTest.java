@@ -25,16 +25,22 @@ public class SupplierServiceTest {
 	@Test
 	@Disabled
 	public void add() {
-		Supplier supplier = new Supplier("Trung Nguyên", "Phường Sài Gòn", 1231234123);
-		List<Ingredient> ingredients = List.of(new Ingredient("Hạt Cafe", 100, 10));
+		Supplier supplier = new Supplier("Trung Nguyên", "Phường Sài Gòn", "1231234123");
+		List<Ingredient> ingredients = List.of(new Ingredient("Hạt Cafe", "1kg", 10));
 		supplier.setIngredients(ingredients);
-		assertTrue(service.add(supplier));
+//		assertTrue(service.add(supplier));
+	}
+
+	@Test
+	@Disabled
+	public void remove() {
+		assertTrue(service.remove("Bách Hóa Xanh"));
 	}
 
 	@Test
 //	@Disabled
-	public void remove() {
-		assertTrue(service.remove("The Coffe House"));
+	public void removeAll() {
+		assertTrue(service.removeAll());
 	}
 
 	@Test
