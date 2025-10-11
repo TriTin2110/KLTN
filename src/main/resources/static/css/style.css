@@ -15,21 +15,7 @@
   font-family: "Quicksand", sans-serif;
   font-weight: 700;
 }
-.admin-sidebar { background-color: #343a40; height: 100vh; position: fixed; width: 250px; }
-.admin-sidebar .nav-link { color: #adb5bd; }
-.admin-sidebar .nav-link:hover, .admin-sidebar .nav-link.active { color: #fff; background-color: #495057; }
-.admin-main { margin-left: 250px; padding: 20px; }
-.admin-product-card { border: 1px solid #dee2e6; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
-.admin-product-image { width: 80px; height: 80px; background-color: #e9ecef; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
-.admin-header { background-color: #fff; padding: 15px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-radius: 8px; }
-.admin-logo { font-size: 24px; font-weight: bold; color: #4CAF50; }
-.admin-logo img { height: 40px; width: auto; }
-.right-section { display: flex; align-items: center; gap: 20px; }
-.admin-search-section { display: flex; align-items: center; gap: 10px; }
-.admin-search-section input { padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; width: 250px; }
-.admin-search-section button { padding: 8px 12px; background: #4CAF50; color: white; border: none; border-radius: 4px; }
-.admin-profile { display: flex; align-items: center; gap: 10px; }
-.admin-profile img { width: 40px; height: 40px; border-radius: 50%; }
+
 .container-product {
 display: flex;
 max-width: 1200px;
