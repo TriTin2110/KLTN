@@ -5,33 +5,25 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div th:fragment="product(product)">
-	<div class="item">
-						<div class="">
-							<div class="product-block">
-								<div class="product-img fade-box">
-									<a href="#" title="${product.name}" class="img-resize">
-										<img th:src="${product.image + '/1.jpg'}" th:alt="${product.name}"
-										class="lazyloaded"> <img
-										src="images/drink/drink fade 4.jpg" th:alt="${product.name}"
-										class="lazyloaded">
-									</a>
+	<div th:fragment="product(product)" class="product-block">
+		<div class="product-img fade-box">
+			<a th:href="@{/san-pham/{id} (id = ${product.name})}" th:title="${product.name}" class="img-resize"> <img
+				th:src="${'https://s3.cloudfly.vn/kltn/images/' + product.image}" th:alt="${product.name}"
+				class="lazyloaded"> <img src="images/drink/drink fade 1.jpg"
+				th:alt="${product.name}" class="lazyloaded">
+			</a>
 
-								</div>
-								<div class="product-detail clearfix">
-									<div class="pro-text">
-										<a
-											style="color: black; font-size: 14px; text-decoration: none;"
-											href="#" title="Trà Sữa Hokkaido" inspiration pack th:text="${product.name}"> Tên sản phẩm
-											</a>
-									</div>
-									<div class="pro-price">
-										<p class="" th:text="${product.prices.get(0)}">Giá sản phẩm</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-</div>
+		</div>
+		<div class="product-detail clearfix">
+			<div class="pro-text">
+				<a style="color: black; font-size: 14px; text-decoration: none;"
+					href="#" title="Cà phê" inspiration pack th:text="${product.name}">
+					Cà Phê Sữa Tươi </a>
+			</div>
+			<div>
+				<p class="pro-price" th:text="${product.prices.get(0)}"></p>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

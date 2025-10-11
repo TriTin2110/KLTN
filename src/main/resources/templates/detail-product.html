@@ -1,0 +1,431 @@
+<html xmlns:th="www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0,
+      user-scalable=0"
+	name="viewport">
+<meta name="revisit-after" content="1 day">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="HandheldFriendly" content="true">
+<title th:text="${product.name + ' | ' + 'Aunes'}"></title>
+<link rel="stylesheet" th:href="@{/plugins/bootstrap/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/plugins/animate/animate.min.css}">
+<link rel="stylesheet" th:href="@{/plugins/fontawesome/all.css}">
+
+<link th:href="@{/plugins/webfonts/font.css}" rel="stylesheet">
+<link rel="stylesheet"
+	th:href="@{/plugins/owl.carousel/owl.carousel.min.css}" type="text/css">
+<link rel="stylesheet"
+	th:href="@{/plugins/owl.carousel/owl.theme.default.min.css}">
+<!-- UIkit CSS -->
+<link rel="stylesheet" th:href="@{/plugins/uikit/uikit.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+	<span th:replace="~{/fragment/header.html :: header}"></span>
+
+	<!--  detail product -->
+	<main class="">
+
+		<div id="product" class="productDetail-page">
+
+			<!--  menu header seo -->
+			<div class="breadcrumb-shop">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pd5">
+							<ol class="breadcrumb breadcrumb-arrows">
+								<li><a href="home.html"> <span>Trang chủ</span>
+								</a></li>
+								<li><a href=""> <span>Sản phẩm</span>
+								</a></li>
+								<li class="active"><span> <span itemprop="name" th:text="${product.name}"></span>
+								</span>
+									<meta itemprop="position" content="3"></li>
+
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- detail product chính -->
+			<div class="container">
+				<div class="row product-detail-wrapper">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="row product-detail-main pr_style_01">
+							<div class="col-md-7 col-sm-12 col-xs-12">
+								<div class="product-gallery">
+									<div
+										class="product-gallery__thumbs-container hidden-sm
+                    hidden-xs">
+									</div>
+									<div
+										class="product-image-detail box__product-gallery
+                    scroll hidden-xs">
+										<ul id="sliderproduct"
+											class="site-box-content
+                      slide_product">
+
+											<li
+												class="product-gallery-item gallery-item
+                        current "
+												id="imgg1a"><img class="product-image-feature "
+												th:src="${'https://s3.cloudfly.vn/kltn/images/' + product.image}"
+												alt="Nike Air Max 90 Essential" grape=""></li>
+										</ul>
+										<div class="product-image__button">
+											<div id="product-zoom-in"
+												class="product-zoom
+                        icon-pr-fix"
+												aria-label="Zoom in" title="Zoom in">
+												<span class="zoom-in" aria-hidden="true"> <svg
+														version="1.1" xmlns="http://www.w3.org/2000/svg"
+														xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+														viewBox="0 0 36 36"
+														style="enable-background: new 0 0 36 36; width: 30px; height: 30px;"
+														xml:space="preserve">
+                            <polyline
+															points="6,14 9,11 14,16 16,14 11,9
+                              14,6 6,6">
+                            </polyline>
+                            <polyline
+															points="22,6 25,9 20,14 22,16 27,11
+                              30,14 30,6">
+                            </polyline>
+                            <polyline
+															points="30,22 27,25 22,20 20,22
+                              25,27 22,30 30,30">
+                            </polyline>
+                            <polyline
+															points="14,30 11,27 16,22 14,20 9,25
+                              6,22 6,30">
+                            </polyline>
+                          </svg>
+												</span>
+											</div>
+											<div class="gallery-index icon-pr-fix">
+												<span class="current">1</span> / <span class="total">8</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="product-gallery-slide">
+									<div class="owl-carousel owl-theme owl-product-gallery-slide">
+
+									</div>
+								</div>
+
+							</div>
+							<div
+								class="col-md-5 col-sm-12 col-xs-12
+                product-content-desc"
+								id="detail-product">
+								<div class="product-content-desc-1">
+									<div class="product-title">
+										<h1 th:text="${product.name}"></h1>
+										<span id="pro_sku">SKU: S-0015-1</span>
+									</div>
+									<div class="product-price" id="price-preview">
+										<span class="pro-price" id="price" th:text="${product.prices.get(0)}"></span>
+									</div>
+									<form id="add-item-form" action="/cart/add" method="post"
+										class="variants clearfix">
+										<div class="select clearfix">
+											<div class="selector-wrapper">
+												<label for="product-select-option-0">Màu sắc</label><span
+													class="custom-dropdown custom-dropdown--white"><select
+													class="single-option-selector
+                            custom-dropdown__select
+                            custom-dropdown__select--white"
+													data-option="option1" id="product-select-option-0">
+														<option value="Tím">Tím</option>
+														<option value="Xanh">Xanh</option>
+												</select></span>
+											</div>
+											<div class="selector-wrapper">
+												<label for="product-select-option-1">Kích thước</label><span
+													class="custom-dropdown custom-dropdown--white"><select
+													class="single-option-selector
+                            custom-dropdown__select
+                            custom-dropdown__select--white"
+													data-option="option2" id="product-select-option-1">
+														<option value="36">36</option>
+														<option value="37">37</option>
+														<option value="38">38</option>
+														<option value="35">35</option>
+												</select></span>
+											</div>
+											<select id="product-select" name="id" style="display: none;">
+
+												<option value="1040377813">Tím / 36 - 4,800,000₫</option>
+												<option value="1040377814">Tím / 37 - 4,800,000₫</option>
+												<option value="1040377815">Tím / 38 - 4,800,000₫</option>
+												<option value="1040409049">Xanh / 35 - 4,800,000₫</option>
+												<option value="1040409050">Xanh / 36 - 4,800,000₫</option>
+												<option value="1040409053">Xanh / 37 - 4,800,000₫</option>
+												<option value="1040409054">Xanh / 38 - 4,800,000₫</option>
+											</select>
+										</div>
+										<div class="select-swatch clearfix">
+											<div id="variant-swatch-0" class="swatch clearfix"
+												data-option="option1" data-option-index="0">
+
+
+												<div class="header"
+													style="background: white; color: #272727;">
+													<b>Size</b>
+												</div>
+												<div>
+													<select id="size-selection" class="form-select"
+														aria-label="Default select example" onchange="setPrice()">
+														<option th:each="size, sta: ${product.sizes}" th:value="${product.prices.get(sta.index)}" th:text="${size}"></option>
+													</select>
+												</div>
+											</div>
+											<div id="variant-swatch-1" class="swatch clearfix"
+												data-option="option2" data-option-index="1">
+
+
+												<div class="select-swap"></div>
+											</div>
+										</div>
+										<div class="selector-actions">
+											<div class="quantity-area clearfix">
+												<input type="button" value="-" onclick="minusQuantity()"
+													class="qty-btn"> <input type="text" id="quantity"
+													name="quantity" value="1" min="1" class="quantity-selector">
+												<input type="button" value="+" onclick="plusQuantity()"
+													class="qty-btn">
+											</div>
+											<div class="wrap-addcart clearfix">
+												<div class="row-flex">
+													<button type="button"
+														class="button btn-addtocart addtocart-modal">Thêm
+														vào</button>
+													<!-- <button type="button" class="buy-now button" style="display: block;">Mua
+                          ngay</button> -->
+
+												</div>
+
+												<a href="" target="_blank" class="button btn-check"
+													style="color: #ffffff; text-decoration: none;"><span>Click
+														nhận mã giảm giá ngay !</span></a>
+
+											</div>
+										</div>
+										<!--<div class="product-action-bottom visible-xs">
+                      <div class="input-bottom">
+                        <input id="quan-input" type="number" value="1" min="1">
+                      </div>
+                      <button type="button" id="add-to-cartbottom"
+                        class="add-to-cartProduct add-cart-bottom button addtocart-modal" name="add">Thêm vào
+                        giỏ</button>
+                    </div>-->
+									</form>
+
+									<div class="product-description">
+										<div class="title-bl">
+											<h2>Mô tả</h2>
+										</div>
+										<div class="description-content">
+											<div class="description-productdetail">
+												<p>
+													<span> <strong>Sữa Tươi Trân Châu Đường Đen
+															- Chuẩn vị gây nghiện!</strong> <br> Hiện đại và "trendy" như
+														món đồ uống quốc dân, <strong>Sữa Tươi Trân Châu
+															Đường Đen</strong> là lựa chọn tuyệt vời cho ngày dài năng động.
+														Hương vị ngọt ngào đặc trưng, chất sữa tươi mát lạnh, phù
+														hợp với những người yêu thích sự kết hợp <strong>độc
+															đáo và đậm đà</strong>.
+													</span> <br>
+													<br>
+												</p>
+
+												<ul>
+													<li><strong>Vị ngon khó cưỡng:</strong> Sự hòa quyện
+														hoàn hảo giữa sữa tươi thanh mát và đường đen nấu sánh đậm
+														đà.</li>
+													<li><strong>Trân châu dẻo dai:</strong> Hạt trân châu
+														được nấu kĩ, dẻo mềm, ngấm trọn vị đường đen ngọt ngào.</li>
+													<li><strong>Nguồn năng lượng tích cực:</strong> Giúp
+														bạn nạp lại năng lượng nhanh chóng, xua tan cơn khát.</li>
+													<li><strong>Sữa tươi cao cấp:</strong> Thanh
+														trùng/tiệt trùng, giữ trọn vị béo tự nhiên và độ tươi mát.</li>
+													<li><strong>Đường đen đặc biệt:</strong> Được nấu thủ
+														công tạo ra lớp sốt sánh đặc, mang hương thơm nồng ấm.</li>
+													<li><strong>Hình thức bắt mắt:</strong> Lớp sốt đường
+														đen chảy dọc thành ly tạo hiệu ứng "vệt hổ" cực kỳ hấp
+														dẫn.</li>
+													<li><strong>Trải nghiệm sành điệu:</strong> Món đồ
+														uống không thể thiếu của giới trẻ.</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="list-productRelated clearfix">
+							<div class="heading-title text-center">
+								<h2>Sản phẩm liên quan</h2>
+							</div>
+							<div class="container">
+								<div class="row">
+										<div class="col-md-3  col-xs-6 col-6" th:each="sameProduct : ${sameProducts}">
+											<div class="product-block">
+												<div class="product-img fade-box">
+													<a th:href="@{/san-pham/{id} (id=${sameProduct.name})}"
+														th:title="${sameProduct.name}" class="img-resize"> <img
+														th:src="${'https://s3.cloudfly.vn/kltn/images/' + sameProduct.image}"
+														th:alt="${sameProduct.name}" class="lazyloaded"> <img
+														src="images/drink/drink fade 1.jpg" th:alt="${sameProduct.name}"
+														class="lazyloaded">
+													</a>
+
+												</div>
+												<div class="product-detail clearfix">
+													<div class="pro-text">
+														<a
+															style="color: black; font-size: 14px; text-decoration: none;"
+															href="#" title="Cà phê đen đá" inspiration pack th:text="${sameProduct.name}">
+															Cà phê đen đá </a>
+													</div>
+													<div class="pro-price">
+														<p class="" th:text="${sameProduct.prices.get(0)}">15000</p>
+													</div>
+												</div>
+											</div>
+										</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- show zoom detail product -->
+		<!-- zoom -->
+		<div class="product-zoom11">
+			<div class="product-zom">
+				<div class="divclose">
+					<i class="fa fa-times-circle"></i>
+				</div>
+				<div class="owl-carousel owl-theme owl-product1">
+
+					<div class="item">
+						<img src="images/detailproduct/1.jpg" alt="">
+					</div>
+					<div class="item">
+						<img src="images/detailproduct/2.jpg" alt="">
+					</div>
+					<div class="item">
+						<img src="images/detailproduct/3.jpg" alt="">
+					</div>
+					<div class="item">
+						<img src="images/detailproduct/4.jpg" alt="">
+					</div>
+					<div class="item">
+						<img src="images/detailproduct/5.jpg" alt="">
+					</div>
+					<div class="item">
+						<img src="images/detailproduct/6.jpg" alt="">
+					</div>
+					<div class="item">
+						<img src="images/detailproduct/7.jpg" alt="">
+					</div>
+					<div class="item">
+						<img src="images/detailproduct/8.jpg" alt="">
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+
+	</main>
+	<!--gallery-->
+	<section class="section section-gallery">
+		<div class="">
+			<div class="hot_sp" style="padding-top: 70px; padding-bottom: 50px;">
+				<h2 style="text-align: center; padding-top: 10px">
+					<a style="font-size: 28px; color: black; text-decoration: none"
+						href="">Khách hàng và AUNES</a>
+				</h2>
+			</div>
+			<div class="list-gallery clearfix">
+				<ul class="drink-gp">
+					<li>
+						<div class="gallery_item">
+							<img class="img-resize" src="images/drink/gallery_item_1.jpg"
+								alt="">
+						</div>
+					</li>
+					<li>
+						<div class="gallery_item">
+							<img class="img-resize" src="images/drink/gallery_item_2.jpg"
+								alt="">
+						</div>
+					</li>
+					<li>
+						<div class="gallery_item">
+							<img class="img-resize" src="images/drink/gallery_item_3.jpg"
+								alt="">
+						</div>
+					</li>
+					<li>
+						<div class="gallery_item">
+							<img class="img-resize" src="images/drink/gallery_item_4.jpg"
+								alt="">
+						</div>
+					</li>
+					<li>
+						<div class="gallery_item">
+							<img class="img-resize" src="images/drink/gallery_item_5.jpg"
+								alt="">
+						</div>
+					</li>
+					<li>
+						<div class="gallery_item">
+							<img class="img-resize" src="images/drink/gallery_item_6.jpg"
+								alt="">
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+
+	<!-- footer -->
+	<span th:replace="~{/fragment/footer.html :: footer}"></span>
+	
+	
+	<script async defer crossorigin="anonymous" th:src="@{/plugins/sdk.js}"></script>
+	<script th:src="@{/plugins/jquery-3.4.1/jquery-3.4.1.min.js}"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+	<script th:src="@{/plugins/bootstrap/popper.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap/bootstrap.min.js}"></script>
+	<script th:src="@{/plugins/owl.carousel/owl.carousel.min.js}"></script>
+	<script th:src="@{/plugins/uikit/uikit.min.js}"></script>
+	<script th:src="@{/plugins/uikit/uikit-icons.min.js}"></script>
+	<script th:src="@{/js/script.js}"></script>
+	<script th:src="@{/js/home.js}"></script>
+	<script th:src="@{/js/currency.js}"></script>
+	<script th:src="@{/js/detail-product.js}"></script>
+	<script type="text/javascript">
+		formatToVND()
+	</script>
+	<!-- <script th:src="@{/js/divzoom.js}"></script> -->
+</body>
+
+</html>

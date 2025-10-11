@@ -29,10 +29,8 @@ public class UserSecurity {
 	@Bean
 	public SecurityFilterChain creatChain(HttpSecurity http) {
 		try {
-			http.authorizeHttpRequests(auth -> auth
-					.requestMatchers("/file/**", "/user/sign-in", "/user/sign-up", "/user/verify-code",
-							"/user/reset-password", "/", "/css/**", "/fonts/**", "/images/**", "/js/**", "/plugins/**")
-					.permitAll().anyRequest().authenticated())
+			http.authorizeHttpRequests(auth -> auth.requestMatchers("/user/profile", "/user/profile-update")
+					.authenticated().anyRequest().permitAll())
 					.formLogin(form -> form.loginPage("/user/sign-in").loginProcessingUrl("/authenticateTheUser")
 							.defaultSuccessUrl("/user/sign-in-success", true).failureUrl("/user/sign-in?error=true")
 							.permitAll())

@@ -31,6 +31,12 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+		<!-- SpringBoot cache -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		
 		<!-- Đọc file excel -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
