@@ -9,5 +9,7 @@ public interface FileService {
 
 	public void readXLSXFile(String path);
 
+	public void readXLSXFile(MultipartFile file);
+
 	public void delete(String image);
 }

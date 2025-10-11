@@ -1,144 +1,173 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel | Quản lý sản phẩm</title>
-    <link rel="stylesheet" th:href="@{/css/admin.css}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | Quản lý sản phẩm</title>
+<link rel="stylesheet" th:href="@{/css/admin.css}">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	rel="stylesheet">
 </head>
 <body>
 
-<!-- ===== SIDEBAR ===== -->
-<div class="sidebar">
-    <div class="sidebar-header">
-        <img src="/images/logo.png" alt="Logo">
-        <h2>Admin Panel</h2>
-    </div>
-    <ul class="sidebar-menu">
-        <li><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-        <li><a href="#"><i class="fas fa-box"></i> Sản phẩm</a></li>
-        <li><a href="#"><i class="fas fa-users"></i> Người dùng</a></li>
-        <li><a href="#"><i class="fas fa-chart-line"></i> Báo cáo</a></li>
-        <li><a href="#"><i class="fas fa-cogs"></i> Cài đặt</a></li>
-    </ul>
-</div>
+	<!-- ===== SIDEBAR ===== -->
+	<div class="sidebar">
+		<div class="sidebar-header">
+			<img src="/images/logo.png" alt="Logo">
+			<h2>Admin Panel</h2>
+		</div>
+		<ul class="sidebar-menu">
+			<li><a href="#"><i class="fas fa-tachometer-alt"></i>
+					Dashboard</a></li>
+			<li><a href="#"><i class="fas fa-box"></i> Sản phẩm</a></li>
+			<li><a href="#"><i class="fas fa-users"></i> Người dùng</a></li>
+			<li><a href="#"><i class="fas fa-chart-line"></i> Báo cáo</a></li>
+			<li><a href="#"><i class="fas fa-cogs"></i> Cài đặt</a></li>
+		</ul>
+	</div>
 
-<!-- ===== MAIN CONTENT ===== -->
-<div class="main-content">
+	<!-- ===== MAIN CONTENT ===== -->
+	<div class="main-content">
 
-    <!-- TOPBAR -->
-    <div class="topbar">
-        <h1>Quản lý sản phẩm</h1>
-        <div class="topbar-right">
-            <span>Admin</span>
-            <i class="fas fa-user-circle"></i>
-        </div>
-    </div>
+		<!-- TOPBAR -->
+		<div class="topbar">
+			<h1>Quản lý sản phẩm</h1>
+			<div class="topbar-right">
+				<span>Admin</span> <i class="fas fa-user-circle"></i>
+			</div>
+		</div>
 
-    <!-- DASHBOARD CARDS -->
-    <div class="cards">
-        <div class="card">
-            <h3>Tổng sản phẩm</h3>
-            <p th:text="${products.size()}">0</p>
-        </div>
-        <div class="card">
-            <h3>Người dùng</h3>
-            <p>50</p>
-        </div>
-        <div class="card">
-            <h3>Đơn hàng</h3>
-            <p>120</p>
-        </div>
-    </div>
+		<!-- DASHBOARD CARDS -->
+		<div class="cards">
+			<div class="card">
+				<h3>Tổng sản phẩm</h3>
+				<p th:text="${products.size()}">0</p>
+			</div>
+			<div class="card">
+				<h3>Người dùng</h3>
+				<p>50</p>
+			</div>
+			<div class="card">
+				<h3>Đơn hàng</h3>
+				<p>120</p>
+			</div>
+		</div>
 
-    <!-- MESSAGES -->
-    <div th:if="${success}" class="message success" th:text="${success}"></div>
-    <div th:if="${error}" class="message error" th:text="${error}"></div>
+		<!-- MESSAGES -->
+		<div th:if="${success}" class="message success" th:text="${success}"></div>
+		<div th:if="${error}" class="message error" th:text="${error}"></div>
 
-    <!-- NÚT BẬT/TẮT FORM THÊM/SỬA -->
-    <button id="toggleFormBtn" class="toggle-btn">
-        <span th:text="${editProduct != null} ? 'Sửa sản phẩm' : 'Thêm sản phẩm'"></span>
-        <i class="fas fa-chevron-down"></i>
-    </button>
+		<div style="display: flex; justify-content: space-between;">
 
-    <!-- FORM THÊM / SỬA SẢN PHẨM COLLAPSIBLE -->
-    <div class="form-section collapsible" th:classappend="${editProduct != null} ? ' active' : ''">
-        <h2 th:text="${editProduct != null} ? 'Sửa sản phẩm: ' + ${editProduct.name} : 'Thêm sản phẩm mới'"></h2>
+			<!-- NÚT BẬT/TẮT FORM THÊM/SỬA -->
+			<button id="toggleFormBtn" class="toggle-btn">
+				<span
+					th:text="${editProduct != null} ? 'Sửa sản phẩm' : 'Thêm sản phẩm'"></span>
+				<i class="fas fa-chevron-down"></i>
+			</button>
+			<form action="/product/admin/import-xlsx" method="post" enctype="multipart/form-data">
+			<!-- NÚT NHẬP DỮ LIỆU TỪ FILE EXCEL -->
+			<button class="toggle-btn" style="background-color: green;" type="button" id="file-import-button" >
+				<span>Nhập sản phẩm</span>
+				<i class="fas fa-file-excel"></i>
+			</button>
+			<input type="file" name="file" id="file-import-input" accept=".xlsx" style="display: none">
+			</form>
+		</div>
+		<!-- FORM THÊM / SỬA SẢN PHẨM COLLAPSIBLE -->
+		<div class="form-section collapsible"
+			th:classappend="${editProduct != null} ? ' active' : ''">
+			<h2
+				th:text="${editProduct != null} ? 'Sửa sản phẩm: ' + ${editProduct.name} : 'Thêm sản phẩm mới'"></h2>
 
-        <!-- Nút Return để quay lại Thêm sản phẩm -->
-        <button type="button" class="return-btn" th:if="${editProduct != null}" onclick="returnToAdd()">
-            ← Quay lại Thêm sản phẩm
-        </button>
+			<!-- Nút Return để quay lại Thêm sản phẩm -->
+			<button type="button" class="return-btn"
+				th:if="${editProduct != null}" onclick="returnToAdd()">←
+				Quay lại Thêm sản phẩm</button>
 
-        <form id="productForm"
-              th:action="${editProduct != null} ? @{/product/admin/update} : @{/product/admin/insert}" 
-              method="post" enctype="multipart/form-data">
+			<form id="productForm"
+				th:action="${editProduct != null} ? @{/product/admin/update} : @{/product/admin/insert}"
+				method="post" enctype="multipart/form-data">
 
-            <input type="hidden" name="name" th:if="${editProduct != null}" th:value="${editProduct.name}">
+				<input type="hidden" name="name" th:if="${editProduct != null}"
+					th:value="${editProduct.name}"> <label>Name:</label> <input
+					type="text" name="name" required
+					th:value="${editProduct != null} ? ${editProduct.name} : ''">
 
-            <label>Name:</label>
-            <input type="text" name="name" required
-                   th:value="${editProduct != null} ? ${editProduct.name} : ''">
+				<label>Prices (ngăn cách ,):</label> <input type="text"
+					name="prices" required
+					th:value="${editProduct != null} ? ${#strings.arrayJoin(editProduct.prices, ',')} : ''">
 
-            <label>Prices (ngăn cách ,):</label>
-            <input type="text" name="prices" required
-                   th:value="${editProduct != null} ? ${#strings.arrayJoin(editProduct.prices, ',')} : ''">
+				<label>Sizes (ngăn cách ,):</label> <input type="text" name="sizes"
+					required
+					th:value="${editProduct != null} ? ${#strings.arrayJoin(editProduct.sizes, ',')} : ''">
 
-            <label>Sizes (ngăn cách ,):</label>
-            <input type="text" name="sizes" required
-                   th:value="${editProduct != null} ? ${#strings.arrayJoin(editProduct.sizes, ',')} : ''">
+				<label
+					th:text="${editProduct != null} ? 'Upload ảnh mới:' : 'Upload ảnh:'"></label>
+				<input type="file" name="imageFile">
 
-            <label th:text="${editProduct != null} ? 'Upload ảnh mới:' : 'Upload ảnh:'"></label>
-            <input type="file" name="imageFile">
+				<div th:if="${editProduct != null}" style="margin: 10px 0;">
+					<label>Ảnh hiện tại:</label><br> <img
+						th:src="${editProduct.image}" alt="Ảnh sản phẩm"
+						style="max-width: 80px; border-radius: 8px;">
+				</div>
 
-            <div th:if="${editProduct != null}" style="margin:10px 0;">
-                <label>Ảnh hiện tại:</label><br>
-                <img th:src="${editProduct.image}" alt="Ảnh sản phẩm" style="max-width:80px; border-radius:8px;">
-            </div>
+				<button type="submit"
+					th:text="${editProduct != null} ? 'Cập nhật sản phẩm' : 'Thêm sản phẩm'"></button>
+			</form>
+		</div>
 
-            <button type="submit" th:text="${editProduct != null} ? 'Cập nhật sản phẩm' : 'Thêm sản phẩm'"></button>
-        </form>
-    </div>
+		<!-- BẢNG SẢN PHẨM -->
+		<div class="form-section">
+			<h2>Danh sách sản phẩm</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Image</th>
+						<th>Prices</th>
+						<th>Sizes</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="p : ${products}">
+						<td th:text="${p.name}"></td>
+						<td><img th:src="${p.image}" alt="Ảnh sản phẩm" /></td>
+						<td
+							th:text="${p.prices != null} ? ${#strings.arrayJoin(p.prices, ',')} : ''"></td>
+						<td
+							th:text="${p.sizes != null} ? ${#strings.arrayJoin(p.sizes, ',')} : ''"></td>
+						<td><a th:href="@{/product/admin/edit(name=${p.name})}">Sửa</a>
+							<form th:action="@{/product/admin/delete}" method="post"
+								style="display: inline">
+								<input type="hidden" name="name" th:value="${p.name}" />
+								<button type="submit" class="action-btn">Xoá</button>
+							</form></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
-    <!-- BẢNG SẢN PHẨM -->
-    <div class="form-section">
-        <h2>Danh sách sản phẩm</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Image</th>
-                <th>Prices</th>
-                <th>Sizes</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="p : ${products}">
-                <td th:text="${p.name}"></td>
-                <td><img th:src="${p.image}" alt="Ảnh sản phẩm"/></td>
-                <td th:text="${p.prices != null} ? ${#strings.arrayJoin(p.prices, ',')} : ''"></td>
-                <td th:text="${p.sizes != null} ? ${#strings.arrayJoin(p.sizes, ',')} : ''"></td>
-                <td>
-                    <a th:href="@{/product/admin/edit(name=${p.name})}">Sửa</a>
-                    <form th:action="@{/product/admin/delete}" method="post" style="display:inline">
-                        <input type="hidden" name="name" th:value="${p.name}"/>
-                        <button type="submit" class="action-btn">Xoá</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-</div>
-
-<script>
+	</div>
+	
+	
+	<script>
     const btn = document.getElementById('toggleFormBtn');
     const formSection = document.querySelector('.form-section.collapsible');
     const form = document.getElementById('productForm');
-
+    let fileImportButton = document.getElementById("file-import-button")
+	let fileImportInput = document.getElementById("file-import-input")
+	
+	fileImportButton.addEventListener('click', function() {
+    		fileImportInput.click()
+    	})
+	fileImportInput.addEventListener('change', function() {
+		if(fileImportInput.files.length > 0){
+			fileImportInput.form.submit()
+		}
+	})
     // Toggle collapsible form
     btn.addEventListener('click', () => {
         formSection.classList.toggle('active');
@@ -153,6 +182,10 @@
         formSection.querySelector('h2').innerText = 'Thêm sản phẩm mới';
         const returnBtn = formSection.querySelector('.return-btn');
         if(returnBtn) returnBtn.style.display = 'none';
+    }
+
+    function importFile(){
+    		
     }
 </script>
 

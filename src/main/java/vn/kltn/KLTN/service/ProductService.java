@@ -10,6 +10,8 @@ import vn.kltn.KLTN.entity.Event;
 import vn.kltn.KLTN.entity.Product;
 
 public interface ProductService {
+	public List<Product> updateCache();
+
 	public boolean add(Product product);
 
 	public boolean remove(String productName);

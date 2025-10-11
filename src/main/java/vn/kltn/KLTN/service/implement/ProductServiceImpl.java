@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,12 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@CachePut("products")
+	public List<Product> updateCache() {
+		return repository.findAll();
+	}
+
+	@Override
 	@Transactional
 	public boolean add(Product product) {
 		// TODO Auto-generated method stub
@@ -60,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
 				return false;
 
 			repository.save(product);
+			updateCache();
 			return true;
 		} catch (Exception e) {
 			// TODO: handle exception

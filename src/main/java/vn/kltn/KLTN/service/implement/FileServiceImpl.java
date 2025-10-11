@@ -102,4 +102,18 @@ public class FileServiceImpl implements FileService {
 		}
 	}
 
+	@Override
+	public void readXLSXFile(MultipartFile file) {
+		// TODO Auto-generated method stub
+		try {
+			Workbook workbook = new XSSFWorkbook(file.getInputStream());
+			productService.addMultipleProductFromFile(workbook, ingredientService, supplierService);
+			productService.updateCache();
+			workbook.cloneSheet(0);
+			workbook.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
 }
