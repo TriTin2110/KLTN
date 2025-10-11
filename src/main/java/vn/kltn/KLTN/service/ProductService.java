@@ -20,6 +20,8 @@ public interface ProductService {
 
 	public List<Product> findAll();
 
+	public List<Product> findByCategory(String categoryId);
+
 	public boolean updateComment(Product product, Comment comment);
 
 	public boolean updateEvent(Product product, Event event);

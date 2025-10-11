@@ -18,4 +18,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	// luôn quan hệ ingredients, suppliers, category, productDetail của
 	// Product
 	public List<Product> findAll();
+
+	// Truy vấn theo nested property
+	public List<Product> findByCategoryName(String categoryId);
 }

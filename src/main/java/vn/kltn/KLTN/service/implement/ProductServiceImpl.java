@@ -16,6 +16,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -29,16 +31,24 @@ import vn.kltn.KLTN.entity.ProductDetail;
 import vn.kltn.KLTN.entity.Supplier;
 import vn.kltn.KLTN.repository.ProductRepository;
 import vn.kltn.KLTN.service.CategoryService;
+import vn.kltn.KLTN.service.FileService;
 import vn.kltn.KLTN.service.IngredientService;
 import vn.kltn.KLTN.service.ProductService;
 import vn.kltn.KLTN.service.SupplierService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-	@Autowired
 	private ProductRepository repository;
-	@Autowired
 	private CategoryService categoryService;
+	private FileService fileService;
+
+	@Autowired
+	public ProductServiceImpl(ProductRepository repository, CategoryService categoryService,
+			@Lazy FileService fileService) {
+		this.repository = repository;
+		this.categoryService = categoryService;
+		this.fileService = fileService;
+	}
 
 	@Override
 	@Transactional
@@ -99,6 +109,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Cacheable("products")
 	public List<Product> findAll() {
 		// TODO Auto-generated method stub
 		return repository.findAll();
@@ -211,20 +222,26 @@ public class ProductServiceImpl implements ProductService {
 			String categoryId = getValue(sheet, row.getRowNum(), 10);
 			String discount = getValue(sheet, row.getRowNum(), 11);
 			String endDate = getValue(sheet, row.getRowNum(), 12);
+
 			product = findById(name);
+			if (map.containsKey(name))
+				product = map.get(name);
 			if (name != null && !map.containsKey(name) && product == null) {
 				product = new Product(name, image);
 				insertAddtionInformation(product, categoryId, discount, endDate);
 			}
+
 			if (name != null && size != null && !size.isBlank() && !product.getSizes().contains(size)) {
 				product.getSizes().add(size);
 			}
+
 			if (name != null && price != null && !price.isBlank()) {
 				int p = (price.isBlank()) ? 0 : Integer.parseInt(price);
 				if (!product.getPrices().contains(p)) {
 					product.getPrices().add(p);
 				}
 			}
+
 			if (name != null && ingredients != null && !ingredients.isBlank()) {
 				Ingredient i = mapIngredient.get(ingredients);
 				if (i == null) {
@@ -262,17 +279,32 @@ public class ProductServiceImpl implements ProductService {
 			}
 			map.put(name, product);
 		}
-//		map.values().stream().filter(o -> !o.getName().isBlank()).forEach(System.out::println);
-//		repository.saveAllAndFlush(
-//				new ArrayList<Product>(map.values()).stream().filter(o -> !o.getName().isBlank()).toList());
-		Collection<Product> products = map.values();
-		for (Product product2 : products) {
-			if (product2.getName() != null && !product2.getName().isBlank()) {
-				repository.save(product2);
-				repository.flush();
-			}
 
+		Collection<Product> products = map.values();
+		String image = null;
+		String url = null;
+		// Lưu sản phẩm
+		for (Product p : products) {
+			if (p.getName() != null && !p.getName().isBlank()) {
+				try {
+					image = p.getImage();
+					url = saveImage(image);
+					p.setImage(url);
+					repository.save(p);
+					repository.flush();
+//					fileService.delete(image);
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}
 		}
+
+	}
+
+	private String saveImage(String image) {
+		String url = fileService.uploadImageFileToCloudFly(image);
+		return url;
 	}
 
 	private String getValue(Sheet sheet, int row, int col) {
@@ -309,6 +341,12 @@ public class ProductServiceImpl implements ProductService {
 			return cell.getStringCellValue().trim();
 
 		return "";
+	}
+
+	@Override
+	public List<Product> findByCategory(String categoryId) {
+		// TODO Auto-generated method stub
+		return repository.findByCategoryName(categoryId);
 	}
 
 }

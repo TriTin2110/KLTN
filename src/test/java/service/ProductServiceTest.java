@@ -83,14 +83,14 @@ public class ProductServiceTest {
 	}
 
 	@Test
-//	@Disabled
+	@Disabled
 	public void findAll() {
 		List<Product> products = service.findAll();
 		products.forEach(System.out::println);
 	}
 
 	@Test
-	@Disabled
+//	@Disabled
 	public void addListProduct() {
 		String path = System.getProperty("user.dir") + File.separator + "KLTN_Dữ_liệu.xlsx";
 		fileService.readXLSXFile(path);

@@ -531,9 +531,9 @@ a:-webkit-any-link {
 .img-resize {
   max-width: 100%;
 }
-.pro-price p {
+.pro-price{
   font-size: 14px;
-  font-weight: 700;
+  font-weight: bold;
   text-align: center;
 }
 
