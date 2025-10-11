@@ -2,6 +2,7 @@
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel | Quản lý sản phẩm</title>
     <link rel="stylesheet" th:href="@{/css/admin.css}">
@@ -79,7 +80,9 @@
 
             <label>Name:</label>
             <input type="text" name="name" required
-                   th:value="${editProduct != null} ? ${editProduct.name} : ''">
+			th:value="${editProduct != null} ? ${editProduct.name} : ''"
+			       th:readonly="${editProduct != null ? true : false}"
+			       th:style="${editProduct != null} ? 'background-color: #f0f0f0; cursor: not-allowed;' : ''">
 
             <label>Prices (ngăn cách ,):</label>
             <input type="text" name="prices" required
@@ -117,7 +120,7 @@
             <tbody>
             <tr th:each="p : ${products}">
                 <td th:text="${p.name}"></td>
-                <td><img th:src="${p.image}" alt="Ảnh sản phẩm"/></td>
+                <td><img th:src="${'https://s3.cloudfly.vn/kltn/images/' + p.image}" alt="Ảnh sản phẩm"/></td>
                 <td th:text="${p.prices != null} ? ${#strings.arrayJoin(p.prices, ',')} : ''"></td>
                 <td th:text="${p.sizes != null} ? ${#strings.arrayJoin(p.sizes, ',')} : ''"></td>
                 <td>

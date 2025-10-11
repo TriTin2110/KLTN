@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.repository.ProductRepository;
+import vn.kltn.KLTN.service.ProductService;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,6 +21,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/product/admin")
 public class ProductController {
 
+	@Autowired
+    private ProductService productService;
+	
     @Autowired
     private ProductRepository productRepository;
 
@@ -34,7 +39,9 @@ public class ProductController {
 
     @GetMapping("/edit")
     public String editForm(@RequestParam("name") String name, Model model, RedirectAttributes redirectAttributes) {
-        Optional<Product> optional = productRepository.findById(name);
+        String trimmedName = name.trim();  // Thêm dòng này
+        System.out.println("DEBUG: Searching for name='" + trimmedName + "'");  // Log tạm để test
+        Optional<Product> optional = productRepository.findById(trimmedName);
         if (optional.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Sản phẩm không tồn tại!");
             return "redirect:/product/admin/show-page";
@@ -102,13 +109,15 @@ public class ProductController {
                          @RequestParam("sizes") String sizes,
                          RedirectAttributes redirectAttributes) {
         try {
-            Optional<Product> optional = productRepository.findById(name);
-            if (optional.isEmpty()) {
-                redirectAttributes.addFlashAttribute("error", "Sản phẩm không tồn tại!");
+            String trimmedName = name.trim();
+            if (trimmedName.isEmpty()) {
+                redirectAttributes.addFlashAttribute("error", "Tên sản phẩm không được rỗng!");
                 return "redirect:/product/admin/show-page";
             }
 
-            Product p = optional.get();
+            // Tạo Product với fields cần update
+            Product p = new Product();
+            p.setName(trimmedName);
 
             // Upload ảnh mới nếu có
             if (imageFile != null && !imageFile.isEmpty()) {
@@ -118,6 +127,14 @@ public class ProductController {
                 File file = new File(dir, fileName);
                 imageFile.transferTo(file);
                 p.setImage("/images/" + fileName);
+            } else {
+                
+                Product existing = productService.findById(trimmedName);
+                if (existing != null) {
+                    p.setImage(existing.getImage());
+                } else {
+                    p.setImage("/images/no-image.png");
+                }
             }
 
             List<Integer> priceList = Arrays.stream(prices.split(","))
@@ -136,8 +153,11 @@ public class ProductController {
             p.setPrices(priceList);
             p.setSizes(sizeList);
 
-            productRepository.save(p);
-            redirectAttributes.addFlashAttribute("success", "Cập nhật sản phẩm thành công!");
+            if (productService.update(p)) {
+                redirectAttributes.addFlashAttribute("success", "Cập nhật sản phẩm thành công!");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Lỗi cập nhật sản phẩm (không tồn tại)!");
+            }
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("error", "Lỗi upload ảnh: " + e.getMessage());
         } catch (Exception e) {
