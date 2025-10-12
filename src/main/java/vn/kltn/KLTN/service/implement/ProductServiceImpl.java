@@ -3,10 +3,12 @@ package vn.kltn.KLTN.service.implement;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -54,7 +56,9 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	@CachePut("products")
 	public List<Product> updateCache() {
-		return repository.findAll();
+		List<Product> products = repository.findAll();
+		products = getLowestPrice(products);
+		return products;
 	}
 
 	@Override
@@ -63,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		try {
 			if (product.getIngredients().isEmpty() || product.getProductDetail() == null
-					|| product.getCategory() == null || product.getPrices().isEmpty())
+					|| product.getCategory() == null || product.getSizePrice().values().isEmpty())
 				return false;
 
 			repository.save(product);
@@ -113,14 +117,20 @@ public class ProductServiceImpl implements ProductService {
 	public Product findById(String productName) {
 		// TODO Auto-generated method stub
 		Optional<Product> opt = repository.findById(productName);
-		return (opt.isEmpty()) ? null : opt.get();
+		Product product = (opt.isEmpty()) ? null : opt.get();
+		if (product == null)
+			return null;
+		product = sortPrice(product);
+		return product;
 	}
 
 	@Override
 	@Cacheable("products")
 	public List<Product> findAll() {
 		// TODO Auto-generated method stub
-		return repository.findAll();
+		List<Product> products = repository.findAll();
+		products = getLowestPrice(products);
+		return products;
 	}
 
 	private void setTotalProductOfCategory(Product product, int totalProduct) {
@@ -239,16 +249,21 @@ public class ProductServiceImpl implements ProductService {
 				insertAddtionInformation(product, categoryId, discount, endDate);
 			}
 
-			if (name != null && size != null && !size.isBlank() && !product.getSizes().contains(size)) {
-				product.getSizes().add(size);
+			if (name != null && size != null && !size.isBlank() && !product.getSizePrice().containsKey(size)) {
+				if (price != null)
+					product.getSizePrice().put(size, (price.isBlank()) ? 0 : Integer.parseInt(price));
 			}
 
-			if (name != null && price != null && !price.isBlank()) {
-				int p = (price.isBlank()) ? 0 : Integer.parseInt(price);
-				if (!product.getPrices().contains(p)) {
-					product.getPrices().add(p);
-				}
-			}
+//			if (name != null && size != null && !size.isBlank() && !product.getSizes().contains(size)) {
+//				product.getSizes().add(size);
+//			}
+//
+//			if (name != null && price != null && !price.isBlank()) {
+//				int p = (price.isBlank()) ? 0 : Integer.parseInt(price);
+//				if (!product.getPrices().contains(p)) {
+//					product.getPrices().add(p);
+//				}
+//			}
 
 			if (name != null && ingredients != null && !ingredients.isBlank()) {
 				Ingredient i = mapIngredient.get(ingredients);
@@ -354,7 +369,32 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> findByCategory(String categoryId) {
 		// TODO Auto-generated method stub
-		return repository.findByCategoryName(categoryId);
+		List<Product> products = repository.findByCategoryName(categoryId);
+		products = getLowestPrice(products);
+		return products;
 	}
 
+	private List<Product> getLowestPrice(List<Product> products) {
+		for (Product product : products) {
+			product.setLowestPrice(Collections.min(product.getSizePrice().values()));
+		}
+		return products;
+	}
+
+	private Product sortPrice(Product product) {
+		Map<String, Integer> map = product.getSizePrice().entrySet().stream().sorted(Map.Entry.comparingByValue()) // Sắp
+																													// xếp
+																													// theo
+																													// giá
+																													// trị
+																													// tăng
+																													// dần
+				// của Value
+				.collect(Collectors.toMap(Map.Entry::getKey, // Giữ key
+						Map.Entry::getValue, // Giữ value
+						(oldValue, newValue) -> oldValue, // xử lý key trùng
+						LinkedHashMap::new)); // giữ thứ tự sắp xếp
+		product.setSizePrice(map);
+		return product;
+	}
 }

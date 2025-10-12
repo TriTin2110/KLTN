@@ -131,7 +131,7 @@
 										<span id="pro_sku">SKU: S-0015-1</span>
 									</div>
 									<div class="product-price" id="price-preview">
-										<span class="pro-price" id="price" th:text="${product.prices.get(0)}"></span>
+										<span class="pro-price" id="price" th:text="${product.lowestPrice}"></span>
 									</div>
 									<form id="add-item-form" action="/cart/add" method="post"
 										class="variants clearfix">
@@ -183,7 +183,7 @@
 												<div>
 													<select id="size-selection" class="form-select"
 														aria-label="Default select example" onchange="setPrice()">
-														<option th:each="size, sta: ${product.sizes}" th:value="${product.prices.get(sta.index)}" th:text="${size}"></option>
+														<option th:each="map: ${product.sizePrice}" th:value="${map.value}" th:text="${map.key}"></option>
 													</select>
 												</div>
 											</div>
@@ -296,7 +296,7 @@
 															Cà phê đen đá </a>
 													</div>
 													<div class="pro-price">
-														<p class="" th:text="${sameProduct.prices.get(0)}">15000</p>
+														<p class="" th:text="${sameProduct.lowestPrice}">15000</p>
 													</div>
 												</div>
 											</div>

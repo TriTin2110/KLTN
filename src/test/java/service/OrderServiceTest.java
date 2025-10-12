@@ -44,10 +44,14 @@ public class OrderServiceTest {
 		Cart cart = cartService.findById("tinnguyen");
 		Order order = new Order(cart.getId());
 		Map<Product, Integer> orderedItems = cart.getCartItems();
+		Integer price = 0;
 		if (!orderedItems.isEmpty()) {
 			order.setOrderItem(orderedItems);
-			order.setTotalPrice(
-					orderedItems.keySet().stream().mapToInt(o -> o.getPrices().get(0) * orderedItems.get(o)).sum());
+//			order.setTotalPrice(
+//					orderedItems.keySet().stream().mapToInt(o -> {
+//						price = new ArrayList<Integer>(o.getSizePrice().values()).get(0);
+//						return (price * orderedItems.get(o)).sum();
+//					});
 			order.setStatus(OrderStatus.PENDING);
 			order.setCreatedDate(new Date(System.currentTimeMillis()));
 			cart.returnToOriginState();

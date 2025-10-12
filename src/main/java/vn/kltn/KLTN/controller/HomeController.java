@@ -27,7 +27,7 @@ public class HomeController {
 	public String showHomePage(@PathVariable("id") String id, Model model) {
 		Product product = productService.findById(id.trim());
 		List<Product> sameProducts = productService.findByCategory(product.getCategory().getName());
-		sameProducts.removeIf(p -> p.getName().equals(product.getName()));
+		sameProducts.removeIf(p -> p.getName().equals(product.getName())); // Xóa sản phẩm bị trùng với sản phẩm hiện
 		model.addAttribute("product", product);
 		model.addAttribute("sameProducts", sameProducts);
 		return "detail-product";
