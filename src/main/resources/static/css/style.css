@@ -3164,3 +3164,44 @@ div.item:hover {
   top: 50%;
   transform: translateY(-50%);
 }
+
+#user-dropdown{
+	 padding-right: 10px;
+	 padding-left: 10px;
+}
+.user-dropdown-item{
+	opacity: 0;
+	position: absolute;
+    background-color: white;
+    width: 158px;
+    margin-top: 10px;
+    -webkit-box-shadow: 6px 5px 8px -2px rgba(0,0,0,0.6); 
+	box-shadow: 6px 5px 8px -2px rgba(0,0,0,0.6);
+	transition: opacity 0.25s linear;
+	border: 1px solid black;
+}
+
+#user-dropdown:hover .user-dropdown-item{
+	opacity: 1;
+	margin-top: 10px;
+}
+
+.user-dropdown-item li{
+	padding: 17px;
+    border-bottom: 1px solid black;
+    list-style: none;
+    letter-spacing: normal;
+}
+
+.user-dropdown-item li a{
+	text-decoration: none;
+	color: black;
+}
+
+.user-dropdown-item li:hover{
+	background-color: whitesmoke;
+}
+
+.user-dropdown-item li:hover a{
+	color: red;
+}

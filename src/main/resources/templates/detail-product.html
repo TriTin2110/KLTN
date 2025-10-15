@@ -1,4 +1,5 @@
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org"
+xmlns:sec="www.thymeleaf.org/extras/spring-security">
 
 <head>
 <meta charset="utf-8">
@@ -133,48 +134,12 @@
 									<div class="product-price" id="price-preview">
 										<span class="pro-price" id="price" th:text="${product.lowestPrice}"></span>
 									</div>
-									<form id="add-item-form" action="/cart/add" method="post"
+									<form id="add-item-form"
 										class="variants clearfix">
-										<div class="select clearfix">
-											<div class="selector-wrapper">
-												<label for="product-select-option-0">Màu sắc</label><span
-													class="custom-dropdown custom-dropdown--white"><select
-													class="single-option-selector
-                            custom-dropdown__select
-                            custom-dropdown__select--white"
-													data-option="option1" id="product-select-option-0">
-														<option value="Tím">Tím</option>
-														<option value="Xanh">Xanh</option>
-												</select></span>
-											</div>
-											<div class="selector-wrapper">
-												<label for="product-select-option-1">Kích thước</label><span
-													class="custom-dropdown custom-dropdown--white"><select
-													class="single-option-selector
-                            custom-dropdown__select
-                            custom-dropdown__select--white"
-													data-option="option2" id="product-select-option-1">
-														<option value="36">36</option>
-														<option value="37">37</option>
-														<option value="38">38</option>
-														<option value="35">35</option>
-												</select></span>
-											</div>
-											<select id="product-select" name="id" style="display: none;">
-
-												<option value="1040377813">Tím / 36 - 4,800,000₫</option>
-												<option value="1040377814">Tím / 37 - 4,800,000₫</option>
-												<option value="1040377815">Tím / 38 - 4,800,000₫</option>
-												<option value="1040409049">Xanh / 35 - 4,800,000₫</option>
-												<option value="1040409050">Xanh / 36 - 4,800,000₫</option>
-												<option value="1040409053">Xanh / 37 - 4,800,000₫</option>
-												<option value="1040409054">Xanh / 38 - 4,800,000₫</option>
-											</select>
-										</div>
+										<input type="hidden" name="product-name" th:value="${product.name}"> 
 										<div class="select-swatch clearfix">
 											<div id="variant-swatch-0" class="swatch clearfix"
 												data-option="option1" data-option-index="0">
-
 
 												<div class="header"
 													style="background: white; color: #272727;">
@@ -182,7 +147,7 @@
 												</div>
 												<div>
 													<select id="size-selection" class="form-select"
-														aria-label="Default select example" onchange="setPrice()">
+														aria-label="Default select example" onchange="setPrice()" name="size-selection">
 														<option th:each="map: ${product.sizePrice}" th:value="${map.value}" th:text="${map.key}"></option>
 													</select>
 												</div>
@@ -194,10 +159,11 @@
 												<div class="select-swap"></div>
 											</div>
 										</div>
-										<div class="selector-actions">
+										<div class="selector-actions" sec:authorize="isAuthenticated()">
 											<div class="quantity-area clearfix">
 												<input type="button" value="-" onclick="minusQuantity()"
-													class="qty-btn"> <input type="text" id="quantity"
+													class="qty-btn"> 
+												<input type="text" id="quantity"
 													name="quantity" value="1" min="1" class="quantity-selector">
 												<input type="button" value="+" onclick="plusQuantity()"
 													class="qty-btn">
@@ -205,27 +171,11 @@
 											<div class="wrap-addcart clearfix">
 												<div class="row-flex">
 													<button type="button"
-														class="button btn-addtocart addtocart-modal">Thêm
+														class="button btn-addtocart addtocart-modal" onclick="addItem()">Thêm
 														vào</button>
-													<!-- <button type="button" class="buy-now button" style="display: block;">Mua
-                          ngay</button> -->
-
 												</div>
-
-												<a href="" target="_blank" class="button btn-check"
-													style="color: #ffffff; text-decoration: none;"><span>Click
-														nhận mã giảm giá ngay !</span></a>
-
 											</div>
 										</div>
-										<!--<div class="product-action-bottom visible-xs">
-                      <div class="input-bottom">
-                        <input id="quan-input" type="number" value="1" min="1">
-                      </div>
-                      <button type="button" id="add-to-cartbottom"
-                        class="add-to-cartProduct add-cart-bottom button addtocart-modal" name="add">Thêm vào
-                        giỏ</button>
-                    </div>-->
 									</form>
 
 									<div class="product-description">
@@ -422,6 +372,7 @@
 	<script th:src="@{/js/home.js}"></script>
 	<script th:src="@{/js/currency.js}"></script>
 	<script th:src="@{/js/detail-product.js}"></script>
+	<script th:src="@{/js/cart.js}"></script>
 	<script type="text/javascript">
 		formatToVND()
 	</script>

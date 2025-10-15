@@ -39,8 +39,6 @@ public class Product {
 	@MapKeyColumn(name = "size")
 	@Column(name = "price")
 	private Map<String, Integer> sizePrice;
-//	private List<Integer> prices;
-//	private List<String> sizes;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "category_id")
@@ -70,8 +68,6 @@ public class Product {
 		this.name = name;
 		this.image = image;
 		this.sizePrice = new HashMap<String, Integer>();
-//		this.prices = new ArrayList<Integer>();
-//		this.sizes = new ArrayList<String>();
 		this.ingredients = new ArrayList<Ingredient>();
 		this.comments = new ArrayList<Comment>();
 		this.combos = new ArrayList<Combo>();

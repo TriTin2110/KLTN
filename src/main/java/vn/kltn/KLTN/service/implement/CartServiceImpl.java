@@ -1,7 +1,6 @@
 package vn.kltn.KLTN.service.implement;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Cart;
+import vn.kltn.KLTN.entity.CartItem;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.entity.User;
@@ -50,7 +50,7 @@ public class CartServiceImpl implements CartService {
 			if (cart == null)
 				return false;
 
-			Map<Product, Integer> cartItems = cart.getCartItems();
+			List<CartItem> cartItems = cart.getCartItems();
 			if (cartItems == null || cartItems.isEmpty())
 				return false;
 
@@ -68,40 +68,48 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	@Transactional
-	public Cart addProductToCart(String userName, String productName, int amount) {
+	public Cart addProductToCart(String userName, String productName, String size, int price, int productQuantity) {
 		// TODO Auto-generated method stub
-		Cart cart = findByUserName(userName);
-		if (cart == null || amount <= 0)
-			return null;
-		try {
-			Map<Product, Integer> cartItems = cart.getCartItems();
-			Product product = productService.findById(productName);
-			if (product == null)
-				return null;
-			cartItems.put(product, amount);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return null;
+		Product product = productService.findById(productName);
+		Cart cart = findById(userName);
+
+		if (cart == null) {
+			cart = new Cart(userName);
 		}
+
+		if (product != null) {
+			List<CartItem> cartItems = cart.getCartItems();
+			StringBuilder builder = new StringBuilder();
+			builder.append(product.getName());
+			builder.append(userName);
+			builder.append(String.valueOf(System.currentTimeMillis()));
+			int id = builder.hashCode();
+			CartItem cartItem = new CartItem(id, price, productQuantity, size, cart, product);
+			cartItems.add(cartItem);
+		}
+		return updateTotalPrice(cart);
+	}
+
+	private Cart updateTotalPrice(Cart cart) {
+		int totalPrice = cart.getCartItems().stream().map(o -> o.getPrice() * o.getQuantity()).mapToInt(o -> o).sum();
+		cart.setTotalPrice(totalPrice);
 		return cart;
 	}
 
 	@Override
 	@Transactional
-	public Cart updateAmount(String userName, String productName, int amount) {
+	public Cart updateAmount(String userName, String productName, CartItem cartItem) {
 		// TODO Auto-generated method stub
 		Optional<Cart> opt = repository.findById(userName);
 		if (opt.isEmpty())
 			return null;
 		Cart cart = opt.get();
-		Map<Product, Integer> cartItems = cart.getCartItems();
-		Product product = productService.findById(productName);
-		if (product == null)
-			return null;
-		if (cartItems.put(product, amount) != null) {// if result == null => that product not exists in
-			// cartItems
-			cart.setCartItems(cartItems);
+		List<CartItem> cartItems = cart.getCartItems();
+		Optional<CartItem> optCartItem = cartItems.stream().filter(o -> o.getItemId() == cartItem.getItemId())
+				.findFirst();
+		if (optCartItem.isPresent()) {
+			CartItem cartItemExisted = optCartItem.get();
+			cartItemExisted.setData(cartItem);
 			return repository.saveAndFlush(cart);
 		}
 		return null;
@@ -153,9 +161,6 @@ public class CartServiceImpl implements CartService {
 	@Transactional
 	public Cart update(Cart cart) {
 		// TODO Auto-generated method stub
-		Cart cartInDB = findById(cart.getId());
-		if (cartInDB == null)
-			return null;
 		return repository.saveAndFlush(cart);
 	}
 
