@@ -12,7 +12,8 @@ public interface CartService {
 
 	public boolean removeProductFromCart(String userName, String productName);
 
-	public Cart addProductToCart(String userName, String productName, String size, int price, int productQuantity);
+	public Cart addProductToCart(String userName, String productName, String productImage, String size, int price,
+			int productQuantity, Cart userCart);
 
 	public Cart updateAmount(String userName, String productName, CartItem cartItem);
 

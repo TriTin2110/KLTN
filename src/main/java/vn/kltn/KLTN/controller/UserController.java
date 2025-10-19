@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +42,7 @@ public class UserController {
 	@GetMapping("/sign-up")
 	public String showSignUpPage(Model model) {
 		User user = new User();
-		model.addAttribute("user", user);
+		model.addAttribute("register", user);
 		return "sign-up";
 	}
 
@@ -53,7 +52,7 @@ public class UserController {
 	}
 
 	@PostMapping("/sign-up")
-	public String signUp(@ModelAttribute("user") User user) {
+	public String signUp(@ModelAttribute("register") User user) {
 		Cart cart = new Cart(user.getUsername());
 		Order order = new Order(user.getUsername() + "-" + System.currentTimeMillis());
 		Point point = new Point(user.getUsername());
@@ -80,7 +79,6 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> sendVerifyCode(@RequestBody Map<String, String> request) {
 		String email = request.get("email");
-		System.out.println(email);
 		verifyService.sendMail(email);
 		Map<String, Object> response = new HashMap<String, Object>();
 		if (email != null) {

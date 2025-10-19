@@ -1,6 +1,8 @@
 package vn.kltn.KLTN.controller;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,12 +28,19 @@ public class HomeController {
 
 	@GetMapping("/san-pham/{id}")
 	public String showHomePage(@PathVariable("id") String id, Model model, HttpServletRequest request) {
-		Product product = productService.findById(id.trim());
-		List<Product> sameProducts = productService.findByCategory(product.getCategory().getName());
-		sameProducts.removeIf(p -> p.getName().equals(product.getName())); // Xóa sản phẩm bị trùng với sản phẩm hiện
+		List<Product> products = productService.findAll();
+		Optional<Product> opt = products.stream().filter(product -> id.equals(product.getName())).findFirst();
+		Product product = (opt.isEmpty()) ? null : opt.get();
+		if (product != null) {
+			List<Product> sameProducts = products.stream()
+					.filter(p -> product.getCategory().getName().equals(p.getCategory().getName()))
+					.collect(Collectors.toList());
+			sameProducts.removeIf(p -> p.getName().equals(product.getName())); // Xóa sản phẩm bị trùng với sản phẩm
+																				// hiện
+			model.addAttribute("sameProducts", sameProducts);
+		}
 		model.addAttribute("product", product);
-		model.addAttribute("sameProducts", sameProducts);
+
 		return "detail-product";
 	}
-
 }

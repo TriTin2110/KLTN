@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -43,7 +41,7 @@ public class Product {
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "category_id")
 	private Category category;
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinTable(name = "product_ingredient", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
 	private List<Ingredient> ingredients;
 	@ManyToOne(cascade = CascadeType.MERGE)
@@ -52,9 +50,6 @@ public class Product {
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
 	@JoinColumn(name = "coupon_id")
 	private Coupon coupon;
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "product_detail_id")
-	private ProductDetail productDetail;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
 	private List<Comment> comments;
 	@ManyToMany
@@ -113,14 +108,6 @@ public class Product {
 		this.coupon = coupon;
 	}
 
-	public ProductDetail getProductDetail() {
-		return productDetail;
-	}
-
-	public void setProductDetail(ProductDetail productDetail) {
-		this.productDetail = productDetail;
-	}
-
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -176,23 +163,6 @@ public class Product {
 				return true;
 		}
 		return false;
-	}
-
-	@Override
-	public String toString() {
-		List<Ingredient> ingredients = this.ingredients;
-		Map<String, Integer> sizePrice = this.getSizePrice();
-		Set<String> size = sizePrice.keySet();
-		StringBuilder sizePriceStr = new StringBuilder();
-		for (String s : size) {
-			sizePriceStr.append(", size=" + s + ", price=" + sizePrice.get(s));
-		}
-//		List<Integer> prices = this.getPrices();
-		String ingredientString = ingredients.stream().map(o -> o.toString()).collect(Collectors.joining("|"));
-//		String pricesString = prices.stream().map(o -> String.valueOf(o)).collect(Collectors.joining("|"));
-//		String sizeString = sizes.stream().map(o -> o).collect(Collectors.joining("|"));
-		return "Product [name=" + getName() + sizePriceStr.toString() + ", category=" + category + ", ingredients="
-				+ ingredientString + ", coupon=" + coupon + ", productDetail=" + productDetail + "]";
 	}
 
 }

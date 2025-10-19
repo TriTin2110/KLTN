@@ -2,40 +2,31 @@ package vn.kltn.KLTN.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class CartItem {
 	@Id
-	private int itemId;
+	private String itemId;
 	private int price, quantity;
-	private String size;
-
-	@ManyToOne
-	@JoinColumn(name = "cart_id")
-	private Cart cart;
-	@OneToOne
-	private Product product;
+	private String size, productId, productImage;
 
 	public CartItem() {
 	}
 
-	public CartItem(int itemId, int price, int quantity, String size, Cart cart, Product product) {
+	public CartItem(String itemId, int price, int quantity, String size, String productId, String productImage) {
 		this.itemId = itemId;
 		this.price = price;
 		this.quantity = quantity;
 		this.size = size;
-		this.cart = cart;
-		this.product = product;
+		this.productId = productId;
+		this.productImage = productImage;
 	}
 
-	public int getItemId() {
+	public String getItemId() {
 		return itemId;
 	}
 
-	public void setItemId(int itemId) {
+	public void setItemId(String itemId) {
 		this.itemId = itemId;
 	}
 
@@ -63,20 +54,20 @@ public class CartItem {
 		this.size = size;
 	}
 
-	public Cart getCart() {
-		return cart;
+	public String getProductId() {
+		return productId;
 	}
 
-	public void setCart(Cart cart) {
-		this.cart = cart;
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 
-	public Product getProduct() {
-		return product;
+	public String getProductImage() {
+		return productImage;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductImage(String productImage) {
+		this.productImage = productImage;
 	}
 
 	public void setData(CartItem otherCartItem) {

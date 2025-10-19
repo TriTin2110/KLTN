@@ -16,19 +16,12 @@ public class Cart {
 	@Id
 	private String id;
 	private int totalPrice;
-	@OneToOne(mappedBy = "cart")
-	private User user;
-
-//	@ElementCollection(fetch = FetchType.EAGER)
-//	@CollectionTable(name = "items_in_cart", joinColumns = {
-//			@JoinColumn(name = "cart_id", referencedColumnName = "id") })
-//	@MapKeyColumn(name = "product_id")
-//	@Column(name = "quantity")
-//	private Map<Product, Integer> cartItems;
-
-	@OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	// orphanRemoval = true khác với cascade. Nó chuyên dùng để xóa các entity không
+	// còn liên kết với parent.
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "cart_id")
 	private List<CartItem> cartItems;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id")
 	private Order order;
 
@@ -48,13 +41,13 @@ public class Cart {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 	public List<CartItem> getCartItems() {
 		return cartItems;
@@ -80,10 +73,10 @@ public class Cart {
 		this.totalPrice = totalPrice;
 	}
 
-	@Override
-	public String toString() {
-		return "Cart [id=" + id + ", user=" + user + ", cartItems=" + cartItems + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Cart [id=" + id + ", user=" + user + ", cartItems=" + cartItems + "]";
+//	}
 
 	public void returnToOriginState() {
 		this.cartItems = new ArrayList<CartItem>();

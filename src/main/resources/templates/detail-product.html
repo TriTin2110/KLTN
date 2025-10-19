@@ -23,7 +23,17 @@ xmlns:sec="www.thymeleaf.org/extras/spring-security">
 <!-- UIkit CSS -->
 <link rel="stylesheet" th:href="@{/plugins/uikit/uikit.min.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+<style type="text/css">
+#mobile-main-image{
+	display: none;
+}
 
+@media(max-width: 768px){
+	#mobile-main-image{
+		display: block;
+	}
+}
+</style>
 </head>
 
 <body>
@@ -77,7 +87,7 @@ xmlns:sec="www.thymeleaf.org/extras/spring-security">
                         current "
 												id="imgg1a"><img class="product-image-feature "
 												th:src="${'https://s3.cloudfly.vn/kltn/images/' + product.image}"
-												alt="Nike Air Max 90 Essential" grape=""></li>
+												alt="Nike Air Max 90 Essential" id="main-image"></li>
 										</ul>
 										<div class="product-image__button">
 											<div id="product-zoom-in"
@@ -131,12 +141,16 @@ xmlns:sec="www.thymeleaf.org/extras/spring-security">
 										<h1 th:text="${product.name}"></h1>
 										<span id="pro_sku">SKU: S-0015-1</span>
 									</div>
+									<div id="mobile-main-image">
+										<img th:alt="${product.image}" th:src="${'https://s3.cloudfly.vn/kltn/images/' + product.image}">
+									</div>
 									<div class="product-price" id="price-preview">
-										<span class="pro-price" id="price" th:text="${product.lowestPrice}"></span>
+										Giá: <span class="pro-price" id="price" th:text="${product.lowestPrice}"></span>
 									</div>
 									<form id="add-item-form"
 										class="variants clearfix">
 										<input type="hidden" name="product-name" th:value="${product.name}"> 
+										<input type="hidden" name="product-image" th:value="${product.image}"> 
 										<div class="select-swatch clearfix">
 											<div id="variant-swatch-0" class="swatch clearfix"
 												data-option="option1" data-option-index="0">
@@ -160,7 +174,7 @@ xmlns:sec="www.thymeleaf.org/extras/spring-security">
 											</div>
 										</div>
 										<div class="selector-actions" sec:authorize="isAuthenticated()">
-											<div class="quantity-area clearfix">
+											<div class="quantity-area clearfix" style="display: flex; justify-content: center;">
 												<input type="button" value="-" onclick="minusQuantity()"
 													class="qty-btn"> 
 												<input type="text" id="quantity"

@@ -1,5 +1,6 @@
 package vn.kltn.KLTN.service.implement;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,9 @@ public class CartServiceImpl implements CartService {
 	public Cart findByUserName(String userName) {
 		// TODO Auto-generated method stub
 		User user = userService.findById(userName);
-		return repository.findByUser(user);
+//		return repository.findByUser(user);
+		return null;
+
 	}
 
 	@Override
@@ -68,32 +71,36 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	@Transactional
-	public Cart addProductToCart(String userName, String productName, String size, int price, int productQuantity) {
+	public Cart addProductToCart(String userName, String productName, String productImage, String size, int price,
+			int productQuantity, Cart cart) {
 		// TODO Auto-generated method stub
-		Product product = productService.findById(productName);
-		Cart cart = findById(userName);
-
 		if (cart == null) {
 			cart = new Cart(userName);
 		}
 
-		if (product != null) {
-			List<CartItem> cartItems = cart.getCartItems();
-			StringBuilder builder = new StringBuilder();
-			builder.append(product.getName());
-			builder.append(userName);
-			builder.append(String.valueOf(System.currentTimeMillis()));
-			int id = builder.hashCode();
-			CartItem cartItem = new CartItem(id, price, productQuantity, size, cart, product);
+		List<CartItem> cartItems = cart.getCartItems();
+		StringBuilder builder = new StringBuilder();
+		builder.append(productName);
+		builder.append("-");
+		builder.append(userName);
+		builder.append("-");
+		builder.append(size);
+		String id = Base64.getEncoder().encodeToString(builder.toString().getBytes());
+		CartItem cartItem = cartItemAlreayExists(cartItems, id);
+		if (cartItem == null) {
+			cartItem = new CartItem(id, price, productQuantity, size, productName, productImage);
 			cartItems.add(cartItem);
+		} else {
+			cartItem.setQuantity(cartItem.getQuantity() + productQuantity);
+			int index = cartItems.indexOf(cartItem);
+			cartItems.set(index, cartItem);
 		}
-		return updateTotalPrice(cart);
+		return cart;
 	}
 
-	private Cart updateTotalPrice(Cart cart) {
-		int totalPrice = cart.getCartItems().stream().map(o -> o.getPrice() * o.getQuantity()).mapToInt(o -> o).sum();
-		cart.setTotalPrice(totalPrice);
-		return cart;
+	private CartItem cartItemAlreayExists(List<CartItem> cartItems, String id) {
+		Optional<CartItem> opt = cartItems.stream().filter(cartItem -> id.equals(cartItem.getItemId())).findFirst();
+		return (opt.isEmpty()) ? null : opt.get();
 	}
 
 	@Override
@@ -143,13 +150,13 @@ public class CartServiceImpl implements CartService {
 	public boolean add(Cart cart) {
 		// TODO Auto-generated method stub
 		try {
-			User user = cart.getUser();
-			user.setCart(cart);
-			if (repository.save(cart) != null) {
-				userService.update(user);
-				return true;
-			}
-
+//			User user = cart.getUser();
+//			user.setCart(cart);
+//			if (repository.save(cart) != null) {
+//				userService.update(user);
+//				return true;
+//			}
+			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -161,7 +168,12 @@ public class CartServiceImpl implements CartService {
 	@Transactional
 	public Cart update(Cart cart) {
 		// TODO Auto-generated method stub
+		cart.setTotalPrice(getTotalPrice(cart));
 		return repository.saveAndFlush(cart);
+	}
+
+	private int getTotalPrice(Cart cart) {
+		return cart.getCartItems().stream().mapToInt(cartItem -> cartItem.getPrice() * cartItem.getQuantity()).sum();
 	}
 
 	@Override

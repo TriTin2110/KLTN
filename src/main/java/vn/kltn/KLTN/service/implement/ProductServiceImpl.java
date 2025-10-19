@@ -30,7 +30,6 @@ import vn.kltn.KLTN.entity.Coupon;
 import vn.kltn.KLTN.entity.Event;
 import vn.kltn.KLTN.entity.Ingredient;
 import vn.kltn.KLTN.entity.Product;
-import vn.kltn.KLTN.entity.ProductDetail;
 import vn.kltn.KLTN.entity.Supplier;
 import vn.kltn.KLTN.repository.ProductRepository;
 import vn.kltn.KLTN.service.CategoryService;
@@ -66,8 +65,8 @@ public class ProductServiceImpl implements ProductService {
 	public boolean add(Product product) {
 		// TODO Auto-generated method stub
 		try {
-			if (product.getIngredients().isEmpty() || product.getProductDetail() == null
-					|| product.getCategory() == null || product.getSizePrice().values().isEmpty())
+			if (product.getIngredients().isEmpty() || product.getCategory() == null
+					|| product.getSizePrice().values().isEmpty())
 				return false;
 
 			repository.save(product);
@@ -189,8 +188,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void insertAddtionInformation(Product product, String categoryId, String discount, String endAt) {
-		ProductDetail productDetail = new ProductDetail(product.getName(), null, "Còn hàng", product);
-		product.setProductDetail(productDetail);
 		if (categoryId != null && !categoryId.isBlank()) {
 			Category category = categoryService.addProductToList(categoryId, product);
 			if (category == null) {
