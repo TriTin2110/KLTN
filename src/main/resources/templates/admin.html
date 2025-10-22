@@ -95,22 +95,27 @@
 			       th:readonly="${editProduct != null ? true : false}"
 			       th:style="${editProduct != null} ? 'background-color: #f0f0f0; cursor: not-allowed;' : ''">
 
-				<label>Prices (ngăn cách ,):</label> <input type="text"
-					name="prices" required
-					th:value="${editProduct != null} ? ${#strings.arrayJoin(editProduct.prices, ',')} : ''">
+				   <div class="row-input">
+					<div class="input-group">
+						<label>Sizes (ngăn cách ,):</label>
+						<input type="text" name="sizes" required placeholder="S, M, L"
+							th:value="${editProduct != null} ? ${#strings.arrayJoin(editProduct.sizes, ',')} : ''">
+					</div>
 
+				       <div class="input-group">
+				           <label>Prices (ngăn cách ,):</label>
+				           <input type="text" name="prices" required
+				                  th:value="${editProduct != null} ? ${#strings.arrayJoin(editProduct.prices, ',')} : ''">
+				       </div>
 
-				<label>Sizes (ngăn cách ,):</label> <input type="text" name="sizes"
-					required
-					th:value="${editProduct != null} ? ${#strings.arrayJoin(editProduct.sizes, ',')} : ''">
-
+				   </div>
 				<label
 					th:text="${editProduct != null} ? 'Upload ảnh mới:' : 'Upload ảnh:'"></label>
 				<input type="file" name="imageFile">
 
 				<div th:if="${editProduct != null}" style="margin: 10px 0;">
 					<label>Ảnh hiện tại:</label><br> <img
-						th:src="${editProduct.image}" alt="Ảnh sản phẩm"
+						th:src="${'https://s3.cloudfly.vn/kltn/images/' + editProduct.image}" alt="Ảnh sản phẩm"
 						style="max-width: 80px; border-radius: 8px;">
 				</div>
 
@@ -168,7 +173,7 @@
 		}
 	})
     // Toggle collapsible form
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', () => {	
         formSection.classList.toggle('active');
         btn.querySelector('i').classList.toggle('fa-chevron-down');
         btn.querySelector('i').classList.toggle('fa-chevron-up');
