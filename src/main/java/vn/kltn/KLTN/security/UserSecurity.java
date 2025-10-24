@@ -32,9 +32,9 @@ public class UserSecurity {
 	public SecurityFilterChain creatChain(HttpSecurity http, CaptchaConfig captchaConfig) {
 		try {
 			http.addFilterBefore(captchaConfig, UsernamePasswordAuthenticationFilter.class)
-					.authorizeHttpRequests(
-							auth -> auth.requestMatchers("/user/profile", "/user/profile-update", "/cart/show")
-									.authenticated().anyRequest().permitAll())
+					.authorizeHttpRequests(auth -> auth
+							.requestMatchers("/user/profile", "/user/profile-update", "/cart/show", "/order/**")
+							.authenticated().anyRequest().permitAll())
 					.formLogin(form -> form.loginPage("/user/sign-in").loginProcessingUrl("/authenticateTheUser")
 							.defaultSuccessUrl("/user/sign-in-success", true).failureUrl("/user/sign-in?error=true")
 							.permitAll())

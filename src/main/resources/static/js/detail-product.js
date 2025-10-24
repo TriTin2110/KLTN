@@ -1,17 +1,23 @@
 let quantity = document.getElementById("quantity")
-let quantityValue = document.getElementById("quantity").value
+if(quantity)
+	var quantityValue = quantity.value
 let priceText = document.getElementById("price")
 function plusQuantity(){
+	if(quantityValue)
+	{
 	quantityValue = parseInt(quantityValue)
 	quantityValue +=1
 	quantity.value = quantityValue
+	}
 }
 
 function minusQuantity(){
-	quantityValue = parseInt(quantityValue)
-	if(quantityValue > 1){
-		quantityValue -=1
-		quantity.value = quantityValue
+	if(quantityValue){
+		quantityValue = parseInt(quantityValue)
+		if(quantityValue > 1){
+			quantityValue -=1
+			quantity.value = quantityValue
+		}
 	}
 }
 

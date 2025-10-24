@@ -21,7 +21,7 @@ public class Cart {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "cart_id")
 	private List<CartItem> cartItems;
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, fetch = FetchType.LAZY)
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "order_id")
 	private Order order;
 

@@ -136,10 +136,10 @@
 					</div>
 					<div style="text-align: right; padding: 15px;" id="total-price"
 						th:if="${totalPrice > 0}">
-						<button class="btn btn-success" style="font-weight: bold;">
+						<a th:href="@{/order/show-order-input}" class="btn btn-success" style="font-weight: bold; text-decoration: none; color: white;">
 							Thanh toán ngay | <span>Tổng tiền: <span
 								id="total-price-view" class="pro-price" th:text="${totalPrice}"></span></span>
-						</button>
+						</a>
 					</div>
 				</div>
 				<div id="mobile-table">

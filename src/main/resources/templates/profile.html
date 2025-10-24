@@ -13,7 +13,7 @@
 <link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}"
 	type="text/css">
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-
+<link rel="stylesheet" type="text/css" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css}">
 <!-- UIkit CSS -->
 <link rel="stylesheet" th:href="@{/plugins/uikit/uikit.min.css}" />
 <link rel="stylesheet" th:href="@{/css/sign.css}">
@@ -82,7 +82,7 @@
 										name="fullName" id="fullName" placeholder="Họ tên"
 										th:value="${user.fullName}" disabled
 										onchange="showSaveButton()"><span class="btn-update"><button
-											onclick="allowUpdate(this)">mở</button></span>
+											onclick="allowUpdate(this)" style="border: none; background-color: transparent;"><i class="fa-solid fa-pen-to-square"></i></button></span>
 								</div>
 								<div class="input-form col-md-6"
 									onmousemove="showUpdateButton(this)"
@@ -91,7 +91,8 @@
 										name="phoneNumber" id="phoneNumber"
 										placeholder="Số điện thoại" th:value="${user.phoneNumber}"
 										onchange="showSaveButton()" disabled><span
-										class="btn-update"><button onclick="allowUpdate(this)">mở</button></span>
+										class="btn-update"><button
+											onclick="allowUpdate(this)" style="border: none; background-color: transparent;"><i class="fa-solid fa-pen-to-square"></i></button></span>
 								</div>
 								<div class="input-form col-md-12"
 									onmousemove="showUpdateButton(this)"
@@ -100,10 +101,10 @@
 										name="address" id="address" placeholder="Địa chỉ"
 										th:value="${user.address}" onchange="showSaveButton()"
 										disabled style="width: 90%;"><span class="btn-update"><button
-											onclick="allowUpdate(this)">mở</button></span>
+											onclick="allowUpdate(this)" style="border: none; background-color: transparent;"><i class="fa-solid fa-pen-to-square"></i></button></span>
 								</div>
 								<div class="input-form col-md-12">
-									<input class="form-control btn-success" type="submit"
+									<input class="form-control btn btn-success" type="submit"
 										value="Lưu thay đổi" style="display: none;" id="submit-button"
 										onclick="submitChange()">
 								</div>
@@ -112,56 +113,7 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<h2 style="text-align: center;">Đơn hàng của bạn</h2>
-					<div style="overflow-y: auto; height: 220px;">
-						<table class="table table-hover table-bordered">
-							<tr class="bg-info">
-								<th>Mã đơn hàng</th>
-								<th>Ngày đặt hàng</th>
-								<th>Tổng tiền</th>
-							</tr>
-							<tr>
-								<td>Đơn hàng 1</td>
-								<td>06/10/2025</td>
-								<td>100000</td>
-							</tr>
-							<tr>
-								<td>Đơn hàng 1</td>
-								<td>06/10/2025</td>
-								<td>100000</td>
-							</tr>
-							<tr>
-								<td>Đơn hàng 1</td>
-								<td>06/10/2025</td>
-								<td>100000</td>
-							</tr>
-							<tr>
-								<td>Đơn hàng 1</td>
-								<td>06/10/2025</td>
-								<td>100000</td>
-							</tr>
-							<tr>
-								<td>Đơn hàng 1</td>
-								<td>06/10/2025</td>
-								<td>100000</td>
-							</tr>
-							<tr>
-								<td>Đơn hàng 1</td>
-								<td>06/10/2025</td>
-								<td>100000</td>
-							</tr>
-							<tr>
-								<td>Đơn hàng 1</td>
-								<td>06/10/2025</td>
-								<td>100000</td>
-							</tr>
-							<tr>
-								<td>Đơn hàng 1</td>
-								<td>06/10/2025</td>
-								<td>100000</td>
-							</tr>
-						</table>
-					</div>
+					<div th:replace="~{/fragment/order-list.html :: order-list}"></div>
 				</div>
 			</div>
 		</div>
@@ -198,6 +150,10 @@
 	<script th:src="@{/plugins/uikit/uikit.min.js}"></script>
 	<script th:src="@{/plugins/uikit/uikit-icons.min.js}"></script>
 	<script th:src="@{/js/profile.js}"></script>
+	<script th:src="@{/js/currency.js}"></script>
+	<script type="text/javascript">
+	formatToVND()
+	</script>
 </body>
 
 </html>

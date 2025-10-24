@@ -1,7 +1,7 @@
 var userName = document.querySelector("#user-name")
 
 window.addEventListener('pageshow', () => {
-	if (userName.textContent) {
+	if (userName) {
 		fetch('/cart/header', {
 			method: 'GET',
 			header: { 'Content-Type': 'application/json' },

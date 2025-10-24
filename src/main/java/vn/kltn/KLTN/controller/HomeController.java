@@ -39,6 +39,7 @@ public class HomeController {
 																				// hiện
 			model.addAttribute("sameProducts", sameProducts);
 		}
+		product.sortSizePrice();
 		model.addAttribute("product", product);
 
 		return "detail-product";

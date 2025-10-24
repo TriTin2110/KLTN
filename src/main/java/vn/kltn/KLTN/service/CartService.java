@@ -15,7 +15,7 @@ public interface CartService {
 	public Cart addProductToCart(String userName, String productName, String productImage, String size, int price,
 			int productQuantity, Cart userCart);
 
-	public Cart updateAmount(String userName, String productName, CartItem cartItem);
+	public Cart updateAmount(String userName, String productName, CartItem Item);
 
 	public Order ordering(User user);
 
@@ -28,4 +28,5 @@ public interface CartService {
 	public Cart findById(String cartId);
 
 	public List<Cart> findAll();
+
 }

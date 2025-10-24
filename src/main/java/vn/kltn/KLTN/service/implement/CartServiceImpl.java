@@ -86,37 +86,37 @@ public class CartServiceImpl implements CartService {
 		builder.append("-");
 		builder.append(size);
 		String id = Base64.getEncoder().encodeToString(builder.toString().getBytes());
-		CartItem cartItem = cartItemAlreayExists(cartItems, id);
-		if (cartItem == null) {
-			cartItem = new CartItem(id, price, productQuantity, size, productName, productImage);
-			cartItems.add(cartItem);
+		CartItem CartItem = cartItemAlreayExists(cartItems, id);
+		if (CartItem == null) {
+			CartItem = new CartItem(id, price, productQuantity, size, productName, productImage);
+			cartItems.add(CartItem);
 		} else {
-			cartItem.setQuantity(cartItem.getQuantity() + productQuantity);
-			int index = cartItems.indexOf(cartItem);
-			cartItems.set(index, cartItem);
+			CartItem.setQuantity(CartItem.getQuantity() + productQuantity);
+			int index = cartItems.indexOf(CartItem);
+			cartItems.set(index, CartItem);
 		}
 		return cart;
 	}
 
 	private CartItem cartItemAlreayExists(List<CartItem> cartItems, String id) {
-		Optional<CartItem> opt = cartItems.stream().filter(cartItem -> id.equals(cartItem.getItemId())).findFirst();
+		Optional<CartItem> opt = cartItems.stream().filter(CartItem -> id.equals(CartItem.getItemId())).findFirst();
 		return (opt.isEmpty()) ? null : opt.get();
 	}
 
 	@Override
 	@Transactional
-	public Cart updateAmount(String userName, String productName, CartItem cartItem) {
+	public Cart updateAmount(String userName, String productName, CartItem CartItem) {
 		// TODO Auto-generated method stub
 		Optional<Cart> opt = repository.findById(userName);
 		if (opt.isEmpty())
 			return null;
 		Cart cart = opt.get();
 		List<CartItem> cartItems = cart.getCartItems();
-		Optional<CartItem> optCartItem = cartItems.stream().filter(o -> o.getItemId() == cartItem.getItemId())
+		Optional<CartItem> optCartItem = cartItems.stream().filter(o -> o.getItemId() == CartItem.getItemId())
 				.findFirst();
 		if (optCartItem.isPresent()) {
 			CartItem cartItemExisted = optCartItem.get();
-			cartItemExisted.setData(cartItem);
+			cartItemExisted.setData(CartItem);
 			return repository.saveAndFlush(cart);
 		}
 		return null;
@@ -173,7 +173,7 @@ public class CartServiceImpl implements CartService {
 	}
 
 	private int getTotalPrice(Cart cart) {
-		return cart.getCartItems().stream().mapToInt(cartItem -> cartItem.getPrice() * cartItem.getQuantity()).sum();
+		return cart.getCartItems().stream().mapToInt(CartItem -> CartItem.getPrice() * CartItem.getQuantity()).sum();
 	}
 
 	@Override
