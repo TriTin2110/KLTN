@@ -20,7 +20,8 @@
 			<li><a href="#"><i class="fas fa-tachometer-alt"></i>
 					Dashboard</a></li>
 			<li><a href="#"><i class="fas fa-box"></i> Sản phẩm</a></li>
-			<li><a href="#"><i class="fas fa-users"></i> Người dùng</a></li>
+			<li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/admin/users')} ? 'active' : '']]]"
+				 th:href="@{/admin/users}"><i class="fas fa-users"></i> Người dùng</a></li>
 			<li><a href="#"><i class="fas fa-chart-line"></i> Báo cáo</a></li>
 			<li><a href="#"><i class="fas fa-cogs"></i> Cài đặt</a></li>
 		</ul>
@@ -141,8 +142,12 @@
             <tr th:each="p : ${products}">
                 <td th:text="${p.name}"></td>
                 <td><img th:src="${'https://s3.cloudfly.vn/kltn/images/' + p.image}" alt="Ảnh sản phẩm"/></td>
-                <td th:text="${p.prices != null} ? ${#strings.arrayJoin(p.prices, ',')} : ''"></td>
-                <td th:text="${p.sizes != null} ? ${#strings.arrayJoin(p.sizes, ',')} : ''"></td>
+	            <td>
+	            	<span th:text="${#strings.arrayJoin(p.sizePrice.values(), ', ')}"></span>
+	            </td>
+	            <td >
+	            	<span th:text="${#strings.arrayJoin(p.sizePrice.keySet(), ', ')}"></span>
+	            </td>
                 <td>
                     <a th:href="@{/product/admin/edit(name=${p.name})}">Sửa</a>
                     <form th:action="@{/product/admin/delete}" method="post" style="display:inline">

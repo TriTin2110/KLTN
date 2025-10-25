@@ -1,11 +1,16 @@
 package vn.kltn.KLTN.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -13,8 +18,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -22,12 +29,19 @@ public class Product {
 	@Id
 	private String name;
 	private String image;
-	private List<Integer> prices;
-	private List<String> sizes;
+
+	@Transient
+	private int lowestPrice;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "size_price", joinColumns = @JoinColumn(name = "product_name"))
+	@MapKeyColumn(name = "size")
+	@Column(name = "price")
+	private Map<String, Integer> sizePrice;
+
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "category_id")
 	private Category category;
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinTable(name = "product_ingredient", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
 	private List<Ingredient> ingredients;
 	@ManyToOne(cascade = CascadeType.MERGE)
@@ -36,10 +50,7 @@ public class Product {
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
 	@JoinColumn(name = "coupon_id")
 	private Coupon coupon;
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "product_detail_id")
-	private ProductDetail productDetail;
-	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private List<Comment> comments;
 	@ManyToMany
 	@JoinTable(name = "product_combo", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "combo_id"))
@@ -51,27 +62,18 @@ public class Product {
 	public Product(String name, String image) {
 		this.name = name;
 		this.image = image;
-		this.prices = new ArrayList<Integer>();
-		this.sizes = new ArrayList<String>();
+		this.sizePrice = new HashMap<String, Integer>();
 		this.ingredients = new ArrayList<Ingredient>();
 		this.comments = new ArrayList<Comment>();
 		this.combos = new ArrayList<Combo>();
 	}
 
-	public List<Integer> getPrices() {
-		return prices;
+	public Map<String, Integer> getSizePrice() {
+		return sizePrice;
 	}
 
-	public void setPrices(List<Integer> prices) {
-		this.prices = prices;
-	}
-
-	public List<String> getSizes() {
-		return sizes;
-	}
-
-	public void setSizes(List<String> sizes) {
-		this.sizes = sizes;
+	public void setSizePrice(Map<String, Integer> priceSize) {
+		this.sizePrice = priceSize;
 	}
 
 	public Category getCategory() {
@@ -106,14 +108,6 @@ public class Product {
 		this.coupon = coupon;
 	}
 
-	public ProductDetail getProductDetail() {
-		return productDetail;
-	}
-
-	public void setProductDetail(ProductDetail productDetail) {
-		this.productDetail = productDetail;
-	}
-
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -146,6 +140,14 @@ public class Product {
 		this.image = image;
 	}
 
+	public int getLowestPrice() {
+		return lowestPrice;
+	}
+
+	public void setLowestPrice(int lowestPrice) {
+		this.lowestPrice = lowestPrice;
+	}
+
 	public void addIngredient(Ingredient ingredient) {
 		this.ingredients.add(ingredient);
 	}
@@ -161,18 +163,6 @@ public class Product {
 				return true;
 		}
 		return false;
-	}
-
-	@Override
-	public String toString() {
-		List<Ingredient> ingredients = this.ingredients;
-		List<Integer> prices = this.getPrices();
-		String ingredientString = ingredients.stream().map(o -> o.toString()).collect(Collectors.joining("|"));
-		String pricesString = prices.stream().map(o -> String.valueOf(o)).collect(Collectors.joining("|"));
-		String sizeString = sizes.stream().map(o -> o).collect(Collectors.joining("|"));
-		return "Product [name=" + getName() + ", price=" + pricesString + ", size=" + sizeString + ", category="
-				+ category + ", ingredients=" + ingredientString + ", coupon=" + coupon + ", productDetail="
-				+ productDetail + "]";
 	}
 
 }

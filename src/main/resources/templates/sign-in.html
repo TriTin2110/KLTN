@@ -17,7 +17,6 @@
 <!-- UIkit CSS -->
 <link rel="stylesheet" th:href="@{/plugins/uikit/uikit.min.css}" />
 <link rel="stylesheet" th:href="@{/css/sign.css}">
-
 <title>Signin</title>
 <style>
 #quenmk {
@@ -60,11 +59,13 @@
 							This site is protected by reCAPTCHA and the Google <a href="">Privacy
 								Policy</a> and <a href="">Terms of Service</a> apply.
 						</div>
+						<div id="captcha-error" style="display: none; color: red;">Vui lòng xác thực captcha!</div>
+						<div class="g-recaptcha" data-sitekey="6Lf_aOgrAAAAAJ3He99IUgDV691f63BfzUln4HQP" style="margin-bottom: 20px;"></div>
 						<div class="submit">
 							<input class="btn" type="submit" value="Đăng Nhập">
 							<div class="forgetpassword">
 								<p style="cursor: pointer;" id="quenmk">Quên mật khẩu?</p>
-								hoặc <a href="signup.html">Đăng kí</a>
+								hoặc <a href="/user/sign-up">Đăng kí</a>
 							</div>
 
 						</div>
@@ -119,9 +120,20 @@
 	<script th:src="@{/js/script.js}"></script>
 	<script th:src="@{/plugins/uikit/uikit.min.js}"></script>
 	<script th:src="@{/plugins/uikit/uikit-icons.min.js}"></script>
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	<script th:src="@{/js/sign.js}"></script>
-
 	<script th:src="@{/js/password-reset.js}"></script>
+	
+	<script type="text/javascript">
+		// Lấy toàn bộ query param của URL
+		const params = new URLSearchParams(window.location.search);
+		const captchaError = params.get('captchaError')
+		console.log(captchaError)
+		if(captchaError)
+		{
+			document.getElementById("captcha-error").style.display = 'block'
+		}
+	</script>
 </body>
 
 </html>

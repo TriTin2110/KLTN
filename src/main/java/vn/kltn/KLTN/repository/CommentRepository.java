@@ -7,5 +7,5 @@ import vn.kltn.KLTN.entity.Comment;
 
 @RepositoryRestResource
 public interface CommentRepository extends JpaRepository<Comment, String> {
-
+	
 }

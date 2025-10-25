@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head><meta charset="UTF-8"><title>Sửa bình luận</title></head>
+<body>
+<h3>Sửa bình luận</h3>
+<form th:action="@{'/comments/' + ${commentId} + '/edit'}" method="post">
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+  <textarea name="content" rows="4" maxlength="1000" required th:text="${content}"></textarea>
+  <div style="margin-top:8px">
+    <button type="submit">Lưu</button>
+    <a th:href="@{'/products/' + ${productId} + '#comments'}">Huỷ</a>
+  </div>
+</form>
+</body>
+</html>

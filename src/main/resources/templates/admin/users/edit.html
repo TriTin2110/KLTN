@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin | Sửa người dùng</title>
+
+  <!-- CSS gốc của Admin Panel -->
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+  <!-- CSS riêng cho phần user -->
+  <link rel="stylesheet" th:href="@{/css/user-management/user-management.css}" />
+  <link rel="stylesheet" th:href="@{/css/user-management/edit.css}" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <img th:src="@{/images/logo.jpg}" alt="Logo" class="logo">
+      <h2>Admin Panel</h2>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a th:href="@{/product/admin/show-page}"><i class="fas fa-gauge"></i> Dashboard</a></li>
+      <li><a th:href="@{/product/admin/show-page}"><i class="fas fa-box"></i> Sản phẩm</a></li>
+      <li>
+        <a class="active" th:href="@{/admin/users}">
+          <i class="fas fa-users"></i> Người dùng
+        </a>
+      </li>
+      <li><a href="#"><i class="fas fa-chart-line"></i> Báo cáo</a></li>
+      <li><a href="#"><i class="fas fa-cogs"></i> Cài đặt</a></li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h1>Sửa người dùng</h1>
+      <div class="topbar-right">
+        <span>Admin</span>
+        <i class="fas fa-user-circle"></i>
+      </div>
+    </div>
+
+    <!-- FORM SỬA NGƯỜI DÙNG -->
+    <div class="form-section">
+      <h2>Cập nhật thông tin người dùng</h2>
+
+      <form th:action="@{|/admin/users/${user.username}/edit|}" method="post">
+        <input type="hidden"
+               th:if="${_csrf != null}"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}" />
+
+        <!-- Username (readonly) -->
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" th:value="${user.username}" readonly>
+        </div>
+
+		<div class="row-input two-cols">
+		  <div class="input-group">
+		    <label>Họ tên</label>
+		    <input type="text" name="fullName" th:value="${user.fullName}" required>
+		  </div>
+		  <div class="input-group">
+		    <label>Email</label>
+		    <input type="email" name="email" th:value="${user.email}" required
+			placeholder="Nhập email">
+		  </div>
+		</div>
+
+        <div class="row-input">
+          <div class="input-group">
+            <label>Địa chỉ</label>
+            <input type="text" name="address" th:value="${user.address}">
+          </div>
+          <div class="input-group">
+            <label>Số điện thoại</label>
+            <input type="text" name="phoneNumber" th:value="${user.phoneNumber}">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Role</label>
+          <select name="role">
+            <option th:each="r : ${roles}"
+                    th:value="${r}"
+                    th:selected="${user.role != null and user.role.type == r}"
+                    th:text="${r}">
+            </option>
+          </select>
+        </div>
+
+        <!-- Nút hành động -->
+        <div class="form-actions">
+          <a th:href="@{/admin/users}" class="btn-cancel"><i class="fa fa-arrow-left"></i> Quay lại</a>
+          <button type="submit" class="btn-save"><i class="fa fa-save"></i> Lưu thay đổi</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</body>
+</html>

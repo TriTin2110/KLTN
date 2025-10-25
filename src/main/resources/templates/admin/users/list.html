@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel | Quản lý người dùng</title>
+
+  <!-- CSS gốc của Admin Panel -->
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+  <!-- Bổ sung style riêng cho phần User -->
+  <link rel="stylesheet" th:href="@{/css/user-management/user-management.css}" />
+  <!-- Icon (tuỳ chọn) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <img th:src="@{/images/logo.jpg}" alt="Logo" class="logo">
+      <h2>Admin Panel</h2>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a th:href="@{/product/admin/show-page}"><i class="fas fa-gauge"></i> Dashboard</a></li>
+      <li><a th:href="@{/product/admin/show-page}"><i class="fas fa-box"></i> Sản phẩm</a></li>
+      <li>
+        <a class="active" th:href="@{/admin/users}">
+          <i class="fas fa-users"></i> Người dùng
+        </a>
+      </li>
+      <li><a href="#"><i class="fas fa-chart-line"></i> Báo cáo</a></li>
+      <li><a href="#"><i class="fas fa-cogs"></i> Cài đặt</a></li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h1>Quản lý người dùng</h1>
+      <div class="topbar-right">
+        <span>Admin</span>
+        <i class="fas fa-user-circle"></i>
+      </div>
+    </div>
+
+    <!-- CARDS THỐNG KÊ -->
+    <div class="cards">
+      <div class="card">
+        <h3>Tổng người dùng</h3>
+        <p th:text="${users.size()}">0</p>
+      </div>
+      <div class="card">
+        <h3>Admin</h3>
+        <p th:text="${adminCount}">0</p>
+      </div>
+      <div class="card">
+        <h3>Người dùng</h3>
+        <p th:text="${userCount}">0</p>
+      </div>
+    </div>
+
+    <!-- THANH HÀNH ĐỘNG -->
+    <div class="toolbar">
+      <a class="btn-primary-sm" th:href="@{/admin/users}"><i class="fa fa-rotate"></i> Làm mới</a>
+      <!-- Nếu có thêm tính năng tạo user, đặt nút tại đây -->
+      <!-- <a class="btn-success-sm" th:href="@{/admin/users/create}"><i class="fa fa-user-plus"></i> Thêm người dùng</a> -->
+    </div>
+
+    <!-- BẢNG NGƯỜI DÙNG -->
+    <div class="table-wrapper">
+      <table class="ap-table">
+		<colgroup>
+		    <col style="width:6%">   <!-- STT -->
+		    <col style="width:18%">  <!-- Username -->
+		    <col style="width:18%">  <!-- Họ tên -->	
+		    <col style="width:22%">  <!-- Email -->
+		    <col style="width:14%">  <!-- Role -->
+		    <col style="width:10%">  <!-- SĐT -->
+		    <col style="width:12%">   <!-- Action -->
+		  </colgroup>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Username</th>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>SĐT</th>
+            <th class="text-end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="u, stat : ${users}">
+            <td th:text="${stat.index + 1}"></td>
+            <td th:text="${u.username}"></td>
+            <td th:text="${u.fullName}"></td>
+            <td th:text="${u.email}"></td>
+            <td>
+              <span class="badge-role" th:text="${u.role != null ? u.role.type : 'N/A'}"></span>
+            </td>
+            <td th:text="${u.phoneNumber}"></td>
+            <td class="text-end">
+              <a class="btn-green-sm" th:href="@{|/admin/users/${u.username}/edit|}">Sửa</a>
+              <form th:action="@{|/admin/users/${u.username}/delete|}" method="post" style="display:inline"
+                    onsubmit="return confirm('Xóa user này?');">
+                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button class="btn-blue-sm" type="submit">Xoá</button>
+              </form>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(users)}">
+            <td colspan="7" class="empty">Không có dữ liệu</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</body>
+</html>

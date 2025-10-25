@@ -1,5 +1,6 @@
 package vn.kltn.KLTN.service.implement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +24,11 @@ public class ComboServiceImpl implements ComboService {
 		// TODO Auto-generated method stub
 		String product1Name = product1.getName();
 		String product2Name = product2.getName();
-
+		int price1 = new ArrayList<Integer>(product1.getSizePrice().values()).get(0);
+		int price2 = new ArrayList<Integer>(product2.getSizePrice().values()).get(0);
 		if (!product1.getName().equals(product2.getName())) {
 			try {
-				int totalPrice = (int) Math.ceil(
-						((1 - ((float) discount / 100)) * (product1.getPrices().get(0) + product2.getPrices().get(0))));
+				int totalPrice = (int) Math.ceil(((1 - ((float) discount / 100)) * (price1 + price2)));
 				Combo combo = new Combo(product1Name + "-" + product2Name, shortDescription, totalPrice, discount,
 						List.of(product1, product2));
 				return repository.saveAndFlush(combo);

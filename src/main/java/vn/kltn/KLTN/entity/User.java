@@ -39,7 +39,7 @@ public class User implements UserDetails {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cart_id")
 	private Cart cart;
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
 	private Point point;
 
 	public User() {
@@ -156,7 +156,7 @@ public class User implements UserDetails {
 
 	public void addCart(Cart cart) {
 		this.cart = cart;
-		cart.setUser(this);
+//		cart.setUser(this);
 	}
 
 	public String getPhoneNumber() {

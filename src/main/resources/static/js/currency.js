@@ -12,3 +12,9 @@ function formatElementToVND(element)
 	let priceValue = parseInt(element.textContent)
 	element.textContent = priceValue.toLocaleString('vi-VN', {style: 'currency', currency: "VND"})
 }
+
+function formatValueToVND(element)
+{
+	let priceValue = parseInt(element)
+	return priceValue.toLocaleString('vi-VN', {style: 'currency', currency: "VND"})
+}

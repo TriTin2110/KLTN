@@ -3,6 +3,7 @@ package vn.kltn.KLTN.service;
 import java.util.List;
 
 import vn.kltn.KLTN.entity.Cart;
+import vn.kltn.KLTN.entity.CartItem;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.User;
 
@@ -11,9 +12,10 @@ public interface CartService {
 
 	public boolean removeProductFromCart(String userName, String productName);
 
-	public Cart addProductToCart(String userName, String productName, int amount);
+	public Cart addProductToCart(String userName, String productName, String productImage, String size, int price,
+			int productQuantity, Cart userCart);
 
-	public Cart updateAmount(String userName, String productName, int amount);
+	public Cart updateAmount(String userName, String productName, CartItem cartItem);
 
 	public Order ordering(User user);
 
