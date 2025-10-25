@@ -1,11 +1,15 @@
 package vn.kltn.KLTN.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import vn.kltn.KLTN.enums.Rank;
 
 @Entity
@@ -15,12 +19,11 @@ public class Point {
 	private int totalSpent, accumulatedPoint;
 	@Enumerated(value = EnumType.STRING)
 	private Rank userRank;
-	@OneToOne
-	@JoinColumn(name = "order_id")
-	private Order order;
-	@OneToOne
-	@JoinColumn(name = "user_name")
-	private User user;
+	@OneToMany(mappedBy = "point", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY)
+	private List<Order> orders;
+//	@OneToOne
+//	@JoinColumn(name = "user_name")
+//	private User user;
 
 	public Point() {
 	}
@@ -29,6 +32,7 @@ public class Point {
 		this.id = id;
 		this.totalSpent = 0;
 		this.accumulatedPoint = 0;
+		this.orders = new ArrayList<Order>();
 	}
 
 	public String getId() {
@@ -63,36 +67,36 @@ public class Point {
 		this.userRank = userRank;
 	}
 
-	public Order getOrder() {
-		return order;
+	public List<Order> getOrder() {
+		return orders;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setOrder(List<Order> orders) {
+		this.orders = orders;
 	}
 
-	public User getUser() {
-		return user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public void addOrder(Order orders) {
+//		this.orders = orders;
+//		orders.setPoint(this);
+//	}
 
-	public void addOrder(Order order) {
-		this.order = order;
-		order.setPoint(this);
-	}
+//	public void addUser(User user) {
+//		this.user = user;
+//		user.setPoint(this);
+//	}
 
-	public void addUser(User user) {
-		this.user = user;
-		user.setPoint(this);
-	}
-
-	@Override
-	public String toString() {
-		return "Point [id=" + id + ", totalSpent=" + totalSpent + ", accumulatedPoint=" + accumulatedPoint
-				+ ", userRank=" + userRank + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Point [id=" + id + ", totalSpent=" + totalSpent + ", accumulatedPoint=" + accumulatedPoint
+//				+ ", userRank=" + userRank + "]";
+//	}
 
 }

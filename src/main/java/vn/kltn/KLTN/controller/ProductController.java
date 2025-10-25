@@ -198,7 +198,7 @@ public class ProductController {
 		fileService.readXLSXFile(file);
 		model.addAttribute("products", productRepository.findAll());
 		model.addAttribute("product", new Product());
-		return "admin";
+		return "redirect:/product/admin/show-page";
 	}
 	
 	// comment san pham

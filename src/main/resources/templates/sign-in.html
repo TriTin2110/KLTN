@@ -47,10 +47,11 @@
 							style="color: red; text-align: center; padding-bottom: 10px; font-weight: bold;"
 							th:if="${param.error}">Sai tên tài khoản hoặc mật khẩu!</div>
 						<div class="username form-control1 ">
-							<input type="text" id="username" placeholder="Tài khoản"
-								name="username">
+							<label for="username" style="margin-bottom: 10px;"><b>Tên tài khoản</b></label> <input type="text"
+								id="username" placeholder="Tên tài khoản" name="username">
 						</div>
 						<div class="password form-control1">
+							<label for="password" style="margin-bottom: 10px;"><b>Mật khẩu</b></label>
 							<input type="password" id="password" placeholder="Mật khẩu"
 								name="password">
 						</div>
@@ -59,8 +60,11 @@
 							This site is protected by reCAPTCHA and the Google <a href="">Privacy
 								Policy</a> and <a href="">Terms of Service</a> apply.
 						</div>
-						<div id="captcha-error" style="display: none; color: red;">Vui lòng xác thực captcha!</div>
-						<div class="g-recaptcha" data-sitekey="6Lf_aOgrAAAAAJ3He99IUgDV691f63BfzUln4HQP" style="margin-bottom: 20px;"></div>
+						<div id="captcha-error" style="display: none; color: red;">Vui
+							lòng xác thực captcha!</div>
+						<div class="g-recaptcha"
+							data-sitekey="6Lf_aOgrAAAAAJ3He99IUgDV691f63BfzUln4HQP"
+							style="margin-bottom: 20px;"></div>
 						<div class="submit">
 							<input class="btn" type="submit" value="Đăng Nhập">
 							<div class="forgetpassword">
@@ -80,7 +84,8 @@
 						<div id="error"
 							style="display: none; color: red; font-weight: bold;"></div>
 						<div class="form-control1">
-							<input type="text" id="email" name="email" placeholder="Email" autocomplete="email">
+							<input type="text" id="email" name="email" placeholder="Email"
+								autocomplete="email">
 						</div>
 						<div class="form-control1" id="verify-code" style="display: none;">
 							<input type="text" id="verify-code-input" name="verify-code"
@@ -97,7 +102,7 @@
 						</div>
 						<div class="submit">
 							<input class="btn" id="send-mail-button" type="button"
-									value="Gửi" onclick="sendMail()">
+								value="Gửi" onclick="sendMail()">
 							<div class="forgetpassword">
 								<a href="" id="huy">Hủy</a>
 							</div>
@@ -123,7 +128,7 @@
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	<script th:src="@{/js/sign.js}"></script>
 	<script th:src="@{/js/password-reset.js}"></script>
-	
+
 	<script type="text/javascript">
 		// Lấy toàn bộ query param của URL
 		const params = new URLSearchParams(window.location.search);

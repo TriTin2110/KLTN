@@ -1,19 +1,17 @@
 package vn.kltn.KLTN.entity;
 
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapKeyColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import vn.kltn.KLTN.enums.OrderStatus;
@@ -25,21 +23,20 @@ public class Order {
 	private String id;
 	private Date createdDate;
 	private int totalPrice;
+	private String address;
+	private String phoneNumber;
 
 	@Enumerated(value = EnumType.STRING)
 	private OrderStatus status;
-	@OneToOne(mappedBy = "order", cascade = CascadeType.MERGE)
+	@OneToOne(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Cart cart;
 
-	@OneToOne(mappedBy = "order", cascade = CascadeType.REMOVE)
+	@ManyToOne(cascade = { CascadeType.MERGE })
+	@JoinColumn(name = "point_id")
 	private Point point;
 
-	@ElementCollection
-	@CollectionTable(name = "item_ordered", joinColumns = {
-			@JoinColumn(name = "order_id", referencedColumnName = "id") })
-	@MapKeyColumn(name = "product_id")
-	@Column(name = "quantity")
-	private Map<Product, Integer> orderItem;
+	@OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
+	private List<OrderItem> orderItem;
 
 	public Order() {
 	}
@@ -49,7 +46,7 @@ public class Order {
 		this.createdDate = null;
 		this.totalPrice = 0;
 		this.status = null;
-		this.orderItem = new HashMap<Product, Integer>();
+		this.orderItem = new ArrayList<OrderItem>();
 	}
 
 	public String getId() {
@@ -92,11 +89,12 @@ public class Order {
 		this.cart = cart;
 	}
 
-	public Map<Product, Integer> getOrderItem() {
+	public List<OrderItem> getOrderItem() {
 		return orderItem;
 	}
 
-	public void setOrderItem(Map<Product, Integer> orderItem) {
+	public void setOrderItem(List<OrderItem> orderItem) {
+		orderItem.stream().forEach(o -> o.setOrder(this));
 		this.orderItem = orderItem;
 	}
 
@@ -108,10 +106,26 @@ public class Order {
 		this.point = point;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", createdDate=" + createdDate + ", totalPrice=" + totalPrice + ", status=" + status
-				+ ", orderItem=" + orderItem + "]";
+				+ ", OrderItem=" + orderItem + "]";
 	}
 
 }

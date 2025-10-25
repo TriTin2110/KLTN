@@ -13,7 +13,8 @@
 <link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}"
 	type="text/css">
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-<link rel="stylesheet" type="text/css" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css}">
 <!-- UIkit CSS -->
 <link rel="stylesheet" th:href="@{/plugins/uikit/uikit.min.css}" />
 <link rel="stylesheet" th:href="@{/css/sign.css}">
@@ -64,57 +65,70 @@
 	<!--Content-->
 	<div class="content">
 		<div class="container">
-			<div class="row" style="margin: 30px 0px;">
-				<div class="col-md-6">
-					<div style="display: flex; justify-content: center;">
-						<div>
-							<div class="avatar-container">
-								<img id="userAvatar"
-									src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6gP2cXHCBfE3Q4snVK7RZuquprmqEBFHkg&s"
-									alt="Avatar"> <input type="file" id="avatarInput"
-									accept="image/*" style="display: none;">
+			<div>
+				<table class="table table-hover">
+					<thead class="table-light">
+						<tr>
+							<th colspan="6" style="text-align: center; font-size: 20px;">Thông
+								tin sản phẩm</th>
+						</tr>
+						<tr>
+							<th>No.</th>
+							<th>Tên sản phẩm</th>
+							<th>Ảnh</th>
+							<th>Kích cỡ</th>
+							<th>Số lượng</th>
+							<th>Giá</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="orderItem, sta : ${orderItems}">
+							<td th:text="${sta.index + 1}"></td>
+							<td th:text="${orderItem.productId}"></td>
+							<td><img width="50" th:alt="${orderItem.productImage}"
+								th:src="${'https://s3.cloudfly.vn/kltn/images/'+orderItem.productImage}">
+							</td>
+							<td th:text="${orderItem.size}"></td>
+							<td th:text="${orderItem.quantity}"></td>
+							<td class="pro-price" style="text-align: left;"
+								th:text="${orderItem.price}"></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col-md-6">
+						<div style="font-weight: bold;">
+							<div>
+								<span>Đơn hàng: <span th:text="${order.id}"></span></span>
 							</div>
-							<div class="row">
-								<div class="input-form col-md-6"
-									onmousemove="showUpdateButton(this)"
-									onmouseout="hideUpdateButton(this)">
-									<input class="form-control input-field" type="text"
-										name="fullName" id="fullName" placeholder="Họ tên"
-										th:value="${user.fullName}" disabled
-										onchange="showSaveButton()"><span class="btn-update"><button
-											onclick="allowUpdate(this)" style="border: none; background-color: transparent;"><i class="fa-solid fa-pen-to-square"></i></button></span>
-								</div>
-								<div class="input-form col-md-6"
-									onmousemove="showUpdateButton(this)"
-									onmouseout="hideUpdateButton(this)">
-									<input class="form-control input-field" type="number"
-										name="phoneNumber" id="phoneNumber"
-										placeholder="Số điện thoại" th:value="${user.phoneNumber}"
-										onchange="showSaveButton()" disabled><span
-										class="btn-update"><button
-											onclick="allowUpdate(this)" style="border: none; background-color: transparent;"><i class="fa-solid fa-pen-to-square"></i></button></span>
-								</div>
-								<div class="input-form col-md-12"
-									onmousemove="showUpdateButton(this)"
-									onmouseout="hideUpdateButton(this)">
-									<input class="form-control input-field" type="text"
-										name="address" id="address" placeholder="Địa chỉ"
-										th:value="${user.address}" onchange="showSaveButton()"
-										disabled style="width: 90%;"><span class="btn-update"><button
-											onclick="allowUpdate(this)" style="border: none; background-color: transparent;"><i class="fa-solid fa-pen-to-square"></i></button></span>
-								</div>
-								<div class="input-form col-md-12">
-									<input class="form-control btn btn-success" type="submit"
-										value="Lưu thay đổi" style="display: none;" id="submit-button"
-										onclick="submitChange()">
-								</div>
+							<div>
+								Trạng thái: <span th:text="${order.status}"></span>
+							</div>
+							<div>
+								Ngày đặt: <span th:text="${order.createdDate}"></span>
+							</div>
+							<div>
+								Số điện thoại: <span th:text="${order.phoneNumber}"></span>
+							</div>
+							<div>
+								Địa chỉ: <span th:text="${order.address}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div style="text-align: right; margin: 20px 0px;">
+							<h4>
+								Tổng tiền: <span th:text="${order.totalPrice}" class="pro-price"
+									style="font-size: unset;"></span>
+							</h4>
+							<div>
+								<a th:href="@{/order/remove/{id} (id=${order.id})}" class="btn btn-danger" style="color: white;">Hủy
+									đơn</a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div th:replace="~{/fragment/order-list.html :: order-list}"></div>
-				</div>
+
 			</div>
 		</div>
 

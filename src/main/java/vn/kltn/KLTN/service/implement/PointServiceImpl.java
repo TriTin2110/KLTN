@@ -1,5 +1,6 @@
 package vn.kltn.KLTN.service.implement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.Point;
 import vn.kltn.KLTN.repository.PointRepository;
 import vn.kltn.KLTN.service.PointService;
@@ -76,6 +78,24 @@ public class PointServiceImpl implements PointService {
 	public List<Point> findAll() {
 		// TODO Auto-generated method stub
 		return repository.findAll();
+	}
+
+	@Override
+	@Transactional
+	public Point addOrder(String pointId, Order order) {
+		// TODO Auto-generated method stub
+		Point point = findById(pointId);
+		point.getOrder().add(order);
+		return point;
+	}
+
+	@Override
+	@Transactional
+	public List<Order> getAllOrder(String pointId) {
+		// TODO Auto-generated method stub
+		Point point = findById(pointId);
+		List<Order> orders = new ArrayList<Order>(point.getOrder());
+		return orders;
 	}
 
 }

@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -119,7 +118,6 @@ public class ProductServiceImpl implements ProductService {
 		Product product = (opt.isEmpty()) ? null : opt.get();
 		if (product == null)
 			return null;
-		product = sortPrice(product);
 		return product;
 	}
 
@@ -378,20 +376,4 @@ public class ProductServiceImpl implements ProductService {
 		return products;
 	}
 
-	private Product sortPrice(Product product) {
-		Map<String, Integer> map = product.getSizePrice().entrySet().stream().sorted(Map.Entry.comparingByValue()) // Sắp
-																													// xếp
-																													// theo
-																													// giá
-																													// trị
-																													// tăng
-																													// dần
-				// của Value
-				.collect(Collectors.toMap(Map.Entry::getKey, // Giữ key
-						Map.Entry::getValue, // Giữ value
-						(oldValue, newValue) -> oldValue, // xử lý key trùng
-						LinkedHashMap::new)); // giữ thứ tự sắp xếp
-		product.setSizePrice(map);
-		return product;
-	}
 }

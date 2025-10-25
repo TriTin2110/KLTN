@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" th:href="@{/plugins/bootstrap/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/plugins/animate/animate.min.css}">
+<link rel="stylesheet" th:href="@{/plugins/fontawesome/all.css}">
+<link rel="stylesheet" th:href="@{/plugins/webfonts/font.css}">
+<link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}"
+	type="text/css">
+<link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}"
+	type="text/css">
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+
+<!-- UIkit CSS -->
+<link rel="stylesheet" th:href="@{/plugins/uikit/uikit.min.css}" />
+<link rel="stylesheet" th:href="@{/css/sign.css}">
+
+<title>Sign up</title>
+<style>
+#desktop-table {
+	display: block;
+}
+
+#mobile-table {
+	display: none;
+}
+
+#table-cart-item {
+	margin: 20px 0px;
+	height: 320px;
+	overflow-y: auto;
+}
+
+#table-cart-item table {
+	table-layout: fixed;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#table-cart-item .product-name-label, .product-name {
+	text-align: start;
+}
+
+#table-cart-item thead th {
+	position: sticky;
+	top: 0;
+	background-color: wheat;
+}
+
+.product-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.cart-item-image {
+	padding: 20px;
+}
+
+@media ( max-width : 768px) {
+	#desktop-table {
+		display: none;
+	}
+	#mobile-table {
+		display: block;
+	}
+	#table-cart-item thead th {
+		font-size: 10px;
+		text-align: center;
+	}
+	.cart-item-image {
+		padding: 0px;
+		width: 50px;
+	}
+}
+
+.btn-quantity {
+	transition: 0.25s;
+}
+
+.btn-quantity:hover {
+	background-color: gray;
+	color: white;
+}
+
+.col-md-6 h4 {
+	margin-bottom: 0px;
+}
+
+.col-md-6 h5 {
+	margin-bottom: 10px;
+}
+.text-line {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.text-line hr {
+  flex: 1;
+  border: 1px solid black;
+  margin-left: 10px;
+}
+
+</style>
+</head>
+
+<body>
+	<!-- header -->
+	<span th:replace="~{/fragment/header.html :: header}"></span>
+	<!--Content-->
+	<div class="content"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div id="desktop-table">
+					<div class="row" style="padding: 20px;">
+						<div class="col-md-6" style="padding: 20px;">
+							<form th:action="@{/order/show-confirm-order}" method="POST" th:object="${userDTO}">
+							<input type="hidden" th:field="*{username}">
+								<div style="margin-bottom: 10px;">
+									<strong>Họ tên: </strong> <span th:text="*{fullName}"></span>
+									<input type="hidden" th:field="*{fullName}">
+								</div>
+								<div>
+									<strong>Email: </strong> <span th:text="*{email}"></span>
+									<input type="hidden" th:field="*{email}">
+								</div>
+								<div style="padding: 10px 0px;">
+									<strong>Số điện thoại: </strong> <span> <input
+										class="form-control" th:field="*{phoneNumber}"
+										th:value="${(userDTO.phoneNumber == '' || userDTO.phoneNumber == null)?'':userDTO.phoneNumber}"
+										type="tel" required="required"
+										style="display: inline; width: 30%;" />
+									</span>
+								</div>
+								<div>
+									<strong>Địa chỉ: </strong> <span> <input
+										class="form-control" th:field="*{address}"
+										th:value="${(userDTO.address == '' || userDTO.address == null)?'':userDTO.address}"
+										type="text" required="required" />
+									</span>
+								</div>
+								<div style="margin-top: 20px;">
+									<strong>Mã giảm giá:</strong> <input class="form-control"
+										type="text" style="display: inline; width: 80%;" />
+								</div>
+								<input style="margin-top: 30px; width: 100%;" type="submit"
+									class="btn btn-primary" value="Đặt đơn">
+							</form>
+						</div>
+						<div class="col-md-6">
+							<div style="border: 1px solid gray; border-radius: 2%; height: 242px; overflow-y: auto;">
+								<h4 style="text-align: center;">
+									<strong><u><i>Danh sách món</i></u></strong>
+								</h4>
+								<div style="padding: 10px 20px;">
+									<div class="row"
+										style="border-bottom: 1px solid #dbd5d5; padding: 10px 0px;"
+										th:each="cartItem: ${cartItems}">
+										<div class="col-md-3">
+											<img style="border-radius: 5%;"
+												th:alt="${cartItem.productImage}"
+												th:src="${'https://s3.cloudfly.vn/kltn/images/'+cartItem.productImage}">
+										</div>
+										<div class="col-md-9">
+											<h5 th:text="${cartItem.productId}"></h5>
+											<div>
+												Size: <strong th:text="${cartItem.size}"></strong>, Số
+												lượng: <strong th:text="${cartItem.quantity}"></strong>
+											</div>
+											<div>
+												Giá: <strong class="pro-price" th:text="${cartItem.price}"></strong>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<div style="text-align: right; margin-top: 30px;"><h3>Tổng tiền: <span
+								id="total-price-view" class="pro-price" th:text="${totalPrice}" style="font-size: unset;"></span></h3></div>
+						</div>
+					</div>
+				</div>
+				<div id="mobile-table">
+					<div style="padding: 20px;">
+						<div style="padding: 20px;">
+							<form th:action="@{/order/show-confirm-order}" method="POST" th:object="${userDTO}">
+							<input type="hidden" th:field="*{username}">
+								<div style="margin-bottom: 10px;">
+									<strong>Họ tên: </strong> <span th:text="*{fullName}"></span>
+									<input type="hidden" th:field="*{fullName}">
+								</div>
+								<div>
+									<strong>Email: </strong> <span th:text="*{email}"></span>
+									<input type="hidden" th:field="*{email}">
+								</div>
+								<div style="padding: 10px 0px;">
+									<strong>Số điện thoại: </strong> <span> <input
+										class="form-control" th:field="*{phoneNumber}"
+										th:value="${(userDTO.phoneNumber == '' || userDTO.phoneNumber == null)?'':userDTO.phoneNumber}"
+										type="tel" required="required"
+										style="display: inline; width: unset;" />
+									</span>
+								</div>
+								<div>
+									<strong>Địa chỉ: </strong> <span> <input
+										class="form-control" th:field="*{address}"
+										th:value="${(userDTO.address == '' || userDTO.address == null)?'':userDTO.address}"
+										type="text" required="required" />
+									</span>
+								</div>
+								<div style="margin-top: 20px;">
+									<strong>Mã giảm giá:</strong> <input class="form-control"
+										type="text" style="display: inline; width: unset;" />
+								</div>
+								
+								<div class="text-line">
+								<h4 style="margin: unset;">Sản phẩm</h4>
+								<hr>
+								</div>
+								<div style="overflow-y: auto; height: 208px;">
+								<div class="row"
+										style="border-bottom: 1px solid #dbd5d5; padding: 10px 0px;"
+										th:each="cartItem: ${cartItems}">
+										<div class="col-3">
+											<img style="border-radius: 5%;"
+												th:alt="${cartItem.productImage}"
+												th:src="${'https://s3.cloudfly.vn/kltn/images/'+cartItem.productImage}">
+										</div>
+										<div class="col-9">
+											<h5 th:text="${cartItem.productId}"></h5>
+											<div>
+												Size: <strong th:text="${cartItem.size}"></strong>, Số
+												lượng: <strong th:text="${cartItem.quantity}"></strong>
+											</div>
+											<div>
+												Giá: <strong class="pro-price" th:text="${cartItem.price}"></strong>
+											</div>
+										</div>
+
+									</div>
+									</div>
+								<div style="margin-top: 30px; text-align: center;">
+									<strong>Tổng tiền: <span th:text="${totalPrice}" class="pro-price"></span></strong>
+									<input style="display: block; width: 100%; margin-top: 10px;" type="submit"
+									class="btn btn-primary" value="Đặt đơn">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		<!-- footer -->
+		<span th:replace="~{/fragment/footer.html :: footer}"></span>
+	</div>
+
+	<script async defer crossorigin="anonymous" th:src="@{/plugins/sdk.js}"></script>
+	<script th:src="@{/plugins/jquery-3.4.1/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap/popper.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap/bootstrap.min.js}"></script>
+	<script th:src="@{/plugins/owl.carousel/owl.carousel.min.js}"></script>
+	<script th:src="@{/js/home.js}"></script>
+	<script th:src="@{/js/script.js}"></script>
+	<script th:src="@{/plugins/uikit/uikit.min.js}"></script>
+	<script th:src="@{/plugins/uikit/uikit-icons.min.js}"></script>
+	<script th:src="@{/js/currency.js}"></script>
+	<script th:src="@{/js/cart.js}"></script>
+	<script type="text/javascript">
+		formatToVND()
+	</script>
+</body>
+
+</html>

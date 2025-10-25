@@ -1,6 +1,7 @@
 package vn.kltn.KLTN.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import vn.kltn.KLTN.entity.Point;
 import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.enums.RoleAvailable;
 import vn.kltn.KLTN.modules.PasswordEncode;
+import vn.kltn.KLTN.service.PointService;
 import vn.kltn.KLTN.service.RoleService;
 import vn.kltn.KLTN.service.UserService;
 import vn.kltn.KLTN.service.VerifyService;
@@ -31,12 +33,15 @@ public class UserController {
 	private RoleService roleService;
 	private UserService service;
 	private VerifyService verifyService;
+	private PointService pointService;
 
 	@Autowired
-	public UserController(RoleService roleService, UserService service, VerifyService verifyService) {
+	public UserController(RoleService roleService, UserService service, VerifyService verifyService,
+			PointService pointService) {
 		this.roleService = roleService;
 		this.service = service;
 		this.verifyService = verifyService;
+		this.pointService = pointService;
 	}
 
 	@GetMapping("/sign-up")
@@ -52,15 +57,18 @@ public class UserController {
 	}
 
 	@PostMapping("/sign-up")
-	public String signUp(@ModelAttribute("register") User user) {
+	public String signUp(@ModelAttribute("register") User user, Model model) {
+		if (service.findById(user.getUsername()) != null) {
+			model.addAttribute("error", "User đã tồn tại!");
+			return "sign-up";
+		}
 		Cart cart = new Cart(user.getUsername());
-		Order order = new Order(user.getUsername() + "-" + System.currentTimeMillis());
+		Order order = new Order(cart.getId() + "-" + System.currentTimeMillis());
 		Point point = new Point(user.getUsername());
 
 		user.addCart(cart);
 		cart.addOrder(order);
-		point.addOrder(order);
-		point.addUser(user);
+		user.setPoint(point);
 		user.setRole(roleService.findByType(RoleAvailable.ROLE_USER));
 
 		user = service.signUp(user);
@@ -121,7 +129,10 @@ public class UserController {
 	@GetMapping("/profile")
 	public String userProfile(Model model, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
+		Point point = user.getPoint();
+		List<Order> orders = pointService.getAllOrder(point.getId());
 		model.addAttribute("user", user);
+		model.addAttribute("orders", orders);
 		return "profile";
 	}
 

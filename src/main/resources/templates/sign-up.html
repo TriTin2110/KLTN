@@ -39,29 +39,37 @@
             </div>
             <div class="signin-right ">
                 <form th:action="@{/user/sign-up}" th:method="post" th:object="${register}" onsubmit="return checkValidation()">
+                <h5 th:if="${error}" th:text="${error}" style="text-align: center; color: red;"></h5>
                 	<div class="firstname form-control1">
                 		<div class="invalid-field" style="color: red; font-weight: bold;">Tài khoản phải có độ dài tối thiểu 4 kí tự</div>
+                		<label for="username" style="margin-bottom: 10px;"><b>Tên tài khoản</b></label>
                         <input type="text" th:field="*{username}" id="username" placeholder="Tài khoản (*)" required="required">
                     </div>
                      <div class="password form-control1">
                      	<div class="invalid-field" style="color: red; font-weight: bold;">Mật khẩu phải có độ dài tối thiểu 4 kí tự</div>
+                     	<label for="password" style="margin-bottom: 10px;"><b>Mật khẩu</b></label>
                         <input type="password" th:field="*{password}" id="password" placeholder="Mật khẩu (*)" required="required">
                     </div>
                     <hr>
                     <div class="firstname form-control1">
+                    	<label for="fullname" style="margin-bottom: 10px;"><b>Họ và Tên</b></label>
                         <input type="text" th:field="*{fullName}"  id="fullname" placeholder="Họ và tên">
                     </div>
                     <div class="birthday form-control1">
+                    	<label for="birthday" style="margin-bottom: 10px;"><b>Ngày sinh</b></label>
                         <input type="date" th:field="*{dateOfBirth}" id="birthday" placeholder="mm/dd/yyyy">
                     </div>
                     <div class="number form-control1">
                     	<div class="invalid-field">Số điện thoại không hợp lệ</div>
+                    	<label for="number" style="margin-bottom: 10px;"><b>Số điện thoại</b></label>
                         <input type="text" th:field="*{phoneNumber}" id="number" placeholder="Số điện thoại">
                     </div>
                     <div class="form-control1">
+                    <label for="address" style="margin-bottom: 10px;"><b>Địa chỉ</b></label>
                       <input type="text" th:field="*{address}" id="address" placeholder="Địa chỉ">
                     </div>
                     <div class="email form-control1">
+                    <label for="email" style="margin-bottom: 10px;"><b>Email</b></label>
                         <input type="email" th:field="*{email}"  id="email" placeholder="Email" required="required">
                     </div>
                     <div class="recaptcha form-control1">This site is protected by reCAPTCHA and the Google <a href="">Privacy Policy</a> and <a href="">Terms of Service</a> apply.</div>
@@ -69,7 +77,7 @@
                       <p>Đăng ký</p>
                     </button>
                     <div class="backto">
-                      <a href="signin.html"><i class="fa fa-long-arrow-alt-left"></i> Quay lại đăng nhập</a>
+                      <a th:href="@{/user/sign-in}"><i class="fa fa-long-arrow-alt-left"></i> Quay lại đăng nhập</a>
                     </div>
                 </form>
             </div>

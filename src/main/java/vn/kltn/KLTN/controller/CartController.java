@@ -99,9 +99,9 @@ public class CartController {
 			Cart cart = user.getCart();
 			List<CartItem> cartItems = cart.getCartItems();
 			String cartItemId = Base64.getEncoder().encodeToString(builder.toString().getBytes());
-			for (CartItem cartItem : cartItems) {
-				if (cartItemId.equals(cartItem.getItemId())) {
-					cart.getCartItems().remove(cartItem);
+			for (CartItem CartItem : cartItems) {
+				if (cartItemId.equals(CartItem.getItemId())) {
+					cart.getCartItems().remove(CartItem);
 					break;
 				}
 			}

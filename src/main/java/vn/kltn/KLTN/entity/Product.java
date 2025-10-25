@@ -2,8 +2,10 @@ package vn.kltn.KLTN.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -165,4 +167,20 @@ public class Product {
 		return false;
 	}
 
+	public void sortSizePrice() {
+		Map<String, Integer> map = this.getSizePrice().entrySet().stream()
+				.sorted((o1, o2) -> o1.getValue().compareTo(o2.getValue())) // Sắp
+				// xếp
+				// theo
+				// giá
+				// trị
+				// tăng
+				// dần
+				// của Value
+				.collect(Collectors.toMap(Map.Entry::getKey, // Giữ key
+						Map.Entry::getValue, // Giữ value
+						(oldValue, newValue) -> oldValue, // xử lý key trùng
+						LinkedHashMap::new)); // giữ thứ tự sắp xếp
+		this.setSizePrice(map);
+	}
 }
