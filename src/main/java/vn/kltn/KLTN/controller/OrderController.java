@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,6 +19,7 @@ import vn.kltn.KLTN.entity.OrderItem;
 import vn.kltn.KLTN.entity.Point;
 import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.enums.OrderStatus;
+import vn.kltn.KLTN.model.OrderDetailDTO;
 import vn.kltn.KLTN.model.UserDTO;
 import vn.kltn.KLTN.service.CartService;
 import vn.kltn.KLTN.service.OrderService;
@@ -51,7 +53,7 @@ public class OrderController {
 	}
 
 	@PostMapping("/show-confirm-order")
-	public void confirmOrder(@ModelAttribute("userDTO") UserDTO userDTO, HttpServletRequest request) {
+	public String confirmOrder(@ModelAttribute("userDTO") UserDTO userDTO, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
 		Cart cart = user.getCart();
 		Point point = user.getPoint();
@@ -66,8 +68,36 @@ public class OrderController {
 		order.setTotalPrice(cart.getTotalPrice());
 		order.setPoint(point);
 		order.setOrderItem(orderItems);
-		cart.setOrder(new Order(cart.getId() + "-" + System.currentTimeMillis()));
+		order.setCart(null); // Xóa ràng buộc giữa order và cart
+		cart.setOrder(null);
 		orderService.add(order);
 
+		Order newOrder = new Order(cart.getId() + "-" + System.currentTimeMillis());
+		cart.setOrder(newOrder);
+		cart.getCartItems().clear(); // Xóa tất cả sản phẩm tồn tại trong giỏ hàng
+		newOrder.setCart(cart);
+		orderService.add(newOrder); // Cập nhật order mới cho cart
+		return "redirect:/user/profile";
+	}
+
+	@GetMapping("/show-detail/{id}")
+	public String showDetail(@PathVariable("id") String orderId, Model model) {
+		OrderDetailDTO orderDetailDTO = orderService.findById(orderId);
+		Order order = orderDetailDTO.getOrder();
+		List<OrderItem> orderItems = orderDetailDTO.getOrderItems();
+		model.addAttribute("orderItems", orderItems);
+		model.addAttribute("order", order);
+		return "order-detail";
+	}
+
+	@GetMapping("/remove/{id}")
+	public String removeOrder(@PathVariable("id") String orderId) {
+		try {
+			orderService.remove(orderId);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "redirect:/user/profile";
 	}
 }

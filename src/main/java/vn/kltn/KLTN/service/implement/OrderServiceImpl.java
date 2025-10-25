@@ -1,5 +1,6 @@
 package vn.kltn.KLTN.service.implement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Order;
+import vn.kltn.KLTN.entity.OrderItem;
 import vn.kltn.KLTN.enums.Payment;
+import vn.kltn.KLTN.model.OrderDetailDTO;
 import vn.kltn.KLTN.repository.OrderRepository;
 import vn.kltn.KLTN.service.OrderService;
 
@@ -61,19 +64,20 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional
 	public boolean remove(String orderId) {
 		// TODO Auto-generated method stub
-//		try {
-//			Order order = findById(orderId);
+		try {
+			Optional<Order> opt = repository.findById(orderId);
 //			order.getPoint().setOrder(null);
-//			if (order != null) {
+			if (opt.isPresent()) {
+				Order order = opt.get();
 //				order.getOrderItem().clear();
 //				order.setPoint(null);
-//				repository.delete(order);
-//				return true;
-//			}
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			e.printStackTrace();
-//		}
+				repository.delete(order);
+				return true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -85,10 +89,19 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Order findById(String orderId) {
+	@Transactional
+	public OrderDetailDTO findById(String orderId) {
 		// TODO Auto-generated method stub
 		Optional<Order> opt = repository.findById(orderId);
-		return (opt.isEmpty()) ? null : opt.get();
+		if (opt.isEmpty())
+			return null;
+		else {
+			Order order = opt.get();
+			List<OrderItem> orderItems = new ArrayList<OrderItem>();
+			orderItems.addAll(order.getOrderItem());
+			OrderDetailDTO orderDetailDTO = new OrderDetailDTO(order, orderItems);
+			return orderDetailDTO;
+		}
 	}
 
 	@Override

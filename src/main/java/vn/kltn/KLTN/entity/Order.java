@@ -28,14 +28,14 @@ public class Order {
 
 	@Enumerated(value = EnumType.STRING)
 	private OrderStatus status;
-	@OneToOne(mappedBy = "order", cascade = CascadeType.MERGE)
+	@OneToOne(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Cart cart;
 
 	@ManyToOne(cascade = { CascadeType.MERGE })
 	@JoinColumn(name = "point_id")
 	private Point point;
 
-	@OneToMany(mappedBy = "itemId", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
+	@OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
 	private List<OrderItem> orderItem;
 
 	public Order() {
@@ -94,6 +94,7 @@ public class Order {
 	}
 
 	public void setOrderItem(List<OrderItem> orderItem) {
+		orderItem.stream().forEach(o -> o.setOrder(this));
 		this.orderItem = orderItem;
 	}
 

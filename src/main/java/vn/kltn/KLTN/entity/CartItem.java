@@ -17,6 +17,7 @@ public class CartItem extends Item {
 	}
 
 	public OrderItem convertOrderItem() {
-		return new OrderItem(getItemId(), getPrice(), getQuantity(), getSize(), getProductId(), getProductImage());
+		return new OrderItem(getItemId() + "-" + System.currentTimeMillis(), getPrice(), getQuantity(), getSize(),
+				getProductId(), getProductImage());
 	}
 }

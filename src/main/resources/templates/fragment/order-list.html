@@ -24,7 +24,7 @@
     padding: 5px; font-weight: bold;" th:text="${order.status}"></span></td>
 								<td class="pro-price" th:text="${order.totalPrice}"></td>
 								<td>
-									<button class="btn btn-success">Chi tiết</button>
+									<a th:href="@{/order/show-detail/{id} (id=${order.id})}" class="btn btn-success">Chi tiết</a>
 								</td>
 							</tr>
 							
