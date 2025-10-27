@@ -1,6 +1,7 @@
 package vn.kltn.KLTN.controller;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpServletRequest;
 import vn.kltn.KLTN.entity.Cart;
+import vn.kltn.KLTN.entity.CartItem;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.OrderItem;
 import vn.kltn.KLTN.entity.Point;
@@ -74,7 +76,8 @@ public class OrderController {
 
 		Order newOrder = new Order(cart.getId() + "-" + System.currentTimeMillis());
 		cart.setOrder(newOrder);
-		cart.getCartItems().clear(); // Xóa tất cả sản phẩm tồn tại trong giỏ hàng
+		cart.setCartItems(new ArrayList<CartItem>()); // Xóa tất cả sản phẩm tồn tại trong giỏ hàng
+		cart.setTotalPrice(0);
 		newOrder.setCart(cart);
 		orderService.add(newOrder); // Cập nhật order mới cho cart
 		return "redirect:/user/profile";

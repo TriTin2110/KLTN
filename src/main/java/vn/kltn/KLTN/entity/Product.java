@@ -64,8 +64,8 @@ public class Product {
 	public Product(String name, String image) {
 		this.name = name;
 		this.image = image;
-		this.sizePrice = new HashMap<String, Integer>();
 		this.ingredients = new ArrayList<Ingredient>();
+		this.sizePrice = new HashMap<String, Integer>();
 		this.comments = new ArrayList<Comment>();
 		this.combos = new ArrayList<Combo>();
 	}
@@ -84,14 +84,6 @@ public class Product {
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-
-	public List<Ingredient> getIngredients() {
-		return ingredients;
-	}
-
-	public void setIngredients(List<Ingredient> ingredients) {
-		this.ingredients = ingredients;
 	}
 
 	public Event getEvent() {
@@ -183,4 +175,13 @@ public class Product {
 						LinkedHashMap::new)); // giữ thứ tự sắp xếp
 		this.setSizePrice(map);
 	}
+
+	public List<Ingredient> getIngredients() {
+		return ingredients;
+	}
+
+	public void setIngredients(List<Ingredient> ingredients) {
+		this.ingredients = ingredients;
+	}
+
 }

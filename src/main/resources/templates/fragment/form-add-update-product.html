@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="form-add-update-product(editProduct)">
+		<div class="form-section collapsible"
+			th:classappend="${editProduct != null} ? ' active' : ''">
+			<h2
+				th:text="${editProduct != null} ? 'Sửa sản phẩm: ' + ${editProduct.name} : 'Thêm sản phẩm mới'"></h2>
+
+			<!-- Nút Return để quay lại Thêm sản phẩm -->
+			<button type="button" class="return-btn"
+				th:if="${editProduct != null}" onclick="returnToAdd()">←
+				Quay lại Thêm sản phẩm</button>
+
+			<form id="productForm"
+				th:action="${editProduct != null} ? @{/product/admin/update} : @{/product/admin/insert}"
+				method="post" enctype="multipart/form-data">
+				<label>Name:</label> <input type="text" name="name" required
+					th:value="${editProduct != null} ? ${editProduct.name} : ''"
+					th:readonly="${editProduct != null ? true : false}"
+					th:style="${editProduct != null} ? 'background-color: #f0f0f0; cursor: not-allowed;' : ''">
+
+				<table class="table">
+					<thead class="table-light">
+						<tr>
+							<th>Size</th>
+							<th>Price</th>
+							<th style="text-align: center;">Action</th>
+						</tr>
+					</thead>
+					<tbody id="size-price-tbody" >
+						<tr th:each="map: ${editProduct?.sizePrice}">
+							<td><input type="text" class="sizes" list="sizes" placeholder="S, M, L"
+								th:value="${map.key}" />
+								<datalist id="sizes">
+									<option>S</option>
+									<option>M</option>
+									<option>L</option>
+								</datalist></td>
+							<td><input type="text" class="prices" required
+								th:value="${map.value}">
+							</td>
+							<td style="font-size: 28px;"><button class="remove-size-price-btn" type="button" onclick="removeSizePrice(this)"><i class="fa fa-times" aria-hidden="true"></i></button></td>
+						</tr>
+						
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2" style="border: none;">
+								<input type="hidden" name="sizes" id="size-result" required>
+								<input type="hidden" name="prices" id="price-result" required>
+								<button type="button" class="btn btn-primary" onclick="insertSizePriceRow()">+</button>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				<label
+			th:text="${editProduct != null} ? 'Upload ảnh mới:' : 'Upload ảnh:'"></label>
+		<input type="file" name="imageFile">
+
+		<div th:if="${editProduct != null}" style="margin: 10px 0;">
+			<label>Ảnh hiện tại:</label><br> <img
+				th:src="${'https://s3.cloudfly.vn/kltn/images/' + editProduct.image}"
+				alt="Ảnh sản phẩm" style="max-width: 80px; border-radius: 8px;">
+		</div>
+
+		<button class="btn btn-success" type="button" onclick="submitForm()"
+			th:text="${editProduct != null} ? 'Cập nhật sản phẩm' : 'Thêm sản phẩm'"></button>
+		</form>
+		</div>
+		<script type="text/javascript"
+		th:src="@{/js/admin/product/addUpdate.js}"></script>
+	</div>
+	
+</body>
+</html>

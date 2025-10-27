@@ -10,10 +10,10 @@ import vn.kltn.KLTN.entity.Product;
 
 @RepositoryRestResource
 public interface ProductRepository extends JpaRepository<Product, String> {
-	@EntityGraph(attributePaths = { "ingredients", "ingredients.supplier", "category" }) // Khi chạy
-																							// query
-																							// này, hãy
-																							// join
+	@EntityGraph(attributePaths = { "category" }) // Khi chạy
+													// query
+													// này, hãy
+													// join
 	// và load
 	// luôn quan hệ ingredients, suppliers, category, productDetail của
 	// Product

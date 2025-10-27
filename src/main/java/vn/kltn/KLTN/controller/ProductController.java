@@ -2,9 +2,9 @@ package vn.kltn.KLTN.controller;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ import vn.kltn.KLTN.service.ProductService;
 @Controller
 @RequestMapping("/product/admin")
 public class ProductController {
-
+	private final String DEFAULT_IMAGE = "/images/no-image.png";
 	@Autowired
 	private FileService fileService;
 
@@ -38,7 +38,7 @@ public class ProductController {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private CommentService commentService;
 
@@ -47,7 +47,8 @@ public class ProductController {
 
 	@GetMapping("/show-page")
 	public String showAdminPage(Model model) {
-		model.addAttribute("products", productRepository.findAll());
+		List<Product> products = productService.findAll();
+		model.addAttribute("products", products);
 		model.addAttribute("product", new Product());
 		return "admin";
 	}
@@ -56,13 +57,13 @@ public class ProductController {
 	public String editForm(@RequestParam("name") String name, Model model, RedirectAttributes redirectAttributes) {
 		String trimmedName = name.trim();
 		System.out.println("DEBUG: Searching for name='" + trimmedName + "'"); // Log tạm để test
-		Optional<Product> optional = productRepository.findById(trimmedName);
-		if (optional.isEmpty()) {
+		Product product = productService.findById(trimmedName);
+		if (product == null) {
 			redirectAttributes.addFlashAttribute("error", "Sản phẩm không tồn tại!");
 			return "redirect:/product/admin/show-page";
 		}
-		model.addAttribute("products", productRepository.findAll());
-		model.addAttribute("editProduct", optional.get());
+		model.addAttribute("products", productService.findAll());
+		model.addAttribute("editProduct", product);
 		return "admin";
 	}
 
@@ -80,7 +81,7 @@ public class ProductController {
 			if (imageFile != null && !imageFile.isEmpty()) {
 				imageUrl = fileService.uploadImageFileToCloudFly(imageFile);
 			} else {
-				imageUrl = "/images/no-image.png"; // Ảnh mặc định nếu không upload
+				imageUrl = DEFAULT_IMAGE; // Ảnh mặc định nếu không upload
 			}
 			p.setImage(imageUrl);
 
@@ -98,16 +99,16 @@ public class ProductController {
 					.collect(Collectors.toList());
 
 			// Thêm danh sách price, size vào trong map
-			Map<String, Integer> sizePrice = p.getSizePrice();
+			Map<String, Integer> sizePrice = new HashMap<String, Integer>();
+
 			for (int i = 0; i < sizeList.size(); i++) {
 				sizePrice.put(sizeList.get(i), priceList.get(i));
 			}
 			p.setSizePrice(sizePrice);
-//			p.setPrices(priceList);
-//			p.setSizes(sizeList);
 
 			// Lưu vào DB
-			productRepository.save(p);
+			productService.add(p);
+			productService.updateCache();
 			redirectAttributes.addFlashAttribute("success", "Thêm sản phẩm thành công!");
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("error", "Lỗi thêm sản phẩm: " + e.getMessage());
@@ -121,6 +122,9 @@ public class ProductController {
 			@RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
 			@RequestParam("prices") String prices, @RequestParam("sizes") String sizes,
 			RedirectAttributes redirectAttributes) {
+		System.out.println("sizes: " + sizes);
+		System.out.println("prices: " + prices);
+
 		try {
 			String trimmedName = name.trim();
 			if (trimmedName.isEmpty()) {
@@ -135,17 +139,10 @@ public class ProductController {
 				return "redirect:/product/admin/show-page";
 			}
 
-			// Cập nhật tên
-			existing.setName(trimmedName);
-
 			// Nếu có ảnh mới thì upload lên cloud
 			if (imageFile != null && !imageFile.isEmpty()) {
 				String imageUrl = fileService.uploadImageFileToCloudFly(imageFile);
 				existing.setImage(imageUrl);
-			}
-			// Nếu không upload ảnh mới, giữ nguyên ảnh cũ
-			else if (existing.getImage() == null || existing.getImage().isEmpty()) {
-				existing.setImage("/images/no-image.png");
 			}
 
 			// Cập nhật danh sách giá
@@ -163,19 +160,18 @@ public class ProductController {
 
 			// Cập nhật kích thước và giá (theo map)
 			Map<String, Integer> sizePrice = existing.getSizePrice();
+			sizePrice = new HashMap<String, Integer>();
 			for (int i = 0; i < sizeList.size(); i++) {
 				sizePrice.put(sizeList.get(i), priceList.get(i));
 			}
 			existing.setSizePrice(sizePrice);
 
-//			existing.setPrices(priceList);
-//			existing.setSizes(sizeList);
-
 			// Lưu lại sản phẩm
-			productRepository.save(existing);
-
+			productService.update(existing);
+			productService.updateCache();
 			redirectAttributes.addFlashAttribute("success", "Cập nhật sản phẩm thành công!");
 		} catch (Exception e) {
+			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("error", "Lỗi cập nhật sản phẩm: " + e.getMessage());
 		}
 
@@ -200,22 +196,20 @@ public class ProductController {
 		model.addAttribute("product", new Product());
 		return "redirect:/product/admin/show-page";
 	}
-	
+
 	// comment san pham
 	@GetMapping("/san-pham/{id}")
 	public String showProductDetail(@PathVariable("id") String idEncoded, Model model) {
-	    String name = UriUtils.decode(idEncoded, StandardCharsets.UTF_8);
+		String name = UriUtils.decode(idEncoded, StandardCharsets.UTF_8);
 
-	    Product product = productService.findById(name);
-	    if (product == null) return "redirect:/?error=product_not_found";
+		Product product = productService.findById(name);
+		if (product == null)
+			return "redirect:/?error=product_not_found";
 
-	    model.addAttribute("product", product);
-	    model.addAttribute("comments", commentService.findAllByProductId(name));
+		model.addAttribute("product", product);
+		model.addAttribute("comments", commentService.findAllByProductId(name));
 
-	    return "detail-product";
+		return "detail-product";
 	}
-
-
-
 
 }

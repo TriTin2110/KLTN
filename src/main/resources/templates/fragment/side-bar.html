@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="side-bar">
+		<div class="sidebar">
+		<div class="sidebar-header">
+			<a style="background-color: transparent;" th:href="@{/}"><img th:src="@{/images/logo.jpg}" alt="Logo"></a>
+			<h2>Admin Panel</h2>
+		</div>
+		<ul class="sidebar-menu">
+			<li><a href="#"><i class="fas fa-tachometer-alt"></i>
+					Dashboard</a></li>
+			<li><a href="#"><i class="fas fa-box"></i> Sản phẩm</a></li>
+			<li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/admin/users')} ? 'active' : '']]]"
+				 th:href="@{/admin/users}"><i class="fas fa-users"></i> Người dùng</a></li>
+			<li><a href="#"><i class="fas fa-chart-line"></i> Báo cáo</a></li>
+			<li><a href="#"><i class="fas fa-cogs"></i> Cài đặt</a></li>
+		</ul>
+	</div>
+	</div>
+</body>
+</html>

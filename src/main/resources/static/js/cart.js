@@ -70,9 +70,18 @@ function removeItem(e, tableId) {
 
 
 function updateTotalPrice(totalPrice) {
+	//Cập nhật totalPrice cho header
 	let totalPriceView = document.getElementById('total-price-view')
 	totalPriceView.textContent = parseInt(totalPrice)
 	formatElementToVND(totalPriceView)
+	
+	//Cập nhật totalPrice cho trang cart (nếu có)
+	let orderTotalPriceView = document.getElementById('order-total-price-view')
+	if(orderTotalPriceView)
+	{
+		orderTotalPriceView.textContent = parseInt(totalPrice)
+		formatElementToVND(orderTotalPriceView)
+	}
 }
 
 function loadAllProduct(data)
@@ -96,7 +105,7 @@ function renderCart(data, product) {
 						<img src="https://s3.cloudfly.vn/kltn/images/${product.productImage}" alt="${product.productImage}"></a>
 					</td>
 					<td>
-						<a class="pro-title-view" style="color: #272727" href="/san-pham/${product.productId}" title="${product.productId}">${product.productId + ' (' + product.quantity + ')'}</a>
+						<a class="pro-title-view" style="color: #272727" href="/san-pham/${product.productId}" title="${product.productId}">${product.productId + ' (<span class="header-product-quantity">' + product.quantity + '</span>)'}</a>
 							<span>${'Size: ' + product.size}</span>
 							<span class="remove_link remove-cart"><button class="btn-remove-cart-item" onclick="removeItem(this, 'cart-view')"
 							data-product-name="${product.productId}"
@@ -110,4 +119,51 @@ function renderCart(data, product) {
 	//Cập nhật
 	updateTotalPrice(totalPrice)
 }
+
+function totalPriceProcess()
+{
+	document.getElementById('total-price').style.display = 'block'
+	document.getElementById('btn-show-cart').style.display = 'block'
+	let quantities = document.querySelectorAll('.quantity')
+	let headerQuantity = document.querySelectorAll('.header-product-quantity')
+	let totalPrice = 0
+	for(let i = 0; i < quantities.length; i++)
+	{
+		headerQuantity[i].textContent = quantities[i].value
+		let price = quantities[i].dataset.price
+		totalPrice += price * quantities[i].value
+	}
+	if(totalPrice <= 0)
+	{
+		document.getElementById('total-price').style.display = 'none'
+		document.getElementById('btn-show-cart').style.display = 'none'
+	}else{
+		// Thay đổi totalprice của trang cart và header
+		let orderTotalPriceView = document.getElementById('order-total-price-view')
+		orderTotalPriceView.textContent = totalPrice
+		let totalPriceView = document.getElementById('total-price-view')
+		totalPriceView.textContent = totalPrice
+		formatElementToVND(orderTotalPriceView)
+		formatElementToVND(totalPriceView)
+	}
+}
+function checkout(){
+	let quantities = []
+	document.querySelectorAll('.quantity').forEach(q =>{
+			quantities.push({
+				itemId: q.dataset.id,
+				quantity: q.value
+			})
+	})
+	
+	fetch('/cart/check-cart-item', {
+		headers: {'Content-Type': 'application/json'},
+		method: 'POST',
+		body: JSON.stringify(quantities)
+	}).then(res => res.text())
+	.then(url => {
+		window.location.href =  url
+	})
+}
+
 

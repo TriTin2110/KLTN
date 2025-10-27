@@ -99,7 +99,7 @@
 			<div class="col-md-10">
 				<div id="desktop-table">
 					<div id="table-cart-item">
-						<table id="cart-item-list-desktop" class="table table-striped table-hover">
+						<table id="cart-item-list-desktop" class="table table-striped table-hover" onchange="totalPriceProcess()">
 							<thead>
 								<th style="width: 50px;">STT</th>
 								<th>Ảnh</th>
@@ -118,10 +118,12 @@
 									</td>
 									<td class="product-name" th:text="${item.productId}"></td>
 									<td th:text="${item.size}">L</td>
-									<td class="pro-price" th:text="${item.price}">10000</td>
-									<td><input name="quantity" id="quantity"
+									<td>
+										<span class="pro-price" th:text="${item.price}"></span>
+									</td>
+									<td><input name="quantity" class="quantity"
 										style="width: 35px; -webkit-appearance: none; text-align: center;" type="number"
-										th:value="${item.quantity}" max="99" min="1"></td>
+										th:value="${item.quantity}" max="99" min="1" th:data-price="${item.price}" th:data-id="${item.itemId}"></td>
 									<td><span>
 											<button class="btn"
 												onclick="removeItem(this, 'cart-item-list-desktop')"
@@ -136,12 +138,14 @@
 					</div>
 					<div style="text-align: right; padding: 15px;" id="total-price"
 						th:if="${totalPrice > 0}">
-						<a th:href="@{/order/show-order-input}" class="btn btn-success" style="font-weight: bold; text-decoration: none; color: white;">
+						<button onclick="checkout()" class="btn btn-success" style="font-weight: bold; text-decoration: none; color: white;">
 							Thanh toán ngay | <span>Tổng tiền: <span
-								id="total-price-view" class="pro-price" th:text="${totalPrice}"></span></span>
-						</a>
+								id="order-total-price-view" class="pro-price" th:text="${totalPrice}"></span></span>
+						</button>
 					</div>
 				</div>
+				<span
+								id="my-total-price-view" class="pro-price" th:text="${totalPrice}"></span>
 				<div id="mobile-table">
 					<table id="cart-item-list-mobile" class="table table-striped table-hover">
 						<thead >

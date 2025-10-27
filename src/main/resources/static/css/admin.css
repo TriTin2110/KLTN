@@ -76,13 +76,21 @@ body { background-color: #f4f6f8; display:flex; }
 .form-section button[type="submit"]:hover { background:linear-gradient(45deg,#0056b3,#0099cc); }
 
 /* ===== TABLE ===== */
-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 20px rgba(0,0,0,0.08); }
-th, td { padding:16px 12px; text-align:center; border-bottom:1px solid #e0e0e0; }
-th { background:#007bff; color:#fff; font-weight:600; }
-tr:hover { background:#f1f5f9; transition:0.2s; }
+.list-product { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 20px rgba(0,0,0,0.08); }
+.list-product th, td { padding:16px 12px; text-align:center; border-bottom:1px solid #e0e0e0; }
+.list-product th { background:#007bff; color:#fff; font-weight:600; }
+.list-product tr:hover { background:#f1f5f9; transition:0.2s; }
 img { max-width:70px; border-radius:10px; }
 a, .action-btn { display:inline-block; margin:2px 5px; padding:7px 16px; border-radius:10px; text-decoration:none; color:#fff; cursor:pointer; font-size:14px; font-weight:600; }
 a { background:#28a745; }
 a:hover { background:#218838; }
 .action-btn { background:#dc3545; border:none; }
 .action-btn:hover { background:#c82333; }
+.remove-size-price-btn{
+	all: unset; 
+	cursor: pointer;
+	color: red;
+}
+.remove-size-price-btn:hover i{
+	color: orange;
+}

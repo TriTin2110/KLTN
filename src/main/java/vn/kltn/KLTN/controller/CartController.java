@@ -19,6 +19,7 @@ import vn.kltn.KLTN.entity.Cart;
 import vn.kltn.KLTN.entity.CartItem;
 import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.model.CartItemDTO;
+import vn.kltn.KLTN.model.CartItemQuantityRequest;
 import vn.kltn.KLTN.service.CartService;
 import vn.kltn.KLTN.service.ProductService;
 
@@ -120,4 +121,20 @@ public class CartController {
 		return result;
 	}
 
+	@PostMapping("/check-cart-item")
+	@ResponseBody
+	public String checkingCartItem(@RequestBody List<CartItemQuantityRequest> cartItemQuantityRequests,
+			HttpServletRequest request) {
+		try {
+			User user = (User) request.getSession().getAttribute("user");
+			Cart cart = cartService.updateAmount(user.getCart().getId(), cartItemQuantityRequests);
+			user.setCart(cart);
+			return "/order/show-order-input";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "/cart/show";
+
+	}
 }

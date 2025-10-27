@@ -14,9 +14,10 @@ import vn.kltn.KLTN.entity.CartItem;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.entity.User;
+import vn.kltn.KLTN.model.CartItemQuantityRequest;
+import vn.kltn.KLTN.repository.CartItemRespository;
 import vn.kltn.KLTN.repository.CartRepository;
 import vn.kltn.KLTN.service.CartService;
-import vn.kltn.KLTN.service.OrderService;
 import vn.kltn.KLTN.service.ProductService;
 import vn.kltn.KLTN.service.UserService;
 
@@ -25,14 +26,15 @@ public class CartServiceImpl implements CartService {
 	private CartRepository repository;
 	private ProductService productService;
 	private UserService userService;
-	@Autowired
-	private OrderService orderService;
+	private CartItemRespository cartItemRespository;
 
 	@Autowired
-	public CartServiceImpl(CartRepository repository, @Lazy UserService userService, ProductService productService) {
+	public CartServiceImpl(CartRepository repository, @Lazy UserService userService, ProductService productService,
+			CartItemRespository cartItemRespository) {
 		this.repository = repository;
 		this.userService = userService;
 		this.productService = productService;
+		this.cartItemRespository = cartItemRespository;
 	}
 
 	@Override
@@ -85,13 +87,16 @@ public class CartServiceImpl implements CartService {
 		builder.append(userName);
 		builder.append("-");
 		builder.append(size);
+		builder.append("-");
+		builder.append(System.currentTimeMillis());
 		String id = Base64.getEncoder().encodeToString(builder.toString().getBytes());
-		CartItem CartItem = cartItemAlreayExists(cartItems, id);
+		CartItem CartItem = cartItemAlreayExists(cartItems, id); // Sản phẩm có id này đã tồn tại trong giỏ hàng nào đó
 		if (CartItem == null) {
 			CartItem = new CartItem(id, price, productQuantity, size, productName, productImage);
 			cartItems.add(CartItem);
 		} else {
-			CartItem.setQuantity(CartItem.getQuantity() + productQuantity);
+			CartItem.setQuantity(CartItem.getQuantity() + productQuantity);// Cập nhật số lượng nếu sản phẩm đã tồn tại
+																			// trong giỏ
 			int index = cartItems.indexOf(CartItem);
 			cartItems.set(index, CartItem);
 		}
@@ -105,21 +110,25 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	@Transactional
-	public Cart updateAmount(String userName, String productName, CartItem CartItem) {
+	public Cart updateAmount(String cartId, List<CartItemQuantityRequest> cartItemQuantityRequests) {
 		// TODO Auto-generated method stub
-		Optional<Cart> opt = repository.findById(userName);
+		Optional<Cart> opt = repository.findById(cartId);
 		if (opt.isEmpty())
 			return null;
 		Cart cart = opt.get();
 		List<CartItem> cartItems = cart.getCartItems();
-		Optional<CartItem> optCartItem = cartItems.stream().filter(o -> o.getItemId() == CartItem.getItemId())
-				.findFirst();
-		if (optCartItem.isPresent()) {
-			CartItem cartItemExisted = optCartItem.get();
-			cartItemExisted.setData(CartItem);
-			return repository.saveAndFlush(cart);
+		for (CartItemQuantityRequest cartItemQuantityRequest : cartItemQuantityRequests) {
+			for (CartItem cartItem : cartItems) {
+				if (cartItem.getItemId().equals(cartItemQuantityRequest.getItemId())) {
+					if (cartItem.getQuantity() != cartItemQuantityRequest.getQuantity()) {
+						cartItem.setQuantity(cartItemQuantityRequest.getQuantity());
+						cartItemRespository.saveAndFlush(cartItem);
+					}
+				}
+			}
 		}
-		return null;
+		cart.setTotalPrice(getTotalPrice(cart));
+		return cart;
 	}
 
 	@Override
