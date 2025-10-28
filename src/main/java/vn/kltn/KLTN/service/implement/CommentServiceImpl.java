@@ -113,10 +113,8 @@ public class CommentServiceImpl implements CommentService {
 	public boolean update(Comment comment) {
 		// TODO Auto-generated method stub
 		try {
-			if (findById(comment.getId()) != null) {
-				repository.saveAndFlush(comment);
-				return true;
-			}
+			repository.saveAndFlush(comment);
+			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
