@@ -3,19 +3,18 @@ package vn.kltn.KLTN.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import vn.kltn.KLTN.entity.Comment;
 import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.enums.RoleAvailable;
 import vn.kltn.KLTN.service.CommentService;
 
-//@Controller
-@RestController
+@Controller
 @RequestMapping("/comment")
 public class CommentController {
 

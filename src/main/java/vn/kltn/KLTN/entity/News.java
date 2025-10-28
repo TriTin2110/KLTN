@@ -2,6 +2,7 @@ package vn.kltn.KLTN.entity;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -13,7 +14,7 @@ import jakarta.persistence.ManyToMany;
 @Entity
 public class News extends Component {
 	private String authorName, contentEncrypted;
-	@ManyToMany
+	@ManyToMany(cascade = { CascadeType.PERSIST })
 	@JoinTable(name = "tag_news", joinColumns = @JoinColumn(name = "news_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
 	private List<Tag> tags;
 

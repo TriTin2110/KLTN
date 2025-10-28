@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | Quản lý sản phẩm</title>
+<link rel="stylesheet" th:href="@{/css/admin.css}">
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	rel="stylesheet">
+
+<style type="text/css">
+#news-editor {
+	display: none;
+}
+</style>
+</head>
+<body>
+
+	<!-- ===== SIDEBAR ===== -->
+	<div th:replace="~{/fragment/side-bar.html :: side-bar}"></div>
+
+	<!-- ===== MAIN CONTENT ===== -->
+	<div class="main-content">
+
+		<!-- TOPBAR -->
+		<div class="topbar">
+			<h1>Quản lý bài viết</h1>
+			<div class="topbar-right">
+				<span>Admin</span> <i class="fas fa-user-circle"></i>
+			</div>
+		</div>
+
+		<!-- DASHBOARD CARDS -->
+		<div class="cards">
+			<div class="card">
+				<h3>Tổng bài viết</h3>
+				<p>0</p>
+			</div>
+			<div class="card">
+				<h3>Người dùng</h3>
+				<p>50</p>
+			</div>
+			<div class="card">
+				<h3>Đơn hàng</h3>
+				<p>120</p>
+			</div>
+		</div>
+		<div>
+			<button class="btn btn-success" style="margin-bottom: 20px;"
+				onclick="openEditor()">Thêm tin tức</button>
+		</div>
+		<div id="news-editor">
+			<form action="/news/insert" method="post"
+				enctype="multipart/form-data">
+				<textarea name="content" id="editor"></textarea>
+				<div style="text-align: center;">
+					<button class="btn btn-primary"
+						style="font-size: 20px; margin-top: 20px;" type="submit">Đăng
+						bài</button>
+				</div>
+			</form>
+		</div>
+
+		<script
+			src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+		<script>
+	  ClassicEditor
+	    .create(document.querySelector('#editor'), {
+	      ckfinder: {
+	        uploadUrl: '/news/upload-image' // API upload ảnh Spring Boot
+	      }
+	    })
+	    .catch(error => console.error(error));
+	</script>
+	</div>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript">
+		function openEditor()
+		{
+			let newsEditor = document.getElementById("news-editor")
+			newsEditor.style.display = "block"; 
+		}
+	</script>
+</body>
+</html>

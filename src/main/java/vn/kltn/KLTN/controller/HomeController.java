@@ -11,13 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import jakarta.servlet.http.HttpServletRequest;
+import vn.kltn.KLTN.entity.Comment;
 import vn.kltn.KLTN.entity.Product;
+import vn.kltn.KLTN.service.CommentService;
 import vn.kltn.KLTN.service.ProductService;
 
 @Controller
 public class HomeController {
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private CommentService commentService;
 
 	@GetMapping("")
 	public String showHomePage(Model model, HttpServletRequest request) {
@@ -25,11 +29,12 @@ public class HomeController {
 		model.addAttribute("products", products);
 		return "index";
 	}
-	
+
 	@GetMapping("/san-pham/{id}")
 	public String showHomePage(@PathVariable("id") String id, Model model, HttpServletRequest request) {
 		List<Product> products = productService.findAll();
 		Optional<Product> opt = products.stream().filter(product -> id.equals(product.getName())).findFirst();
+		List<Comment> comments = commentService.findAllByProductId(id);
 		Product product = (opt.isEmpty()) ? null : opt.get();
 		if (product != null) {
 			List<Product> sameProducts = products.stream()
@@ -41,7 +46,7 @@ public class HomeController {
 		}
 		product.sortSizePrice();
 		model.addAttribute("product", product);
-
+		model.addAttribute("comments", comments); // Danh sách comment của sản phẩm
 		return "detail-product";
 	}
 }

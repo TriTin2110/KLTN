@@ -49,7 +49,7 @@ public class Product {
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
 	@JoinColumn(name = "coupon_id")
 	private Coupon coupon;
-	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
 	private List<Comment> comments;
 	@ManyToMany
 	@JoinTable(name = "product_combo", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "combo_id"))

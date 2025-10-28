@@ -58,6 +58,31 @@ public class FileServiceImpl implements FileService {
 		return file.getName();
 	}
 
+	@Override
+	public String uploadImageFileToCloudFly(MultipartFile multipartFile, String path, String fileName) {
+		// TODO Auto-generated method stub
+		File file = new File(multipartFile.getOriginalFilename());
+		try {
+			FileOutputStream fos = new FileOutputStream(file);
+			fos.write(multipartFile.getBytes());
+			fos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			String keyName = path + fileName;
+			PutObjectRequest request = new PutObjectRequest(bucketName, keyName, file); // Tạo request để gửi file lên
+
+			uploadFileToCloud(request, file);
+			return fileName;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public String uploadImageFileToCloudFly(String image) {
 		// TODO Auto-generated method stub
 		String path = PATH_IMAGE + File.separator + image;
