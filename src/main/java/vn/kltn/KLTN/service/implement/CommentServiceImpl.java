@@ -33,26 +33,37 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	@Transactional
-	public boolean add(Comment comment) {
+	public Comment add(Comment comment, String productId, String userName) {
 		// TODO Auto-generated method stub
 		try {
-			Product product = comment.getProduct();
-			if (product != null && productService.findById(product.getName()) != null) {
-				User user = comment.getUser();
-				if (user != null && userService.findById(user.getUsername()) != null) {
-					if (findById(comment.getId()) == null) {
-						repository.save(comment);
-						productService.updateComment(product, comment);
-						userService.updateComment(user, comment);
-						return true;
-					}
-				}
-			}
+			Product product = productService.findById(productId);
+			User user = userService.findById(userName);
+			if (product == null || user == null)
+				return null;
+//			product.getComments().add(comment);
+			comment.setProduct(product);
+//			user.getComments().add(comment);
+			comment.setUser(user);
+//			product.addComment(comment);
+//			user.addComment(comment);
+			repository.save(comment);
+			return comment;
+//			if (product != null && productService.findById(product.getName()) != null) {
+//				User user = comment.getUser();
+//				if (user != null && userService.findById(user.getUsername()) != null) {
+//					if (findById(comment.getId()) == null) {
+//						repository.save(comment);
+//						productService.updateComment(product, comment);
+//						userService.updateComment(user, comment);
+//						return true;
+//					}
+//				}
+//			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
 	@Override
@@ -112,4 +123,5 @@ public class CommentServiceImpl implements CommentService {
 		}
 		return false;
 	}
+
 }

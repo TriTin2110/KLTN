@@ -21,7 +21,7 @@
 								<td th:text="${order.createdDate}"></td>
 								<td><span style="background-color: gainsboro;
     border-radius: 5%;
-    padding: 5px; font-weight: bold;" th:text="${order.status}"></span></td>
+    padding: 5px; font-weight: bold;" th:text="${order.status.getValue()}"></span></td>
 								<td class="pro-price" th:text="${order.totalPrice}"></td>
 								<td>
 									<a th:href="@{/order/show-detail/{id} (id=${order.id})}" class="btn btn-success">Chi tiết</a>

@@ -1,6 +1,5 @@
 package vn.kltn.KLTN.controller;
 
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,24 +88,7 @@ public class CartController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (user != null) {
 			String productName = data.get("productName");
-			String userName = user.getUsername();
-			String size = data.get("size");
-			StringBuilder builder = new StringBuilder();
-			builder.append(productName);
-			builder.append("-");
-			builder.append(userName);
-			builder.append("-");
-			builder.append(size);
-			Cart cart = user.getCart();
-			List<CartItem> cartItems = cart.getCartItems();
-			String cartItemId = Base64.getEncoder().encodeToString(builder.toString().getBytes());
-			for (CartItem CartItem : cartItems) {
-				if (cartItemId.equals(CartItem.getItemId())) {
-					cart.getCartItems().remove(CartItem);
-					break;
-				}
-			}
-			cart = cartService.update(cart);
+			Cart cart = cartService.removeCartItemFromCart(user.getCart(), productName);
 			if (cart == null)
 				result.put("success", false);
 			else {

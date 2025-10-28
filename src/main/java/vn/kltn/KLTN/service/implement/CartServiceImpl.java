@@ -12,7 +12,6 @@ import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Cart;
 import vn.kltn.KLTN.entity.CartItem;
 import vn.kltn.KLTN.entity.Order;
-import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.model.CartItemQuantityRequest;
 import vn.kltn.KLTN.repository.CartItemRespository;
@@ -48,27 +47,33 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	@Transactional
-	public boolean removeProductFromCart(String userName, String productName) {
+	public Cart removeCartItemFromCart(Cart cart, String productName) {
 		// TODO Auto-generated method stub
 		try {
-			Cart cart = findByUserName(userName);
 			if (cart == null)
-				return false;
+				return cart;
 
 			List<CartItem> cartItems = cart.getCartItems();
 			if (cartItems == null || cartItems.isEmpty())
-				return false;
+				return null;
 
-			Product product = productService.findById(productName);
-			if (product == null)
-				return false;
-			cartItems.remove(product);
-			return true;
+			CartItem cartItem = null;
+			for (CartItem c : cartItems) {
+				if (c.getProductId().equals(productName)) {
+					cartItem = c;
+					break;
+				}
+			}
+			if (cartItem == null)
+				return null;
+			cartItems.remove(cartItem);
+			cart.setTotalPrice(getTotalPrice(cart));
+			return repository.saveAndFlush(cart);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
 	@Override
@@ -90,7 +95,9 @@ public class CartServiceImpl implements CartService {
 		builder.append("-");
 		builder.append(System.currentTimeMillis());
 		String id = Base64.getEncoder().encodeToString(builder.toString().getBytes());
-		CartItem CartItem = cartItemAlreayExists(cartItems, id); // Sản phẩm có id này đã tồn tại trong giỏ hàng nào đó
+		CartItem CartItem = cartItemAlreayExists(cartItems, productName, size); // Sản phẩm có id này đã tồn tại trong
+																				// giỏ
+		// hàng nào đó
 		if (CartItem == null) {
 			CartItem = new CartItem(id, price, productQuantity, size, productName, productImage);
 			cartItems.add(CartItem);
@@ -103,8 +110,9 @@ public class CartServiceImpl implements CartService {
 		return cart;
 	}
 
-	private CartItem cartItemAlreayExists(List<CartItem> cartItems, String id) {
-		Optional<CartItem> opt = cartItems.stream().filter(CartItem -> id.equals(CartItem.getItemId())).findFirst();
+	private CartItem cartItemAlreayExists(List<CartItem> cartItems, String id, String size) {
+		Optional<CartItem> opt = cartItems.stream()
+				.filter(CartItem -> id.equals(CartItem.getProductId()) && size.equals(CartItem.getSize())).findFirst();
 		return (opt.isEmpty()) ? null : opt.get();
 	}
 

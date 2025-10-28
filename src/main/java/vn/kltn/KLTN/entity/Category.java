@@ -3,6 +3,8 @@ package vn.kltn.KLTN.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
@@ -15,6 +17,7 @@ public class Category extends Component {
 	private int totalProduct;
 
 	@OneToMany(mappedBy = "category", cascade = { CascadeType.REMOVE, CascadeType.MERGE })
+	@JsonIgnore
 	private List<Product> products;
 
 	public Category() {

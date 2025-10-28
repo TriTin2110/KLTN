@@ -1,6 +1,7 @@
 package vn.kltn.KLTN.controller;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriUtils;
 
 import vn.kltn.KLTN.entity.Product;
+import vn.kltn.KLTN.modules.StringHandler;
 import vn.kltn.KLTN.repository.ProductRepository;
 import vn.kltn.KLTN.service.CommentService;
 import vn.kltn.KLTN.service.FileService;
@@ -212,4 +214,20 @@ public class ProductController {
 		return "detail-product";
 	}
 
+	@GetMapping("/search/{content}")
+	public String searchProduct(@PathVariable String content, Model model) {
+		List<Product> products = productService.findAll();
+		List<Product> result = new ArrayList<Product>();
+		content = StringHandler.handlingString(content);
+		String productName = null;
+		String productCategory = null;
+		for (Product product : products) {
+			productName = StringHandler.handlingString(product.getName());
+			productCategory = StringHandler.handlingString(product.getCategory().getName());
+			if (productName.contains(content) || content.contains(productName) || productCategory.contains(content))
+				result.add(product);
+		}
+		model.addAttribute("products", result);
+		return "search-result";
+	}
 }

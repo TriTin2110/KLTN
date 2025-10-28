@@ -21,4 +21,5 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
 	// Truy vấn theo nested property
 	public List<Product> findByCategoryName(String categoryId);
+
 }

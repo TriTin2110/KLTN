@@ -52,7 +52,7 @@ public class CartServiceTest {
 	public void removeProduct() {
 		String username = "tinnguyen123";
 		String productName = "Trà sữa matcha";
-		assertTrue(service.removeProductFromCart(username, productName));
+		assertTrue(service.removeCartItemFromCart(username, productName));
 	}
 
 	@Test

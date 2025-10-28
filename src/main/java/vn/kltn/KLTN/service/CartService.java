@@ -10,7 +10,7 @@ import vn.kltn.KLTN.model.CartItemQuantityRequest;
 public interface CartService {
 	public Cart findByUserName(String userName);
 
-	public boolean removeProductFromCart(String userName, String productName);
+	public Cart removeCartItemFromCart(Cart cart, String productName);
 
 	public Cart addProductToCart(String userName, String productName, String productImage, String size, int price,
 			int productQuantity, Cart userCart);

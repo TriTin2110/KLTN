@@ -66,11 +66,8 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		try {
 			Optional<Order> opt = repository.findById(orderId);
-//			order.getPoint().setOrder(null);
 			if (opt.isPresent()) {
 				Order order = opt.get();
-//				order.getOrderItem().clear();
-//				order.setPoint(null);
 				repository.delete(order);
 				return true;
 			}

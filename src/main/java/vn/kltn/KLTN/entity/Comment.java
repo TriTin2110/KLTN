@@ -2,6 +2,7 @@ package vn.kltn.KLTN.entity;
 
 import java.sql.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -13,24 +14,23 @@ public class Comment {
 	private String id;
 	private String content;
 	private Date datePost;
+	private int rating;
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.PERSIST })
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.PERSIST })
 	@JoinColumn(name = "user_name")
 	private User user;
 
 	public Comment() {
 	}
 
-	public Comment(String id, String content, Date datePost, Product product, User user) {
+	public Comment(String id, String content, Date datePost, int rating) {
 		this.id = id;
 		this.content = content;
 		this.datePost = datePost;
-		this.product = product;
-		this.user = user;
 	}
 
 	public String getId() {
@@ -71,6 +71,14 @@ public class Comment {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 
 	@Override

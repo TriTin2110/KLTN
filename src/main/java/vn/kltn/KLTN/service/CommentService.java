@@ -5,7 +5,7 @@ import java.util.List;
 import vn.kltn.KLTN.entity.Comment;
 
 public interface CommentService {
-	public boolean add(Comment comment);
+	public Comment add(Comment comment, String productId, String userName);
 
 	/*
 	 * + remove(id: String): boolean id: username + "_" + productName

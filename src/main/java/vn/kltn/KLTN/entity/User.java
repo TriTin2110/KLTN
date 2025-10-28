@@ -181,4 +181,9 @@ public class User implements UserDetails {
 		return Arrays.asList(new SimpleGrantedAuthority(this.role.getType().name()));
 	}
 
+	public void addComment(Comment comment) {
+		this.comments.add(comment);
+		comment.setUser(this);
+	}
+
 }
