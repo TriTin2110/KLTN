@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap&subset=vietnamese" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/plugins/bootstrap/bootstrap.min.css}">
   <link rel="stylesheet" th:href="@{/plugins/animate/animate.min.css}">
   <link rel="stylesheet" th:href="@{/plugins/fontawesome/all.css}">
@@ -28,65 +29,146 @@
 
 <body>
 <span th:replace="~{/fragment/header.html :: header}"></span>
-  <!--Content-->
-  <div class="content">
-    <section class="signup">
-        <div class="container">
-            <div class="signin-left">
-                <div class="sign-title">
-                    <h1>Tạo tài khoản</h1>
-                </div>
-            </div>
-            <div class="signin-right ">
-                <form th:action="@{/user/sign-up}" th:method="post" th:object="${register}" onsubmit="return checkValidation()">
-                <h5 th:if="${error}" th:text="${error}" style="text-align: center; color: red;"></h5>
-                	<div class="firstname form-control1">
-                		<div class="invalid-field" style="color: red; font-weight: bold;">Tài khoản phải có độ dài tối thiểu 4 kí tự</div>
-                		<label for="username" style="margin-bottom: 10px;"><b>Tên tài khoản</b></label>
-                        <input type="text" th:field="*{username}" id="username" placeholder="Tài khoản (*)" required="required">
-                    </div>
-                     <div class="password form-control1">
-                     	<div class="invalid-field" style="color: red; font-weight: bold;">Mật khẩu phải có độ dài tối thiểu 4 kí tự</div>
-                     	<label for="password" style="margin-bottom: 10px;"><b>Mật khẩu</b></label>
-                        <input type="password" th:field="*{password}" id="password" placeholder="Mật khẩu (*)" required="required">
-                    </div>
-                    <hr>
-                    <div class="firstname form-control1">
-                    	<label for="fullname" style="margin-bottom: 10px;"><b>Họ và Tên</b></label>
-                        <input type="text" th:field="*{fullName}"  id="fullname" placeholder="Họ và tên">
-                    </div>
-                    <div class="birthday form-control1">
-                    	<label for="birthday" style="margin-bottom: 10px;"><b>Ngày sinh</b></label>
-                        <input type="date" th:field="*{dateOfBirth}" id="birthday" placeholder="mm/dd/yyyy">
-                    </div>
-                    <div class="number form-control1">
-                    	<div class="invalid-field">Số điện thoại không hợp lệ</div>
-                    	<label for="number" style="margin-bottom: 10px;"><b>Số điện thoại</b></label>
-                        <input type="text" th:field="*{phoneNumber}" id="number" placeholder="Số điện thoại">
-                    </div>
-                    <div class="form-control1">
-                    <label for="address" style="margin-bottom: 10px;"><b>Địa chỉ</b></label>
-                      <input type="text" th:field="*{address}" id="address" placeholder="Địa chỉ">
-                    </div>
-                    <div class="email form-control1">
-                    <label for="email" style="margin-bottom: 10px;"><b>Email</b></label>
-                        <input type="email" th:field="*{email}"  id="email" placeholder="Email" required="required">
-                    </div>
-                    <div class="recaptcha form-control1">This site is protected by reCAPTCHA and the Google <a href="">Privacy Policy</a> and <a href="">Terms of Service</a> apply.</div>
-                    <button class="submit" type="submit" >
-                      <p>Đăng ký</p>
-                    </button>
-                    <div class="backto">
-                      <a th:href="@{/user/sign-in}"><i class="fa fa-long-arrow-alt-left"></i> Quay lại đăng nhập</a>
-                    </div>
-                </form>
-            </div>
+<!--Content-->
+<div class="content">
+  <section class="signup-wrapper">
+    <div class="signup-left">
+		<h2 data-text="Chào mừng bạn!">Chào mừng bạn!</h2>
+	  <a class="intro-text">
+	    <p>
+	      Tạo tài khoản để nhận nhiều ưu đãi hấp dẫn, theo dõi đơn hàng dễ dàng
+	      và cập nhật các sản phẩm mới nhất.
+	    </p>
+	  </a>
+	  <img class="left-illustration"
+	       th:src="@{/images/signup-illustration.png}"
+	       alt="Đăng ký tài khoản"/>
+    </div>
+
+    <div class="signup-right">
+      <h3>Đăng ký tài khoản</h3>
+
+      <form
+        th:action="@{/user/sign-up}"
+        th:method="post"
+        th:object="${register}"
+        onsubmit="return checkValidation()"
+      >
+        <h5
+          th:if="${error}"
+          th:text="${error}"
+          style="text-align:center;color:red;"
+        ></h5>
+
+        <div class="form-control1">
+          <label for="username"><b>Tên tài khoản</b></label>
+          <input
+            type="text"
+            th:field="*{username}"
+            id="username"
+            placeholder="Tên tài khoản (*)"
+            required
+          />
+          <div class="invalid-field">Tài khoản phải có tối thiểu 4 kí tự</div>
         </div>
-    </section>    
-    
+
+        <div class="form-control1">
+          <label for="password"><b>Mật khẩu</b></label>
+          <input
+            type="password"
+            th:field="*{password}"
+            id="password"
+            placeholder="Mật khẩu (*)"
+            required
+          />
+          <div class="invalid-field">Mật khẩu phải có tối thiểu 4 kí tự</div>
+        </div>
+		
+		<!-- Xác nhận mật khẩu -->
+		<div class="form-control1">
+		  <label for="confirmPassword"><b>Xác nhận mật khẩu</b></label>
+		  <input
+		    type="password"
+		    id="confirmPassword"
+		    name="confirmPassword"
+		    placeholder="Nhập lại mật khẩu"
+		    required
+		  />
+		  <div class="invalid-field">Mật khẩu xác nhận không trùng khớp</div>
+		</div>
+		
+        <div class="form-control1">
+          <label for="fullname"><b>Họ và tên</b></label>
+          <input
+            type="text"
+            th:field="*{fullName}"
+            id="fullname"
+            placeholder="Họ và tên"
+          />
+        </div>
+
+        <div class="form-control1">
+          <label for="birthday"><b>Ngày sinh</b></label>
+          <input
+            type="date"
+            th:field="*{dateOfBirth}"
+            id="birthday"
+            placeholder="mm/dd/yyyy"
+          />
+        </div>
+
+        <div class="form-control1">
+          <label for="number"><b>Số điện thoại</b></label>
+          <input
+            type="text"
+            th:field="*{phoneNumber}"
+            id="number"
+            placeholder="Số điện thoại"
+          />
+          <div class="invalid-field">Số điện thoại không hợp lệ</div>
+        </div>
+
+        <div class="form-control1">
+          <label for="address"><b>Địa chỉ</b></label>
+          <input
+            type="text"
+            th:field="*{address}"
+            id="address"
+            placeholder="Địa chỉ"
+          />
+        </div>
+
+        <div class="form-control1">
+          <label for="email"><b>Email</b></label>
+          <input
+            type="email"
+            th:field="*{email}"
+            id="email"
+            placeholder="Email"
+            required
+          />
+        </div>
+
+        <div class="recaptcha">
+          Trang này được bảo vệ bởi reCAPTCHA — xem thêm
+          <a href="#">Chính sách bảo mật</a> và
+          <a href="#">Điều khoản sử dụng</a>.
+        </div>
+
+        <button type="submit" class="submit">Đăng ký</button>
+
+        <div class="backto">
+          <a th:href="@{/user/sign-in}">
+            <i class="fa fa-long-arrow-alt-left"></i> Quay lại đăng nhập
+          </a>
+        </div>
+      </form>
+    </div>
+  </section>
+
     <span th:replace="~{/fragment/footer.html :: footer}"></span>
   </div>
- 
+  <script th:src="@{/js/sign-up-validation.js}"></script>
   <script async defer crossorigin="anonymous" th:src="@{/plugins/sdk.js}"></script>
   <script th:src="@{/plugins/jquery-3.4.1/jquery-3.4.1.min.js}"></script>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
@@ -97,7 +179,7 @@
   <script th:src="@{/js/script.js}"></script>
   <script th:src="@{/plugins/uikit/uikit.min.js}"></script>
   <script th:src="@{/plugins/uikit/uikit-icons.min.js}"></script>
-  <script th:src="@{/js/sign-up-validation.js}"></script>
+  
 </body>
 
 </html>
