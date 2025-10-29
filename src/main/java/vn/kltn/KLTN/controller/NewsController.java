@@ -1,17 +1,21 @@
 package vn.kltn.KLTN.controller;
 
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import vn.kltn.KLTN.entity.News;
 import vn.kltn.KLTN.service.FileService;
 import vn.kltn.KLTN.service.NewsService;
 
@@ -24,13 +28,35 @@ public class NewsController {
 	private FileService fileService;
 
 	@GetMapping("/editor")
-	public String showEditor() {
+	public String showEditor(Model model) {
+		News news = new News();
+		List<News> newsList = newsService.findAll();
+		model.addAttribute("news", news);
+		model.addAttribute("newsList", newsList);
 		return "/admin/news/list";
 	}
 
 	@PostMapping("/insert")
-	public void insertNews(@RequestParam("content") String content) {
-		System.out.println(content);
+	public String insertNews(@ModelAttribute("news") News news, @RequestParam("main-image") MultipartFile file,
+			@RequestParam("content") String content, Model model) {
+		if (newsService.findById(news.getName()) == null) {
+			try {
+				String mainImageFileName = fileService.uploadImageFileToCloudFly(file, "images/news/main-image/",
+						file.getOriginalFilename());
+				news.setImage(mainImageFileName);
+				news.setAuthorName("ADMIN");
+				news.setContent(content);
+				newsService.add(news);
+				newsService.updateCache();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				model.addAttribute("error", "Đã có lỗi xảy ra: " + e.getMessage());
+				return "redirect:/news/editor";
+			}
+		}
+		model.addAttribute("success", "Thêm tin tức mới thành công!");
+		return "redirect:/news/editor";
 	}
 
 	@PostMapping("/upload-image")
@@ -39,11 +65,40 @@ public class NewsController {
 																								// gửi file ảnh lên
 																								// server
 		// bằng trường có tên upload
-		String imageName = fileService.uploadImageFileToCloudFly(file, "images/news/",
-				UUID.randomUUID() + "_" + file.getOriginalFilename());
+		String imageName = fileService.uploadImageFileToCloudFly(file, "images/news/", file.getOriginalFilename());
 		return Map.of("uploaded", true, "url", "https://s3.cloudfly.vn/kltn/images/news/" + imageName);// trả về theo
 																										// chuẩn của
 																										// chuẩn
 																										// CKEditor 5
+	}
+
+	@GetMapping("/delete/{id}")
+	public String deleteNews(@PathVariable("id") String id, Model model) {
+		try {
+			newsService.remove(id);
+			newsService.updateCache();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			model.addAttribute("error", "Đã có lỗi xảy ra: " + e.getMessage());
+			return "redirect:/news/editor";
+		}
+		model.addAttribute("success", "Xóa thành công!");
+		return "redirect:/news/editor";
+	}
+
+	@PostMapping("/update")
+	public String updateNews(@ModelAttribute("news") News news, Model model) {
+		try {
+			newsService.update(news);
+			newsService.updateCache();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			model.addAttribute("error", "Đã có lỗi xảy ra: " + e.getMessage());
+			return "redirect:/news/editor";
+		}
+		model.addAttribute("success", "Xóa thành công!");
+		return "redirect:/news/editor";
 	}
 }

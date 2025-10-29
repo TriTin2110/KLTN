@@ -18,4 +18,6 @@ public interface NewsService {
 	public News findById(String newsId);
 
 	public List<News> findAll();
+
+	public List<News> updateCache();
 }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="news-list-table" id="news-list-table">
+		<div class="form-section">
+			<h2>Danh sách sản phẩm</h2>
+			<table class="list-product">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Image</th>
+						<th>Description</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="n : ${newsList}">
+						<td th:text="${n.name}" style="padding: 20px 0px;"></td>
+						<td><img
+							th:src="${'https://s3.cloudfly.vn/kltn/images/news/main-image/' + n.image}"
+							alt="Ảnh sản phẩm" /></td>
+						<td th:text="${n.shortDescription}"></td>
+						<td>
+						<span> 
+							<button class="btn btn-warning" th:data-name="${n.name}" onclick="editNews(this)">Sửa</button>
+								<button class="btn btn-danger" onclick="showConfirm(this)">Xóa</button>
+						</span> 
+						<span class="comfirm-delete-prompt" style="display: none;">
+								<div>Bạn có chắc chắn xóa?</div>
+								<a th:href="@{/news/delete/{id} (id=${n.name})}" class="btn btn-danger">Có</a>
+								<button onclick="showDeleteButton(this)"
+									class="btn btn-secondary">Không</button>
+						</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<script type="text/javascript">
+		function showConfirm(e)
+		{
+			let parentElement = e.parentElement
+			let confirmDeletePrompt = parentElement.nextElementSibling
+			confirmDeletePrompt.style.display = "inline"
+			parentElement.style.display = "none"
+		}
+
+		function showDeleteButton(e)
+		{
+			let parentElement = e.parentElement
+			let siblingElement = parentElement.previousElementSibling
+			siblingElement.style.display = "inline"
+				parentElement.style.display = "none"
+		}
+    </script>
+	</div>
+</body>
+</html>

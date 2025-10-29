@@ -3,8 +3,12 @@ package vn.kltn.KLTN.service.implement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.News;
 import vn.kltn.KLTN.repository.NewsRepository;
 import vn.kltn.KLTN.service.NewsService;
@@ -31,21 +35,31 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	@Override
+	@Transactional
 	public News add(News news) {
 		// TODO Auto-generated method stub
-		return null;
+		return repository.save(news);
 	}
 
 	@Override
+	@Transactional
 	public News update(News news) {
 		// TODO Auto-generated method stub
-		return null;
+		return repository.saveAndFlush(news);
 	}
 
 	@Override
+	@Transactional
 	public boolean remove(String newsId) {
 		// TODO Auto-generated method stub
-		return false;
+		try {
+			repository.deleteById(newsId);
+		} catch (IllegalArgumentException | OptimisticLockingFailureException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -55,9 +69,16 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	@Override
+	@Cacheable("news")
 	public List<News> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return repository.findAll();
+	}
+
+	@Override
+	@CachePut("news")
+	public List<News> updateCache() {
+		return repository.findAll();
 	}
 
 }

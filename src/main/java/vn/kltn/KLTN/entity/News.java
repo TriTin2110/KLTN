@@ -1,31 +1,23 @@
 package vn.kltn.KLTN.entity;
 
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
 public class News extends Component {
-	private String authorName, contentEncrypted;
-	@ManyToMany(cascade = { CascadeType.PERSIST })
-	@JoinTable(name = "tag_news", joinColumns = @JoinColumn(name = "news_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
-	private List<Tag> tags;
+	private String authorName, shortDescription;
+	private String content;
 
 	public News() {
 	}
 
-	public News(String name, String image, String authorName, String contentEncrypted, List<Tag> tags) {
+	public News(String name, String image, String authorName, String content, String shortDescription) {
 		super(name, image);
 		this.authorName = authorName;
-		this.contentEncrypted = contentEncrypted;
-		this.tags = tags;
+		this.content = content;
+		this.shortDescription = shortDescription;
 	}
 
 	public String getAuthorName() {
@@ -36,20 +28,20 @@ public class News extends Component {
 		this.authorName = authorName;
 	}
 
-	public String getContentEncrypted() {
-		return contentEncrypted;
+	public String getShortDescription() {
+		return shortDescription;
 	}
 
-	public void setContentEncrypted(String contentEncrypted) {
-		this.contentEncrypted = contentEncrypted;
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
 	}
 
-	public List<Tag> getTags() {
-		return tags;
+	public String getContent() {
+		return content;
 	}
 
-	public void setTags(List<Tag> tags) {
-		this.tags = tags;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 }

@@ -15,6 +15,11 @@
 #news-editor {
 	display: none;
 }
+/* Padding bên trong vùng soạn thảo */
+.ck-editor__editable_inline {
+    padding: 20px !important;
+    min-height: 300px; /* tuỳ chọn: để nội dung nhìn thoáng */
+  }
 </style>
 </head>
 <body>
@@ -37,7 +42,7 @@
 		<div class="cards">
 			<div class="card">
 				<h3>Tổng bài viết</h3>
-				<p>0</p>
+				<p th:text="${newsList.size()}"></p>
 			</div>
 			<div class="card">
 				<h3>Người dùng</h3>
@@ -48,42 +53,26 @@
 				<p>120</p>
 			</div>
 		</div>
+		
+		<div th:if="${success}" class="message success" th:text="${success}"></div>
+		<div th:if="${error}" class="message error" th:text="${error}"></div> 
+		
 		<div>
-			<button class="btn btn-success" style="margin-bottom: 20px;"
+			<button class="btn btn-success" id="news-btn" style="margin-bottom: 20px;"
 				onclick="openEditor()">Thêm tin tức</button>
 		</div>
-		<div id="news-editor">
-			<form action="/news/insert" method="post"
-				enctype="multipart/form-data">
-				<textarea name="content" id="editor"></textarea>
-				<div style="text-align: center;">
-					<button class="btn btn-primary"
-						style="font-size: 20px; margin-top: 20px;" type="submit">Đăng
-						bài</button>
-				</div>
-			</form>
-		</div>
-
-		<script
-			src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
-		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-		<script>
-	  ClassicEditor
-	    .create(document.querySelector('#editor'), {
-	      ckfinder: {
-	        uploadUrl: '/news/upload-image' // API upload ảnh Spring Boot
-	      }
-	    })
-	    .catch(error => console.error(error));
-	</script>
-	</div>
+		
+		<!-- Editor tin tức -->
+		 <div th:replace="~{/admin/news/editor.html :: editor}"></div>
+		 
+		 <!-- Danh sách tin tức -->
+		 <div th:replace="~{/admin/news/news-list-table.html :: news-list-table}"></div>
+		 
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-	<script type="text/javascript">
-		function openEditor()
-		{
-			let newsEditor = document.getElementById("news-editor")
-			newsEditor.style.display = "block"; 
-		}
+	<script th:inline="javascript">
+		let newsList = /*[[${newsList}]]*/ []
+	</script>
+	<script type="text/javascript" th:src="@{/js/admin/news/news.js}">
 	</script>
 </body>
 </html>

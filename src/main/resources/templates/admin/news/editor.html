@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymelearf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="editor">
+		<div id="news-editor">
+			<form th:action="@{/news/insert}" th:method="post"
+				enctype="multipart/form-data" th:object="${news}" id="main-form">
+				<div style="margin-bottom: 30px">
+					<label for="title">Tiêu đề <span style="color: red;">*</span>:</label>
+					<input class="form-control" type="text" th:field="*{name}" th:value="${news.name}" placeholder="Tiêu đề" required="required">
+				</div>
+				
+				<div style="margin-bottom: 30px">
+					<label for="shortDescription">Mô tả ngắn <span style="color: red;">*</span>:</label>
+					<textarea style="resize: vertical;" class="form-control" id="shortDescription" th:field="*{shortDescription}" th:text="${news.shortDescription}" required="required"></textarea>
+				</div>
+				
+				<div style="margin-bottom: 30px">
+					<label for="main-image">Ảnh bìa:</label>
+					<input class="form-control" type="file" name="main-image" onchange="changeMainImageView(this)">
+					<img id="main-image-view" style="margin-top: 10px;">
+				</div>
+				
+				
+				<textarea name="content" id="editor"></textarea>
+				<div style="text-align: center;">
+					<button class="btn btn-primary"
+						style="font-size: 20px; margin-top: 20px;" type="submit">Đăng
+						bài</button>
+				</div>
+			</form>
+		</div>
+
+		<script
+			src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+		<script>
+	  ClassicEditor
+	  .create(document.querySelector('#editor'), {
+		    ckfinder: { //cấu hình cho chức năng upload ảnh của CKEditor.
+		      uploadUrl: '/news/upload-image'
+		    },
+		    image: {
+		    	// Thanh công cụ hiển thị khi click vào ảnh
+		        toolbar: [
+		          'imageTextAlternative' // thêm/sửa alt text
+		        ]
+		    }
+		  }).then(editor => {
+		      window.editor = editor; // lưu instance global
+		  })
+	    .catch(error => console.error(error));
+	</script>
+	</div>
+</body>
+</html>
