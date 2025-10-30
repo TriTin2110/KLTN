@@ -1,3 +1,50 @@
+document.addEventListener("DOMContentLoaded", function () {
+  const password = document.getElementById("password");
+  const confirm = document.getElementById("confirmPassword");
+  const form = password.closest("form");
+  const confirmError = confirm.parentElement.querySelector(".invalid-field");
+
+  function validatePasswordMatch() {
+    if (confirm.value.trim() === "") {
+      confirmError.style.display = "none";
+      confirm.style.borderColor = "#ccc";
+      return;
+    }
+
+    if (password.value !== confirm.value) {
+      confirmError.style.display = "block";
+      confirm.style.borderColor = "red";
+    } else {
+      confirmError.style.display = "none";
+      confirm.style.borderColor = "green";
+    }
+  }
+
+  // Gọi khi gõ
+  password.addEventListener("input", validatePasswordMatch);
+  confirm.addEventListener("input", validatePasswordMatch);
+
+  // Ngăn submit nếu mật khẩu sai
+  form.addEventListener("submit", function (e) {
+    if (password.value !== confirm.value) {
+      e.preventDefault(); // ❗ Dừng gửi form
+      confirmError.style.display = "block";
+      confirm.style.borderColor = "red";
+      alert("Mật khẩu xác nhận không trùng khớp!");
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
 function checkLength() {
 	let username = document.getElementById('username').value
 	let password = document.getElementById('password').value
