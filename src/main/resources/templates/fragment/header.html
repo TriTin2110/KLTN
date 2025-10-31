@@ -104,19 +104,23 @@
 							style="font-size: 14px; color: #272727; text-transform: uppercase; margin: 3px 0 30px 0; font-weight: 500; letter-spacing: 2px;">Tìm
 							kiếm</h3>
 						<div class="search-box wpo-wrapper-search">
-							<form action="search"
-								class="searchform searchform-categoris ultimate-search">
-								<div class="wpo-search-inner" style="display: inline">
-									<input type="hidden" name="type" value="product"> <input
-										required="" id="inputSearchAuto" name="q" maxlength="40"
-										autocomplete="off"
-										class="searchinput input-search search-input" type="text"
-										size="20" placeholder="Tìm kiếm sản phẩm...">
-								</div>
-								<button type="submit" class="btn-search btn"
-									id="search-header-btn">
-									<i style="font-weight: bold" class="fas fa-search"></i>
-								</button>
+							<form id="searchForm" class="searchform searchform-categoris ultimate-search" onsubmit="return redirectSearch(event)">
+							    <div class="wpo-search-inner" style="display: inline">
+							        <input type="hidden" name="type" value="product">
+							        <input
+							            required
+							            id="inputSearchAuto"
+							            name="q"
+							            maxlength="40"
+							            autocomplete="off"
+							            class="searchinput input-search search-input"
+							            type="text"
+							            size="20"
+							            placeholder="Tìm kiếm sản phẩm...">
+							    </div>
+							    <button type="submit" class="btn-search btn" id="search-header-btn">
+							        <i style="font-weight: bold" class="fas fa-search"></i>
+							    </button>
 							</form>
 							<div id="ajaxSearchResults"
 								class="smart-search-wrapper ajaxSearchResults"
@@ -199,6 +203,16 @@
 					</button>
 				</div>
 			</div>
+			<script>
+				function redirectSearch(event) {
+				    event.preventDefault();
+				    const query = document.getElementById("inputSearchAuto").value.trim();
+				    if (query) {
+				        const encodedQuery = encodeURIComponent(query);
+				        window.location.href = `/search/${encodedQuery}`;
+				    }
+				}
+			</script>
 			<script th:src="@{/js/currency.js}"></script>
 			<script th:src="@{/js/cart.js}"></script>
 	</div>

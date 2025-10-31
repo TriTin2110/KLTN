@@ -214,20 +214,5 @@ public class ProductController {
 		return "detail-product";
 	}
 
-	@GetMapping("/search/{content}")
-	public String searchProduct(@PathVariable String content, Model model) {
-		List<Product> products = productService.findAll();
-		List<Product> result = new ArrayList<Product>();
-		content = StringHandler.handlingString(content);
-		String productName = null;
-		String productCategory = null;
-		for (Product product : products) {
-			productName = StringHandler.handlingString(product.getName());
-			productCategory = StringHandler.handlingString(product.getCategory().getName());
-			if (productName.contains(content) || content.contains(productName) || productCategory.contains(content))
-				result.add(product);
-		}
-		model.addAttribute("products", result);
-		return "search-result";
-	}
+	
 }

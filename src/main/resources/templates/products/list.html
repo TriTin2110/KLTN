@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title th:text="${#strings.isEmpty(param.q) ? 'Tất cả sản phẩm' : 'Kết quả cho: ' + param.q}">Kết quả tìm kiếm</title>
+  <style>
+    .container{max-width:1200px;margin:0 auto;padding:16px}
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:8px 0 16px}
+    .search-inline{display:flex;gap:8px;align-items:center}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+    .card{border:1px solid #eee;border-radius:12px;padding:12px}
+    .name{font-weight:600;margin:0 0 6px}
+    .price{font-weight:700}
+    .muted{color:#666;font-size:0.9rem}
+    .empty{padding:24px;text-align:center;border:1px dashed #ddd;border-radius:12px}
+    .pager{display:flex;gap:8px;align-items:center}
+    .pager a{padding:6px 10px;border:1px solid #ddd;border-radius:6px;text-decoration:none}
+    .sort a{margin-right:8px}
+  </style>
+</head>
+<body>
+  <!-- Header fragment provided by your project -->
+  <div th:replace="~{header :: header}"></div>
+
+  <main class="container">
+    <h1 th:text="${#strings.isEmpty(param.q) ? 'Tất cả sản phẩm' : 'Kết quả cho: \'' + param.q + '\''}">Kết quả</h1>
+
+    <!-- Inline search (matches your header's `q` param). Submits to /search if you use a redirect controller; adjust as needed. -->
+    <form class="search-inline" method="get" th:action="@{/search}">
+      <input type="text" name="q" th:value="${param.q}" placeholder="Từ khóa sản phẩm..." required />
+      <button type="submit">Tìm kiếm</button>
+      <a th:href="@{/products}" class="muted">Xóa lọc</a>
+    </form>
+
+    <div class="toolbar">
+      <div class="muted">
+        <span th:if="${page != null}" th:text="${page.totalElements} + ' kết quả'"></span>
+        <span th:if="${page == null and products != null}" th:text="${#lists.size(products)} + ' kết quả'"></span>
+      </div>
+      <!-- Basic sort links (work when 'page' is provided by controller) -->
+      <div class="sort muted" th:if="${page != null}">
+        Sắp xếp:
+        <a th:href="@{|/products?q=${param.q}&sort=price,asc|}">Giá ↑</a>
+        <a th:href="@{|/products?q=${param.q}&sort=price,desc|}">Giá ↓</a>
+        <a th:href="@{|/products?q=${param.q}&sort=createdAt,desc|}">Mới nhất</a>
+      </div>
+    </div>
+
+    <!-- Results when Page<Product> is provided as 'page' -->
+    <section th:if="${page != null}">
+      <div class="grid" th:if="${!page.empty}">
+        <article class="card" th:each="p : ${page.content}">
+          <h3 class="name" th:text="${p.name}">Tên sản phẩm</h3>
+          <p class="muted" th:if="${p.category != null}" th:text="${p.category}">Danh mục</p>
+          <p class="price" th:text="${#numbers.formatDecimal(p.price,0,'COMMA',0,'POINT')} + ' ₫'">0 ₫</p>
+          <p class="muted" th:if="${p.description != null}" th:text="${#strings.abbreviate(p.description, 120)}"></p>
+          <!-- Link chi tiết nếu có route /products/{id} -->
+          <a th:href="@{|/products/${p.id}|}">Xem chi tiết</a>
+        </article>
+      </div>
+      <div class="empty" th:if="${page.empty}">Không có sản phẩm phù hợp.</div>
+
+      <!-- Pagination -->
+      <nav class="pager" th:if="${page.totalPages > 1}">
+        <a th:if="${!page.first}"
+           th:href="@{|/products?page=${page.number - 1}&size=${page.size}&q=${param.q}|}">« Trước</a>
+        <span class="muted" th:text="'Trang ' + ${page.number + 1} + '/' + ${page.totalPages}"></span>
+        <a th:if="${!page.last}"
+           th:href="@{|/products?page=${page.number + 1}&size=${page.size}&q=${param.q}|}">Sau »</a>
+      </nav>
+    </section>
+
+    <!-- Results when a simple List<Product> is provided as 'products' -->
+    <section th:if="${page == null and products != null}">
+      <div class="grid" th:if="${#lists.size(products) > 0}">
+        <article class="card" th:each="p : ${products}">
+          <h3 class="name" th:text="${p.name}">Tên sản phẩm</h3>
+          <p class="muted" th:if="${p.category != null}" th:text="${p.category}">Danh mục</p>
+          <p class="price" th:text="${#numbers.formatDecimal(p.price,0,'COMMA',0,'POINT')} + ' ₫'">0 ₫</p>
+          <p class="muted" th:if="${p.description != null}" th:text="${#strings.abbreviate(p.description, 120)}"></p>
+          <a th:href="@{|/products/${p.id}|}">Xem chi tiết</a>
+        </article>
+      </div>
+      <div class="empty" th:if="${#lists.size(products) == 0}">Không có sản phẩm phù hợp.</div>
+    </section>
+  </main>
+</body>
+</html>

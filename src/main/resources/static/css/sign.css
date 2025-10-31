@@ -692,8 +692,8 @@
   margin-top: 5px;
   font-size: 14px;
 }
-
-/* Hiệu ứng fade cho thông báo lỗi */
+/*
+ Hiệu ứng fade cho thông báo lỗi 
 .invalid-field {
   display: none;
   color: #e74c3c;
@@ -703,7 +703,7 @@
   font-weight: 600;
   transition: opacity 0.3s ease;
 }
-
+*/
 input:focus {
   outline: none;
   transition: 0.3s;
