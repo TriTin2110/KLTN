@@ -1,6 +1,7 @@
 package vn.kltn.KLTN.service.implement;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
@@ -65,7 +66,8 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public News findById(String newsId) {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<News> opt = repository.findById(newsId);
+		return (opt.isEmpty()) ? null : opt.get();
 	}
 
 	@Override

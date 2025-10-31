@@ -18,11 +18,18 @@ let newsEditor = document.getElementById("news-editor")
 			newsListTable.style.display = "none";
 			newsBtn.innerText = "Danh sách tin tức"
 			newsBtn.className = "btn btn-primary"
-			newsBtn.onclick= openNewsListTable
+			newsBtn.onclick= openNewsListTable //Hiển thị danh sách sản phẩm
 			mainForm.action = "/news/insert"
 			mainForm.reset()
 			mainImageView.src =''
 			window.editor.setData('')
+			let nameInput = mainForm.querySelector('#name')
+			let shortDescription = mainForm.querySelector('#shortDescription')
+			let mainImage = mainForm.querySelector("#main-image")
+			nameInput.setAttribute('value', '')
+			shortDescription.setAttribute('value', '')
+			mainImage.setAttribute('value', '')
+			nameInput.readOnly=false;
 		}
 
 		function openNewsListTable(){
@@ -42,11 +49,17 @@ function editNews(button)
 	mainForm.action = "/news/update"
 	let nameInput = mainForm.querySelector('#name')
 	let shortDescription = mainForm.querySelector('#shortDescription')
-	nameInput.value = news.name
-	nameInput.disabled = true
+	let mainImage = mainForm.querySelector("#main-image")
+	
+	//Đặt giá trị cho các thẻ input (sử dụng setAttribute do xung đột với th:object trên form edit)
+	nameInput.setAttribute('value', news.name)
+	shortDescription.setAttribute('value', news.shortDescription)
 	shortDescription.value = news.shortDescription
+	mainImage.setAttribute('value', news.image)
+	
 	window.editor.setData(news.content)
 	mainImageView.src = "https://s3.cloudfly.vn/kltn/images/news/main-image/"+news.image
+	nameInput.readOnly = true
 }
 
 function changeMainImageView(input)
@@ -58,6 +71,19 @@ function changeMainImageView(input)
 			reader.onload = (e) =>{
 				mainImageView.src = e.target.result //hiển thị ảnh
 			}
+			let mainImage = mainForm.querySelector("#main-image")
+			mainImage.setAttribute('value', "success")
 			reader.readAsDataURL(file)
 		}
+}
+
+function checkMainImage()
+{
+	let mainImage = mainForm.querySelector("#main-image").value
+	if(!mainImage || mainImage.length == 0)
+	{
+		alert('Vui lòng chọn ảnh bìa')
+		return false;
+	}
+	return true;
 }

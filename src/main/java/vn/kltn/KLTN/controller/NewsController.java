@@ -37,9 +37,11 @@ public class NewsController {
 	}
 
 	@PostMapping("/insert")
-	public String insertNews(@ModelAttribute("news") News news, @RequestParam("main-image") MultipartFile file,
+	public String insertNews(@ModelAttribute("news") News news, @RequestParam("image-chooser") MultipartFile file,
 			@RequestParam("content") String content, Model model) {
-		if (newsService.findById(news.getName()) == null) {
+		List<News> newsList = newsService.findAll();
+		boolean newAlreadyExists = newsList.stream().anyMatch(n -> news.getName().equals(n.getName()));
+		if (!newAlreadyExists) {
 			try {
 				String mainImageFileName = fileService.uploadImageFileToCloudFly(file, "images/news/main-image/",
 						file.getOriginalFilename());
@@ -88,8 +90,15 @@ public class NewsController {
 	}
 
 	@PostMapping("/update")
-	public String updateNews(@ModelAttribute("news") News news, Model model) {
+	public String updateNews(@ModelAttribute("news") News news, Model model,
+			@RequestParam("image-chooser") MultipartFile file) {
 		try {
+			if (file != null && file.getOriginalFilename() != null && !file.getOriginalFilename().isBlank()) {
+				String mainImageFileName = fileService.uploadImageFileToCloudFly(file, "images/news/main-image/",
+						file.getOriginalFilename());
+				news.setImage(mainImageFileName);
+				System.out.println("Đã upload ảnh");
+			}
 			newsService.update(news);
 			newsService.updateCache();
 		} catch (Exception e) {

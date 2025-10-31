@@ -44,4 +44,16 @@ public class News extends Component {
 		this.content = content;
 	}
 
+	public void setData(News news) {
+		if (news.getAuthorName() != null)
+			this.setAuthorName(news.getAuthorName());
+		if (news.getContent() != null)
+			this.setContent(news.getContent());
+		if (news.getImage() != null) {
+			this.setImage(news.getImage());
+		}
+		if (news.getShortDescription() != null) {
+			this.setShortDescription(news.getShortDescription());
+		}
+	}
 }

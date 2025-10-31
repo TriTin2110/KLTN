@@ -8,7 +8,7 @@
 	<div th:fragment="editor">
 		<div id="news-editor">
 			<form th:action="@{/news/insert}" th:method="post"
-				enctype="multipart/form-data" th:object="${news}" id="main-form">
+				enctype="multipart/form-data" th:object="${news}" id="main-form" onsubmit="return checkMainImage()">
 				<div style="margin-bottom: 30px">
 					<label for="title">Tiêu đề <span style="color: red;">*</span>:</label>
 					<input class="form-control" type="text" th:field="*{name}" th:value="${news.name}" placeholder="Tiêu đề" required="required">
@@ -21,7 +21,8 @@
 				
 				<div style="margin-bottom: 30px">
 					<label for="main-image">Ảnh bìa:</label>
-					<input class="form-control" type="file" name="main-image" onchange="changeMainImageView(this)">
+					<input type="hidden" id="main-image" th:field="*{image}">
+					<input class="form-control" type="file" name="image-chooser" id="image-chooser" onchange="changeMainImageView(this)" >
 					<img id="main-image-view" style="margin-top: 10px;">
 				</div>
 				
