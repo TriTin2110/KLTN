@@ -2,6 +2,7 @@ package vn.kltn.KLTN.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -109,5 +110,23 @@ public class NewsController {
 		}
 		model.addAttribute("success", "Xóa thành công!");
 		return "redirect:/news/editor";
+	}
+
+	@GetMapping("/")
+	public String showNewsListPage(Model model) {
+		List<News> newsList = newsService.findAll();
+		model.addAttribute("newsList", newsList);
+		return "news";
+	}
+
+	@GetMapping("/{id}")
+	public String showNewsPage(@PathVariable("id") String id, Model model) {
+		List<News> newsList = newsService.findAll();
+		Optional<News> opt = newsList.stream().filter(n -> n.getName().equals(id)).findFirst();
+		if (opt.isEmpty())
+			return "redirect:/news/";
+		News news = opt.get();
+		model.addAttribute("news", news);
+		return "detail-news";
 	}
 }

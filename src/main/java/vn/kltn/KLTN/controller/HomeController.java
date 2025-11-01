@@ -51,8 +51,7 @@ public class HomeController {
 		model.addAttribute("comments", comments); // Danh sách comment của sản phẩm
 		return "detail-product";
 	}
-	
-	
+
 	@GetMapping("/search/{content}")
 	public String searchProduct(@PathVariable String content, Model model) {
 		List<Product> products = productService.findAll();
