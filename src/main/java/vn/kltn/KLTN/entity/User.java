@@ -42,6 +42,9 @@ public class User implements UserDetails {
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	@JoinColumn(name = "point_id")
 	private Point point;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "chat_room_id")
+	private Chat chat;
 
 	public User() {
 	}
@@ -166,6 +169,14 @@ public class User implements UserDetails {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public Chat getChat() {
+		return chat;
+	}
+
+	public void setChat(Chat chat) {
+		this.chat = chat;
 	}
 
 	@Override
