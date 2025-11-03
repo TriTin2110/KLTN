@@ -1,6 +1,7 @@
 package vn.kltn.KLTN.modules.chat;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +62,8 @@ public class ChatRoomHanler extends TextWebSocketHandler {
 			Chat chat = chatRooms.stream().filter(o -> userId.equals(o.getName())).findFirst().get();
 			userList.put(session, chat); // Gán cho phiên làm việc của user vào phòng này
 			System.out.println("Khách hàng " + userId + " đã kết nối!");
+		} else {
+			employeeList.put(session, null);
 		}
 	}
 
@@ -69,6 +72,15 @@ public class ChatRoomHanler extends TextWebSocketHandler {
 		// TODO Auto-generated method stub
 		String role = getRole(session);
 		String userId = getUserId(session);
+		Chat chat = userList.get(session);
+
+		// Cập nhật time trước khi thoát
+		if (chat == null)
+			chat = employeeList.get(session);
+		if (chat != null)
+			chatService.updateTime(chat);
+
+		// Xóa user khỏi danh sách hiện tại
 		if ("user".equals(role)) {
 			userList.remove(session);
 		} else {
@@ -86,17 +98,30 @@ public class ChatRoomHanler extends TextWebSocketHandler {
 
 			chat = employeeList.get(session);
 		}
-		messageService.saveAndFlushChat(chat, textMessage, role);
-		showMessage(textMessage, role, chat.getId());// hiển thị tin nhắn cho người nhận
+		LocalDateTime time = LocalDateTime.now();
+		messageService.saveAndFlushChat(chat, textMessage, role, time);
+		chat.setDate(time);
+		showMessage(textMessage, role, chat);// hiển thị tin nhắn cho người nhận
 	}
 
-	private void showMessage(String textMessage, String role, int chatRoomId) {
+	private void showMessage(String textMessage, String role, Chat chatRoomSender) {
+		int chatRoomId = chatRoomSender.getId();
 		Map<WebSocketSession, Chat> targetMap = ("user".equals(role)) ? employeeList : userList;
+		Map<String, Object> payload = new HashMap<String, Object>();
 		targetMap.forEach((session, chat) -> {
-			if (session != null && session.isOpen() && chat != null && chatRoomId == chat.getId()) {
+			if (session != null && session.isOpen()) {
 				try {
-					session.sendMessage(new TextMessage(textMessage.getBytes()));
-					return;
+					if ("user".equals(getRole(session)) && chat != null && chatRoomId == chat.getId()
+							|| "employee".equals(getRole(session))) {
+						Integer currentChatRoomId = (chat == null) ? null : chat.getId();
+						payload.putIfAbsent("chatRoomId", chatRoomId);
+						payload.putIfAbsent("currentChatRoomId", currentChatRoomId);
+						payload.putIfAbsent("userId", getUserId(session));
+						payload.putIfAbsent("message", textMessage);
+						String json = new ObjectMapper().writeValueAsString(payload);
+						session.sendMessage(new TextMessage(json));
+						return;
+					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

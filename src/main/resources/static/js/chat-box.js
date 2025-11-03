@@ -14,10 +14,32 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 if (role != 'user') {
 	ws.onmessage = function(res) { //Lấy phản hồi từ server gửi lên
-		let div = document.createElement('div')
-		div.className = "message message-employee bg-secondary"
-		div.textContent = res.data
-		content.append(div)
+		const data = JSON.parse(res.data)
+		console.log(data)
+		const chatRoomId = data.chatRoomId
+		const currentChatRoomId = data.currentChatRoomId
+		const message = data.message
+		const userId = data.userId
+		if(currentChatRoomId && chatRoomId == currentChatRoomId){
+			let div = document.createElement('div')
+			div.className = "message message-employee bg-secondary"
+			div.textContent = message
+			content.append(div)
+		}
+		const chatList = document.querySelector('.chat-list-panel')
+		const chatItem = chatList.querySelector(`.chat-list[data-id='${chatRoomId}']`)
+		let incomeMessage = chatItem.querySelector('.income-message')
+		
+		if(chatItem)
+		{
+			
+			incomeMessage.textContent = userId+": "+ message
+			chatList.prepend(chatItem)
+		}
+		
+		let circle = chatItem.querySelector('.circle')
+		if(currentChatRoomId != chatRoomId)
+			circle.style.display = 'inline'
 	}
 }
 
@@ -62,7 +84,10 @@ async function loadContentForEmployee(id) {
 			</div>`
 		}
 	}).join('')
-
+	const chatList = document.querySelector('.chat-list-panel')
+		const chatItem = chatList.querySelector(`.chat-list[data-id='${id}']`)
+		let circle = chatItem.querySelector('.circle')
+		circle.style.display= 'none'
 }
 
 function scrollToLastMessage() {
@@ -98,9 +123,11 @@ function toggleChatFrame(idRoom, userId) {
 				loadContentForUser(idRoom)
 		}
 		ws.onmessage = function(res) { //Lấy phản hồi từ server gửi lên
+			let data = JSON.parse(res.data)
+			console.log(data)
 			let div = document.createElement('div')
 			div.className = "message message-employee bg-secondary"
-			div.textContent = res.data
+			div.textContent = data.message
 			content.append(div)
 		}
 		chatFrame.classList.add('active')

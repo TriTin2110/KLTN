@@ -13,4 +13,7 @@ public interface ChatService {
 
 	public List<Chat> updateCache();
 
+	public void updateTime(Chat chat);
+
+	public void update(Chat chat);
 }

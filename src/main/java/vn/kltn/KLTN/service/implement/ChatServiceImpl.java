@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Chat;
 import vn.kltn.KLTN.repository.ChatRepository;
 import vn.kltn.KLTN.service.ChatService;
@@ -49,6 +51,21 @@ public class ChatServiceImpl implements ChatService {
 		// TODO Auto-generated method stub
 		Optional<Chat> opt = this.chatRepository.findById(id);
 		return (opt.isEmpty()) ? null : opt.get();
+	}
+
+	@Override
+	@Transactional
+	@Async
+	public void updateTime(Chat chat) {
+		// TODO Auto-generated method stub
+		this.chatRepository.updateTime(chat.getId(), chat.getDate());
+	}
+
+	@Override
+	@Transactional
+	public void update(Chat chat) {
+		// TODO Auto-generated method stub
+		this.chatRepository.saveAndFlush(chat);
 	}
 
 }

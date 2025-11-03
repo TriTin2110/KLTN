@@ -1,5 +1,6 @@
 package vn.kltn.KLTN.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class Chat {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
+	private LocalDateTime date;
+	private boolean checked;
 	@OneToOne(mappedBy = "chat", cascade = { CascadeType.MERGE })
 	private User user;
 
@@ -69,6 +72,22 @@ public class Chat {
 
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
+	}
+
+	public LocalDateTime getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDateTime date) {
+		this.date = date;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 
 }

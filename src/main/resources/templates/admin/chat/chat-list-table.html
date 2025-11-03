@@ -6,11 +6,14 @@
 </head>
 <body>
 	<div th:fragment="chat-list-table" class="row" style="height: 80vh;">
-		<div class="col-md-3">
-			<div class="chat-list" th:each="n : ${chatList}"
+		<div class="col-md-3 chat-list-panel">
+			<div class="chat-list" th:each="n : ${chatList}" th:data-id="${n.id}"
 				th:onclick="|loadContentForEmployee('${n.id}')|">
-				<div style="font-weight: bold;" th:text="${'Phòng chat '+n.id}"></div>
-				<div th:text="${'User: '+n.name}"></div>
+				<div style="font-weight: bold; display: flex; justify-content: space-between;">
+					<span th:text="${'Phòng chat '+n.id}"></span>
+					<span class="circle" style="display: none;"><i class="fa-solid fa-circle"></i></span>
+				</div>
+				<div class="income-message" th:text="${'User: '+n.name}"></div>
 			</div>
 		</div>
 		<div class="col-md-9 content" style="height: 100%;">

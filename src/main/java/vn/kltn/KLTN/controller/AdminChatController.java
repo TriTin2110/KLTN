@@ -23,7 +23,8 @@ public class AdminChatController {
 
 	@GetMapping("")
 	public String showList(Model model) {
-		List<Chat> chatList = chatService.findAll();
+		List<Chat> chatList = chatService.findAll().stream().sorted((c1, c2) -> c2.getDate().compareTo(c1.getDate()))
+				.toList();
 		model.addAttribute("chatList", chatList);
 		return "admin/chat/chat";
 	}

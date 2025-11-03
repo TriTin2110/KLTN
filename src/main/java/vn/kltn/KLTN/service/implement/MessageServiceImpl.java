@@ -25,16 +25,17 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	@Transactional
 	@Async
-	public void saveAndFlushChat(Chat chat, String textMessage, String role) {
+	public void saveAndFlushChat(Chat chat, String textMessage, String role, LocalDateTime time) {
+		Message message = new Message(textMessage, role);
 		try {
-			Message message = new Message(textMessage, role);
-			message.setCreatedAt(LocalDateTime.now());
+			message.setCreatedAt(time);
 			message.setChat(new Chat(chat.getId()));
 			messageRepository.saveAndFlush(message);
-			System.out.println("💾 Lưu tin nhắn hoàn tất: " + message.getContent());
+			System.out.println("Lưu tin nhắn thành công: " + message.getContent());
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			System.out.println("Đã có lỗi khi lưu tin nhắn: " + message.getContent() + "...");
 		}
 	}
 

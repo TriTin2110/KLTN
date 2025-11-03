@@ -107,3 +107,18 @@
 		height: 76%;
 	}
 }
+
+.income-message{
+	overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.circle{
+	font-size: 13px;
+    color: #f16b6b;
+}
+
+.chat-list-panel{
+	    height: 100%;
+    overflow-y: auto;
+}
