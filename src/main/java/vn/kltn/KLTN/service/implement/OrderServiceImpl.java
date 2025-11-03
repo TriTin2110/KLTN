@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.OrderItem;
+import vn.kltn.KLTN.enums.OrderStatus;
 import vn.kltn.KLTN.enums.Payment;
 import vn.kltn.KLTN.model.OrderDetailDTO;
 import vn.kltn.KLTN.repository.OrderRepository;
@@ -102,12 +103,23 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	@Transactional
 	public List<Order> findAll() {
 		// TODO Auto-generated method stub
 		List<Order> orders = repository.findAll();
-		orders.forEach(o -> System.out.println(o.getOrderItem()));
-		return null;
+		return orders;
+	}
+
+	@Override
+	public List<Order> findAllWithItems() {
+		// TODO Auto-generated method stub
+		return repository.findAllWithItems();
+	}
+
+	@Override
+	@Transactional
+	public int updateStatus(String id, String status) {
+		// TODO Auto-generated method stub
+		return this.repository.updateStatus(id, OrderStatus.valueOf(status));
 	}
 
 }

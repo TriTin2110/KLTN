@@ -57,6 +57,20 @@
 	opacity: 0;
 	pointer-events: none;
 }
+
+#current-order-status{
+	font-style: italic;
+	animation: blink 3s linear infinite;
+}
+@keyframes blink{
+	0%, 50%, 100%{
+		opacity: 1;
+	}
+	
+	25%, 75%{
+		opacity: 0;
+	}
+}
 </style>
 </head>
 
@@ -102,7 +116,7 @@
 								<span>Đơn hàng: <span th:text="${order.id}"></span></span>
 							</div>
 							<div>
-								Trạng thái: <span th:text="${order.status}"></span>
+								Trạng thái: <span id="current-order-status" th:text="${order.status.getValue()}"></span>
 							</div>
 							<div>
 								Ngày đặt: <span th:text="${order.createdDate}"></span>
@@ -121,10 +135,10 @@
 								Tổng tiền: <span th:text="${order.totalPrice}" class="pro-price"
 									style="font-size: unset;"></span>
 							</h4>
-							<div>
-								<a th:href="@{/order/remove/{id} (id=${order.id})}" class="btn btn-danger" style="color: white;">Hủy
-									đơn</a>
-							</div>
+								<div id="btn-cancel">
+									<a th:href="@{/order/remove/{id} (id=${order.id})}" class="btn btn-danger" style="color: white;">Hủy
+										đơn</a>
+								</div>
 						</div>
 					</div>
 				</div>
@@ -167,6 +181,17 @@
 	<script th:src="@{/js/currency.js}"></script>
 	<script type="text/javascript">
 	formatToVND()
+	
+	let currentOrderStatus = document.getElementById("current-order-status")
+	let statusText = currentOrderStatus.textContent
+	let btnCancel = document.getElementById("btn-cancel")
+	if (statusText == 'Bị hủy' || statusText == 'Đã hoàn tất') {
+		if (statusText == 'Bị hủy')
+			currentOrderStatus.style.color = 'red'
+		else if(statusText == 'Đã hoàn tất')
+			currentOrderStatus.style.color = 'green'
+		btnCancel.style.display = 'none'
+	}
 	</script>
 </body>
 

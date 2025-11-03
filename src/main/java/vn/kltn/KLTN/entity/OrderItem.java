@@ -1,5 +1,7 @@
 package vn.kltn.KLTN.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -8,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 public class OrderItem extends Item {
 	@ManyToOne
 	@JoinColumn(name = "order_id")
+	@JsonIgnore
 	private Order order;
 
 	public OrderItem() {

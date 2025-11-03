@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | Quản lý sản phẩm</title>
+<link rel="stylesheet" th:href="@{/css/admin.css}">
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{/plugins/bootstrap/bootstrap.min.css}">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	rel="stylesheet">
+
+<style type="text/css">
+#news-editor {
+	display: none;
+}
+/* Padding bên trong vùng soạn thảo */
+.ck-editor__editable_inline {
+	padding: 20px !important;
+	min-height: 300px; /* tuỳ chọn: để nội dung nhìn thoáng */
+}
+
+#success-panel{
+background-color: #90f190;
+    border: 3px solid green;
+    margin-left: 32%;
+    
+}
+
+#failed-panel{
+background-color: #ffa1a1;
+    border: 3px solid red;
+    margin-left: 32%;
+    
+}
+.result-panel{
+	position: fixed;
+	font-size: 17px;
+    padding: 7px;
+    border-radius: 8px;
+    z-index: 1000;
+    opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.5s ease, transform 0.5s ease; 
+  pointer-events: none;
+}
+.result-panel.active{
+	opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
+</head>
+<body>
+
+	<!-- ===== SIDEBAR ===== -->
+	<div th:replace="~{/fragment/side-bar.html :: side-bar}"></div>
+
+	<!-- ===== MAIN CONTENT ===== -->
+	<div class="main-content">
+
+		<!-- TOPBAR -->
+		<div class="topbar">
+			<h1>Quản lý đơn hàng</h1>
+			<div id="success-panel" class="result-panel">Cập nhật trạng thái thành công!</div>
+			<div id="failed-panel" class="result-panel">Cập nhật trạng thái không thành công!</div>
+			<div class="topbar-right">
+				<span>Admin</span> <i class="fas fa-user-circle"></i>
+			</div>
+		</div>
+
+		<!-- DASHBOARD CARDS -->
+		<div class="cards">
+			<div class="card">
+				<h3>Người dùng</h3>
+				<p>50</p>
+			</div>
+			<div class="card">
+				<h3>Đơn hàng</h3>
+				<p>120</p>
+			</div>
+		</div>
+
+		<!-- Danh sách tin tức -->
+		<div
+			th:replace="~{/admin/order/order-list-table.html :: order-list-table}"></div>
+
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+		<script th:src="@{/js/currency.js}"></script>
+		<script type="text/javascript">formatToVND()</script>
+</body>
+</html>
