@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import vn.kltn.KLTN.entity.Message;
-import vn.kltn.KLTN.service.ChatService;
+import vn.kltn.KLTN.service.MessageService;
 
 @Controller
 @RequestMapping("/chat")
 public class ChatController {
-	private ChatService chatService;
+	private MessageService messageService;
 
 	@Autowired
-	public ChatController(ChatService chatService) {
-		this.chatService = chatService;
+	public ChatController(MessageService messageService) {
+		this.messageService = messageService;
 	}
 
 	@GetMapping("/show-box")
@@ -30,7 +30,7 @@ public class ChatController {
 	@ResponseBody
 	@GetMapping("/{id}")
 	public List<Message> getContent(@PathVariable("id") int chatId) {
-		List<Message> messsage = chatService.findMessage(chatId);
+		List<Message> messsage = messageService.findByChat(chatId);
 		return messsage;
 	}
 }

@@ -3,7 +3,6 @@ package vn.kltn.KLTN.service;
 import java.util.List;
 
 import vn.kltn.KLTN.entity.Chat;
-import vn.kltn.KLTN.entity.Message;
 
 public interface ChatService {
 	public Chat findById(int id);
@@ -13,7 +12,5 @@ public interface ChatService {
 	public List<Chat> findAll();
 
 	public List<Chat> updateCache();
-
-	public List<Message> findMessage(int id);
 
 }

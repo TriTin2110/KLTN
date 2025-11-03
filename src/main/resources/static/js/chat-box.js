@@ -84,7 +84,7 @@ function showCustomerText() {
 	ws.send(inputValue)
 }
 
-function toggleChatFrame() {
+function toggleChatFrame(idRoom, userId) {
 	if (chatFrame.classList.contains('active')) //Tắt khung chat
 	{
 		ws.close()
@@ -92,10 +92,10 @@ function toggleChatFrame() {
 		chatButton.classList.remove('close')
 	}
 	else {
-		ws = new WebSocket('ws://localhost:8080/chat?role=user&userId=tritin') //Tạo websocket
+		ws = new WebSocket(`ws://localhost:8080/chat?role=user&userId=${userId}`) //Tạo websocket
 		ws.onopen = function() { //Sau khi kết nối thành công
 			if (role === 'user')
-				loadContentForUser(15)
+				loadContentForUser(idRoom)
 		}
 		ws.onmessage = function(res) { //Lấy phản hồi từ server gửi lên
 			let div = document.createElement('div')

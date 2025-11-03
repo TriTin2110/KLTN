@@ -8,9 +8,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Chat;
-import vn.kltn.KLTN.entity.Message;
 import vn.kltn.KLTN.repository.ChatRepository;
 import vn.kltn.KLTN.service.ChatService;
 import vn.kltn.KLTN.service.UserService;
@@ -44,14 +42,6 @@ public class ChatServiceImpl implements ChatService {
 	public List<Chat> updateCache() {
 		// TODO Auto-generated method stub
 		return this.chatRepository.findAll();
-	}
-
-	@Override
-	@Transactional
-	public List<Message> findMessage(int id) {
-		// TODO Auto-generated method stub
-		Chat chat = this.chatRepository.findById(id).get();
-		return chat.getMessages();
 	}
 
 	@Override

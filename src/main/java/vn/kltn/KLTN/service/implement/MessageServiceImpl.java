@@ -1,6 +1,7 @@
 package vn.kltn.KLTN.service.implement;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -35,6 +36,12 @@ public class MessageServiceImpl implements MessageService {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<Message> findByChat(int id) {
+		// TODO Auto-generated method stub
+		return this.messageRepository.findByChat_Id(id);
 	}
 
 }

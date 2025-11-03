@@ -38,7 +38,7 @@
 		</div>
 	</div>
 	<div id="chat-box-button">
-		<button class="btn btn-primary" onclick="toggleChatFrame()">Chat trực tiếp!</button>
+		<button class="btn btn-primary" th:data-id="${user.chat.id}" th:data-username="${user.username}" onclick="toggleChatFrame(this.dataset.id, this.dataset.username)"><i class="fa-solid fa-comments"></i> Chat trực tiếp!</button>
 	</div>
 	<script type="text/javascript">
 	let ws = null

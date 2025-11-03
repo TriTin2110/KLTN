@@ -58,9 +58,8 @@ public class ChatRoomHanler extends TextWebSocketHandler {
 		if ("user".equals(role)) { // Sau khi kết nối của user được thành lập
 			chatRooms = chatService.findAll();
 			String userId = getUserId(session);
-			Chat chat = chatRooms.stream().filter(o -> userId.equals(o.getUser().getUsername())).findFirst().get();
+			Chat chat = chatRooms.stream().filter(o -> userId.equals(o.getName())).findFirst().get();
 			userList.put(session, chat); // Gán cho phiên làm việc của user vào phòng này
-			chatRooms = chatService.updateCache();
 			System.out.println("Khách hàng " + userId + " đã kết nối!");
 		}
 	}
