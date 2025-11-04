@@ -5,14 +5,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" th:href="@{plugins/bootstrap/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{plugins/animate/animate.min.css}">
 <link rel="stylesheet" th:href="@{plugins/fontawesome/all.css}">
 <link rel="stylesheet" th:href="@{plugins/webfonts/font.css}">
-<link rel="stylesheet" th:href="@{css/owl.carousel.min.css}"
-	type="text/css">
-<link rel="stylesheet" th:href="@{css/owl.theme.default.min.css}"
-	type="text/css">
+<link rel="stylesheet" th:href="@{css/owl.carousel.min.css}"	type="text/css">
 <link rel="stylesheet" type="text/css" th:href="@{css/style.css}">
+<link rel="stylesheet" type="text/css" th:href="@{css/news-home.css}">
 
 <!-- UIkit CSS -->
 <link rel="stylesheet" th:href="@{plugins/uikit/uikit.min.css}" />
@@ -235,101 +232,49 @@
 					<div class="hot_sp">
 						<h2 style="text-align: center; padding-top: 10px">
 							<a style="font-size: 28px; color: black; text-decoration: none"
-								href="">Bài viết mới nhất</a>
+								href="#">Bài viết mới nhất</a>
 						</h2>
 						<br />
 					</div>
 				</div>
 			</div>
-			<!--New-->
-			<div>
+			<!--News-->
+			  <div class="container">
 
-				<div class="container">
+			    
+			    <div class="row" th:if="${newsList != null}">
+			      <!-- Lặp từng news -->
+				  <div class="row" th:if="${newsList != null}">
+				    <div class="col-md-4" th:each="news : ${newsList}">
+						<div class="post_item">		
+							<!-- Có ảnh -->
+							      <img class="img-resize" loading="lazy"
+							           th:if="${!#strings.isEmpty(news.image)}"
+							           th:src="${news.image}"
+							           th:alt="${#strings.defaultString(news.name,'news')}" />
 
-					<div class="row">
-						<div class="col-md-4">
-							<div class="post_item">
-								<div class="post_featured">
-									<a href="#" title="matcha"> <img class="img-resize"
-										style="padding-bottom: 15px;" src="images/drink/new-1.jpg"
-										alt="matcha">
-									</a>
-								</div>
-								<div class="pro-text">
-									<span class="post_info_item"> Thứ Ba 24,09,2025 </span>
-								</div>
-								<div class="pro-text">
-									<h3 class="post_title">
-										<a
-											style="color: black; font-size: 18px; text-decoration: none;"
-											href="#" inspiration pack> MATCHA THÚ VỊ ĐỘC ĐÁO: Đánh
-											Thức Năng Lượng Xanh! </a>
-									</h3>
-								</div>
-								<div style="text-align: center; padding-bottom: 30px;">
-									<span>Trải nghiệm ngay sự kết hợp hương vị mới lạ từ bột
-										matcha thượng hạng. Không chỉ giải khát, đây còn là nguồn năng
-										lượng xanh, tươi mát cho mọi cuộc vui của giới trẻ. Đồ uống
-										phải thử trong tháng 9 này! 👉 THÊM VÀO GIỎ HÀNG...</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="post_item">
-								<div class="post_featured">
-									<a href="#" title="Trà sữa"> <img class="img-resize"
-										style="padding-bottom: 15px;" src="images/drink/new-2.jpg"
-										alt="Trà sữa">
-									</a>
-								</div>
-								<div class="pro-text">
-									<span class="post_info_item"> Thứ Ba 25,09,2025 </span>
-								</div>
-								<div class="pro-text">
-									<h3 class="post_title">
-										<a
-											style="color: black; font-size: 18px; text-decoration: none;"
-											href="#" inspiration pack> CÀ PHÊ ĐỘC ĐÁO: Hương Vị Mới
-											Lạ Đánh Thức Năng Lượng! </a>
-									</h3>
-								</div>
-								<div style="text-align: center; padding-bottom: 30px;">
-									<span>Vừa ra mắt với mùi hương rất thú vị và độc đáo,
-										pha trộn giữa truyền thống và hiện đại. Lý tưởng cho các bạn
-										trẻ cần nguồn năng lượng sáng tạo. Là một trong những loại đồ
-										uống đang hot hit nhất thị trường, được giới trẻ yêu thích...</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="post_item">
-								<div class="post_featured">
-									<a href="#" title="Adidas EQT Cushion ADV"> <img
-										class="img-resize" style="padding-bottom: 15px;"
-										src="images/drink/new-3.jpg"
-										alt="Nike Vapormax Plus trở lại với sắc tím mộng mơ và thiết kế chuyển màu đẹp mắt">
-									</a>
-								</div>
-								<div class="pro-text">
-									<span class="post_info_item"> Thứ Ba 25,09,2025 </span>
-								</div>
-								<div class="pro-text">
-									<h3 class="post_title">
-										<a
-											style="color: black; font-size: 18px; text-decoration: none;"
-											href="#" inspiration pack> Trà Đào Hạt Đác vừa ra mắt với
-											mùi hương rất thú vị và độc đáo </a>
-									</h3>
-								</div>
-								<div style="text-align: center; padding-bottom: 30px;">
-									<span>Là một trong những loại đồ uống đang hot hit nhất
-										thị trường tiếp cận được nhiều với giới trẻ...</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+							      <!-- Không có ảnh -> dùng ảnh mặc định -->
+							      <img class="img-resize" loading="lazy"
+							           th:if="${#strings.isEmpty(news.image)}"
+							           th:src="@{/images/blog/no-image.jpg}"
+							           alt="news" />
+					      <!-- Hiển thị tiêu đề -->
+					      <a th:text="${news.name}">Tiêu đề</a>
+					      <!-- Hiển thị tên tác giả -->
+					      <span th:text="|Tác giả: ${news.authorName}|">Tác giả</span>
+						  <p th:text="${news.shortDescription}">Tóm tắt</p>
+				    		</div>
+				  	</div>
+			    <!-- Fallback khi không có bài -->
+				    <div class="row" th:if="${newsList == null or #lists.isEmpty(newsList)}">
+				      <div class="col-12">
+				        <p style="text-align:center; padding: 1rem 0;">Chưa có bài viết nào.</p>
+				      </div>
+				    </div>
+
+			  		</div>
 			</div>
+		</div>
 		</section>
 		<section class="section wrapper-home-newsletter">
 			<div class="container-fluid">
@@ -406,41 +351,40 @@
 		<!-- footer -->
 	<span th:replace="~{/fragment/footer.html :: footer}"></span>
 	</div>
-	<div class="registratior_custom">
-		<form action="">
-			<div class="content">
-				<div class="x-close">
-					<i class="fa fa-times"></i>
-				</div>
-				<h3>Nhận các ưu đãi cùng AUNES</h3>
-				<p>Chúng tôi sẽ cập nhật các chương trình khuyến mãi mới đến bạn</p>
-				<ul>
-					<li><span>Giảm giá sản phẩm</span></li>
-					<li><span>Sản phẩm mới</span></li>
-					<li><span>Sản phẩm bán chạy</span></li>
-				</ul>
-				<input type="text" placeholder="Đăng kí nhận thông tin">
-				<button class="button_register">
-					<p>ĐĂNG KÍ</p>
-				</button>
+	<!--
+		<div class="registratior_custom">
+				<form action="">
+					<div class="content">
+						<div class="x-close">
+							<i class="fa fa-times"></i>
+						</div>
+						<h3>Nhận các ưu đãi cùng AUNES</h3>
+						<p>Chúng tôi sẽ cập nhật các chương trình khuyến mãi mới đến bạn</p>
+						<ul>
+							<li><span>Giảm giá sản phẩm</span></li>
+							<li><span>Sản phẩm mới</span></li>
+							<li><span>Sản phẩm bán chạy</span></li>
+						</ul>
+						<input type="text" placeholder="Đăng kí nhận thông tin">
+						<button class="button_register">
+							<p>ĐĂNG KÍ</p>
+						</button>
+					</div>
+				</form>
 			</div>
-		</form>
-	</div>
+	-->
 	<script async defer crossorigin="anonymous" th:src="@{plugins/sdk.js}"></script>
 	<script th:src="@{plugins/jquery-3.4.1/jquery-3.4.1.min.js}"></script>
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-	<script th:src="@{plugins/bootstrap/popper.min.js}"></script>
-	<script th:src="@{plugins/bootstrap/bootstrap.min.js}"></script>
 	<script th:src="@{plugins/owl.carousel/owl.carousel.min.js}"></script>
 	<script th:src="@{js/home.js}"></script>
 	<script th:src="@{js/script.js}"></script>
+	<script th:src="@{/js/news-loadmore.js}"></script>
 	<script th:src="@{plugins/uikit/uikit.min.js}"></script>
 	<script th:src="@{plugins/uikit/uikit-icons.min.js}"></script>
-	<script th:src="@{js/bootstrap.min.js}"></script>
-	<script th:src="@{/js/currency.js}"></script>
 	<script type="text/javascript">
 		formatToVND()
 	</script>
+	
 </body>
 
 </html>

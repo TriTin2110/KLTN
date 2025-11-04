@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import jakarta.servlet.http.HttpServletRequest;
 import vn.kltn.KLTN.entity.Comment;
+import vn.kltn.KLTN.entity.News;
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.modules.StringHandler;
 import vn.kltn.KLTN.service.CommentService;
+import vn.kltn.KLTN.service.NewsService;
 import vn.kltn.KLTN.service.ProductService;
 
 @Controller
@@ -24,11 +26,17 @@ public class HomeController {
 	private ProductService productService;
 	@Autowired
 	private CommentService commentService;
-
+	@Autowired
+	private NewsService newsService;
+	
 	@GetMapping("")
 	public String showHomePage(Model model, HttpServletRequest request) {
 		List<Product> products = productService.findAll();
 		model.addAttribute("products", products);
+		
+		
+		List<News> newsList = newsService.findAll();
+        model.addAttribute("newsList", newsList);
 		return "index";
 	}
 
@@ -68,4 +76,6 @@ public class HomeController {
 		model.addAttribute("products", result);
 		return "search-result";
 	}
+	
+
 }

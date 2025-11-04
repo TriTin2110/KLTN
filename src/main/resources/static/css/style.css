@@ -145,19 +145,18 @@ color: #007bff;
 
 
 
-/* custom form nháº­n ÄÄng khuyáº¿n mÃ£i */
+/* custom form nhan khuyen mai */
 .registratior_custom {
   width: 100%;
-  /* padding-top: 50px; */
+  padding-top: 100px;
   height: 100vh;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   background-color: rgba(10, 10, 10, 0.6);
   position: fixed;
   top: 0;
   z-index: 999999999999999999999999;
-  /* display: none; */
 }
 .registratior_custom form {
   width: 50%;
@@ -769,7 +768,7 @@ h3.post_title {
 .sticky-top {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-/*end owl-carousel*/
+
 /*New letter*/
 .wrapper-home-newsletter {
   background-repeat: no-repeat;

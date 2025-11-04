@@ -27,6 +27,7 @@ public class CommentController {
 
 	@PostMapping("/{productName}")
 	@PreAuthorize("hasRole('USER')")
+	
 	public Comment create(@PathVariable("productName") String productName, @RequestParam("content") String content,
 			@RequestParam("rating") int rating, @AuthenticationPrincipal User user) {
 		if (content == null || content.trim().isEmpty()) {
@@ -48,6 +49,8 @@ public class CommentController {
 		return cmt;
 	}
 
+	
+	
 	/**
 	 * Cập nhật nội dung bình luận
 	 */

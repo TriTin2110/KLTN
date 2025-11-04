@@ -112,6 +112,26 @@ public class NewsController {
 		return "redirect:/news/editor";
 	}
 
+	
+		//  Hiển thị danh sách bài viết công khai
+		@GetMapping("")
+		public String listPublicNews(Model model) {
+		    List<News> newsList = newsService.findAll();
+		    model.addAttribute("newsList", newsList);
+		    return "index";
+			}
+
+//		@GetMapping("/{id}")
+//		public String detail(@PathVariable String id, Model model) {
+//		    News news = newsService.findById(id);
+//		    if (news == null) {
+//		        throw new org.springframework.web.server.ResponseStatusException(
+//		            org.springframework.http.HttpStatus.NOT_FOUND, "News not found");
+//		    }
+//		    model.addAttribute("news", news);
+//		    return "detail-news";
+//		}
+
 	@GetMapping("/")
 	public String showNewsListPage(Model model) {
 		List<News> newsList = newsService.findAll();
@@ -130,3 +150,4 @@ public class NewsController {
 		return "detail-news";
 	}
 }
+
