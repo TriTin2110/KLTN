@@ -1,0 +1,114 @@
+/* 
+   Home: News cards 
+*/
+
+:root{
+  --news-card-radius: 16px;
+  --news-card-shadow: 0 8px 24px rgba(0,0,0,.06);
+  --news-card-shadow-hover: 0 12px 28px rgba(0,0,0,.10);
+  --news-img-height: 220px;       /* đổi 200/240 tuỳ ý */
+  --news-title-fs: 18px;
+  --news-title-lh: 1.35;
+  --news-title-lines: 2;          /* ép tiêu đề 2 dòng */
+  --news-desc-fs: .95rem;
+  --news-desc-lh: 1.5;
+  --news-desc-lines: 3;           /* ép mô tả 3 dòng */
+  --news-muted: #6b7280;
+  --news-text: #374151;
+  --news-title: #111;
+}
+
+/* 1) Cột bootstrap giãn đều + card full height */
+.row > [class^="col-"],
+.row > [class*=" col-"] { display:flex; }
+.row > [class^="col-"] > .post_item,
+.row > [class*=" col-"] > .post_item {
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  width:100%;
+}
+
+/* 2) Khung card */
+.post_item{
+  background:#fff;
+  border-radius:var(--news-card-radius);
+  padding:12px 14px 16px;
+  box-shadow:var(--news-card-shadow);
+  transition:transform .2s ease, box-shadow .2s ease;
+  gap:8px;
+}
+.post_item:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--news-card-shadow-hover);
+}
+
+/* 3) Ảnh: đồng nhất chiều cao, bo góc, cover */
+.post_item .img-resize{
+  width:100%;
+  height:var(--news-img-height);
+  object-fit:cover;
+  display:block;
+  border-radius:12px;
+  background:#f2f3f5; /* placeholder khi ảnh chưa tải */
+}
+
+/* 4) Tiêu đề: clamp + min-height để các card thẳng hàng */
+.post_item > a{
+  display:block;
+  margin-top:4px;
+  font-weight:700;
+  font-size:var(--news-title-fs);
+  line-height:var(--news-title-lh);
+  color:var(--news-title);
+  text-decoration:none;
+
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:var(--news-title-lines);
+  overflow:hidden;
+
+  /* chiều cao cố định theo số dòng để vị trí "Tác giả" đều nhau */
+  min-height: calc(var(--news-title-lines) * var(--news-title-lh) * 1em);
+}
+.post_item > a:hover{ text-decoration:underline; }
+.post_item > a:focus-visible{
+  outline:2px solid #0d6efd55;
+  outline-offset:2px;
+  border-radius:8px;
+}
+
+/* 5) Tác giả */
+.post_item > span{
+  display:block;
+  margin:4px 0 6px;
+  font-size:.875rem;
+  color:var(--news-muted);
+}
+
+/* 6) Mô tả: clamp + min-height để đều hàng giữa các card */
+.post_item > p{
+  margin:0;
+  font-size:var(--news-desc-fs);
+  line-height:var(--news-desc-lh);
+  color:var(--news-text);
+
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:var(--news-desc-lines);
+  overflow:hidden;
+
+  /* giữ block cao đúng N dòng để card bằng nhau */
+  min-height: calc(var(--news-desc-lines) * var(--news-desc-lh) * 1em);
+}
+
+/* 7) Khoảng cách dưới mỗi cột (không chạm HTML) */
+.row > [class^="col-"],
+.row > [class*=" col-"] { padding-bottom:16px; }
+
+/* 8) Mobile tweaks */
+@media (max-width: 575.98px){
+  :root{ --news-img-height: 200px; }
+}
+
+
