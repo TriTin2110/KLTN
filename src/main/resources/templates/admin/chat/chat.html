@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | Quản lý sản phẩm</title>
+<link rel="stylesheet" th:href="@{/css/admin.css}">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/chat.css}">
+<link rel="stylesheet" th:href="@{/plugins/bootstrap/bootstrap.min.css}">
+<style type="text/css">
+#news-editor {
+	display: none;
+}
+/* Padding bên trong vùng soạn thảo */
+.ck-editor__editable_inline {
+    padding: 20px !important;
+    min-height: 300px; /* tuỳ chọn: để nội dung nhìn thoáng */
+  }
+  
+.chat-list{
+	font-size: 18px;
+    border-bottom: 2px solid #c2c2c2;
+    padding: 16px;
+    cursor: pointer;
+    transition: 0.5s background-color;
+}
+.chat-list:hover{
+	background-color: #f6f6f6; 
+	color: orangered;
+}
+#chat-panel{
+	display: none;
+}
+</style>
+</head>
+<body>
+
+	<!-- ===== SIDEBAR ===== -->
+	<div th:replace="~{/fragment/side-bar.html :: side-bar}"></div>
+
+	<!-- ===== MAIN CONTENT ===== -->
+	<div class="main-content">
+		<!-- TOPBAR -->
+		<div class="topbar">
+			<h1>Quản lý Chat Room</h1>
+			<div class="topbar-right">
+				<span>Admin</span> <i class="fas fa-user-circle"></i>
+			</div>
+		</div>
+		 
+		 <!-- Danh sách tin tức -->
+		 <div th:replace="~{/admin/chat/chat-list-table.html :: chat-list-table}"></div>
+		  <script th:src="@{/plugins/bootstrap/bootstrap.min.js}"></script>
+</body>
+</html>

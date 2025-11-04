@@ -4,6 +4,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.active{
+		opacity: 1;
+    	transform: scale(1, 1);
+	}
+</style>
 </head>
 <body>
 	<div th:fragment="header">
@@ -22,7 +28,8 @@
 					class="desk-menu collapse navbar-collapse justify-content-md-center"
 					id="navbarNav">
 					<ul class="navbar-nav">
-						<li class="nav-item active"><a class="nav-link"
+						<li class="nav-item">  
+						<a class="nav-link"
 							th:href="@{/}">TRANG CHỦ</a></li>
 						<li class="nav-item"><a class="nav-link" href="product.html">BỘ
 								SƯU TẬP</a></li>
@@ -44,7 +51,7 @@
 							</ul></li>
 						<li class="nav-item"><a class="nav-link"
 							href="introduce.html">GIỚI THIỆU</a></li>
-						<li class="nav-item"><a class="nav-link" href="blog.html">BLOG</a>
+						<li class="nav-item"><a class="nav-link" th:href="@{/news/}">TIN TỨC</a>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="contact.html">LIÊN
 								HỆ</a></li>
@@ -84,7 +91,7 @@
 									</div></li>
 								<li class="nav-item"><a class="nav-link"
 									href="introduce.html">GIỚI THIỆU</a></li>
-								<li class="nav-item"><a class="nav-link" href="blog.html">BLOG</a>
+								<li class="nav-item"><a class="nav-link" th:href="@{/news/}">TIN TỨC</a>
 								</li>
 								<li class="nav-item"><a class="nav-link"
 									href="Contact.html">LIÊN HỆ</a></li>
@@ -158,9 +165,12 @@
 									<tbody>
 										<tr>
 											<td class="text-left">TỔNG TIỀN:</td>
-											<td class="text-right " style="text-align: end;"><span
+											<td class="text-right " style="text-align: end;">
+												<span
 												class="pro-price" id="total-price-view"
-												th:text="${user.cart.totalPrice}">Tổng tiền</span></td>
+												th:text="${user.cart.totalPrice}">Tổng tiền
+											</span>
+											</td>
 										</tr>
 										<tr>
 											<td colspan="2"><a class="btn btn-primary"
@@ -203,6 +213,7 @@
 					</button>
 				</div>
 			</div>
+			<div sec:authorize="isAuthenticated()" th:replace="~{/chat-box.html :: chat-box}"></div>	
 			<script>
 				function redirectSearch(event) {
 				    event.preventDefault();

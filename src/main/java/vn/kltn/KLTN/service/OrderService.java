@@ -22,4 +22,8 @@ public interface OrderService {
 	public OrderDetailDTO findById(String orderId);
 
 	public List<Order> findAll();
+
+	public List<Order> findAllWithItems();
+
+	public int updateStatus(String id, String status);
 }

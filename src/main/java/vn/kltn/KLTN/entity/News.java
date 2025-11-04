@@ -3,12 +3,14 @@ package vn.kltn.KLTN.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Lob;
 
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
 public class News extends Component {
-	private String authorName, shortDescription;
-	private String content;
+	private String authorName;
+	@Lob
+	private String content, shortDescription;
 
 	public News() {
 	}

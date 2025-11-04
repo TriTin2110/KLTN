@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
 import vn.kltn.KLTN.entity.Cart;
+import vn.kltn.KLTN.entity.Chat;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.Point;
 import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.enums.RoleAvailable;
 import vn.kltn.KLTN.modules.PasswordEncode;
+import vn.kltn.KLTN.service.ChatService;
 import vn.kltn.KLTN.service.PointService;
 import vn.kltn.KLTN.service.RoleService;
 import vn.kltn.KLTN.service.UserService;
@@ -34,14 +36,16 @@ public class UserController {
 	private UserService service;
 	private VerifyService verifyService;
 	private PointService pointService;
+	private ChatService chatService;
 
 	@Autowired
 	public UserController(RoleService roleService, UserService service, VerifyService verifyService,
-			PointService pointService) {
+			PointService pointService, ChatService chatService) {
 		this.roleService = roleService;
 		this.service = service;
 		this.verifyService = verifyService;
 		this.pointService = pointService;
+		this.chatService = chatService;
 	}
 
 	@GetMapping("/sign-up")
@@ -65,13 +69,17 @@ public class UserController {
 		Cart cart = new Cart(user.getUsername());
 		Order order = new Order(cart.getId() + "-" + System.currentTimeMillis());
 		Point point = new Point(user.getUsername());
+		Chat chat = new Chat(user.getUsername());
 
 		user.addCart(cart);
 		cart.addOrder(order);
+		user.setChat(chat);
+		chat.setUser(user);
 		user.setPoint(point);
 		user.setRole(roleService.findByType(RoleAvailable.ROLE_USER));
 
 		user = service.signUp(user);
+		chatService.updateCache();
 		if (user != null)
 			return "notice/sign-up-success";
 		return null;

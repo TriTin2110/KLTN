@@ -4,10 +4,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -28,14 +31,17 @@ public class Order {
 
 	@Enumerated(value = EnumType.STRING)
 	private OrderStatus status;
-	@OneToOne(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JsonIgnore
+	@OneToOne(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	private Cart cart;
 
-	@ManyToOne(cascade = { CascadeType.MERGE })
+	@ManyToOne(cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "point_id")
+	@JsonIgnore
 	private Point point;
 
-	@OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
+	@OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
+			CascadeType.MERGE }, fetch = FetchType.LAZY)
 	private List<OrderItem> orderItem;
 
 	public Order() {

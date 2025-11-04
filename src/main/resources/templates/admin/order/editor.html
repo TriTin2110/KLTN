@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymelearf.org" th:fragment="editor">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<style>
+#order-editor {
+	display: none;
+}
+
+.editor-text {
+	padding: 20px;
+	font-size: 18px;
+}
+
+.editor-text div {
+	font-weight: bold;
+}
+
+.editor-text div span {
+	font-weight: normal;
+}
+
+#table-order-item {
+	font-size: 18px;
+}
+
+#list-order-item tr td {
+	text-align: left;
+}
+
+option {
+	font-size: 18px;
+}
+#current-order-status{
+	font-style: italic;
+	animation: blink 3s linear infinite;
+}
+@keyframes blink{
+	0%, 50%, 100%{
+		opacity: 1;
+	}
+	
+	25%, 75%{
+		opacity: 0;
+	}
+}
+</style>
+<body>
+	<div id="order-editor">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="editor-text">
+					<div>
+						Mã đơn: <span id="order-id"></span>
+					</div>
+				</div>
+				<div class="editor-text">
+					<div>
+						Địa chỉ: <span id="order-address"></span>
+					</div>
+				</div>
+				<div class="editor-text">
+					<div>
+						Số điện thoại: <span id="order-phone"></span>
+					</div>
+				</div>
+				<div class="editor-text">
+					<div>
+						Ngày tạo: <span id="order-date"></span>
+					</div>
+				</div>
+				<div class="editor-text">
+					<div>
+						Tình trạng (<span id="current-order-status"></span>) <span id="order-status"></span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div style="max-height: 307px; overflow-y: auto;">
+					<table class="table table-hover" id="table-order-item">
+						<thead>
+							<tr>
+								<th>Ảnh</th>
+								<th>Tên</th>
+								<th>Giá</th>
+								<th>Số lượng</th>
+								<th>Size</th>
+							</tr>
+						</thead>
+						<tbody id="list-order-item"></tbody>
+					</table>
+				</div>
+				<div style="font-size: 18px; text-align: right; margin-top: 20px;">
+					<b>Tổng tiền: </b> <span id="total-price"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="text-align: center;">
+			<button id="btn-update" class="btn btn-primary"
+				style="font-size: 18px; padding: 8px 50px;" onclick="updateStatus()">Cập nhật</button>
+		</div>
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	</div>
+</body>
+</html>

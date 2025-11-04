@@ -29,7 +29,7 @@
   <div th:replace="~{/fragment/header.html :: header}"></div>
 
   <!-- Main -->
-  <main class="container-fluid px-0 py-4">
+  <main class="container-fluid px-0 py-4 container">
     <div class="row gx-0 gy-4 align-items-stretch">
 
       <!-- Nội dung tìm kiếm -->
@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="mt-auto pt-2">
-                  <a th:href="@{/san-pham/{id}(id=${product.name})}" class="btn btn-primary w-100">Xem chi tiết</a>
+                  <a th:href="@{/san-pham/{id}(id=${product.name})}" style="color: white;" class="btn btn-primary w-100">Xem chi tiết</a>
                 </div>
               </div>
 
@@ -91,11 +91,6 @@
 
         </div>
 
-        <!-- Điều hướng -->
-        <div class="mt-4 d-flex gap-2">
-          <a th:href="@{/}" class="btn btn-secondary">Quay lại trang chủ</a>
-          <!--<a id="retryLink" href="#" class="btn btn-outline-primary">Tìm kiếm lại</a>-->
-        </div>
       </section>
 
       <!-- Sidebar phải -->
