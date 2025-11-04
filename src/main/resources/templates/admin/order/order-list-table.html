@@ -4,18 +4,22 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+#order-editor {
+	display: none;
+}
 
-.order-edit-btn{
+.order-edit-btn {
 	opacity: 0;
 	border: none;
 	background-color: transparent;
 	transition: 0.25s opacity ease-out;
 }
 
-.order-row:hover .order-edit-btn{
+.order-row:hover .order-edit-btn {
 	opacity: 1;
 }
-th, td{
+
+th, td {
 	font-size: 16px;
 }
 </style>
@@ -23,35 +27,46 @@ th, td{
 <body>
 	<div id="news-list-table">
 		<div class="form-section">
-			<h2>Danh sách đơn hàng</h2>
-			<table id="table-order" class="list-product">
-				<thead>
-					<tr>
-						<th>Mã đơn</th>
-						<th>Địa chỉ</th>
-						<th>Số điện thoại</th>
-						<th>Ngày tạo</th>
-						<th>Tình trạng</th>
-						<th>Tổng tiền</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="o : ${orders}" class="order-row">
-						<td th:text="${o.id}" style="padding: 20px 0px;"></td>
-						<td th:text="${o.address}"></td>
-						<td th:text="${o.phoneNumber}"></td>
-						<td th:text="${o.createdDate}"></td>
-						<td th:text="${o.status.getValue()}"></td>
-						<td th:text="${o.totalPrice}" class="pro-price" style="font-weight: bold;">
-						</td>
-						<td>
-						<button th:data-order-id="${o.id}" onclick="openEditPanel(this.dataset.orderId)" class="order-edit-btn"><i class="fa-solid fa-pen-to-square"></i></button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<div th:replace="~{/admin/order/editor.html :: editor}"></div>
+			<div id="order-editor">
+				<button class="btn btn-warning" onclick="showTableOrder()">⌫
+					Quay lại danh sách đặt hàng</button>
+				<h2>Đơn hàng</h2>
+				<div th:replace="~{/admin/order/editor.html :: editor}"></div>
+			</div>
+			<div id="table-panel">
+				<h2>Danh sách đơn hàng</h2>
+				<table id="table-order" class="list-product">
+					<thead>
+						<tr>
+							<th>Mã đơn</th>
+							<th>Địa chỉ</th>
+							<th>Số điện thoại</th>
+							<th>Ngày tạo</th>
+							<th>Tình trạng</th>
+							<th>Tổng tiền</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="o : ${orders}" class="order-row" th:id="${o.id}">
+							<td th:text="${o.id}" style="padding: 20px 0px;"></td>
+							<td th:text="${o.address}"></td>
+							<td th:text="${o.phoneNumber}"></td>
+							<td th:text="${o.createdDate}"></td>
+							<td th:text="${o.status.getValue()}" class="order-status"></td>
+							<td th:text="${o.totalPrice}" class="pro-price"
+								style="font-weight: bold;"></td>
+							<td>
+								<button th:data-order-id="${o.id}"
+									onclick="openEditPanel(this.dataset.orderId)"
+									class="order-edit-btn">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 	<script th:inline="javascript">

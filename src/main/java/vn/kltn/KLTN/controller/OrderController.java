@@ -73,6 +73,7 @@ public class OrderController {
 		order.setCart(null); // Xóa ràng buộc giữa order và cart
 		cart.setOrder(null);
 		orderService.add(order);
+		orderService.sendNewOrderToEmployeePanel(order);
 
 		Order newOrder = new Order(cart.getId() + "-" + System.currentTimeMillis());
 		cart.setOrder(newOrder);

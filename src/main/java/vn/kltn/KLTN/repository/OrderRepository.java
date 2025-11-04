@@ -17,7 +17,8 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 	@Query("select o from Order o where o.id like :username%")
 	public List<Order> findByUsername(@Param("username") String username);
 
-	@Query("SELECT o FROM Order o LEFT JOIN o.orderItem WHERE o.totalPrice > 0 and o.status != 'COMPLETED' and o.status !='COMPLETED' ")
+	// Không lấy những đơn hàng bị hủy hay hoàn thành
+	@Query("SELECT o FROM Order o LEFT JOIN o.orderItem WHERE o.totalPrice > 0 and o.status != 'COMPLETED' and o.status !='CANCELLED' ")
 	public List<Order> findAllWithItems();
 
 	@Query("UPDATE Order o SET o.status=:status WHERE o.id=:id")

@@ -1,10 +1,12 @@
 package vn.kltn.KLTN.service.implement;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -13,6 +15,7 @@ import vn.kltn.KLTN.entity.OrderItem;
 import vn.kltn.KLTN.enums.OrderStatus;
 import vn.kltn.KLTN.enums.Payment;
 import vn.kltn.KLTN.model.OrderDetailDTO;
+import vn.kltn.KLTN.modules.order.OrderHandler;
 import vn.kltn.KLTN.repository.OrderRepository;
 import vn.kltn.KLTN.service.OrderService;
 
@@ -20,17 +23,14 @@ import vn.kltn.KLTN.service.OrderService;
 public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private OrderRepository repository;
+	@Autowired
+	private OrderHandler orderHandler;
 
 	@Override
 	@Transactional
 	public List<Order> checkingAll(String userName) {
 		// TODO Auto-generated method stub
 		List<Order> orders = repository.findByUsername(userName);
-//		for (Order order : orders) {
-//			ListorderedItem = new HashMap<Product, Integer>();
-//			orderedItem.putAll(order.getOrderItem());
-//			order.setOrderItem(orderedItem);
-//		}
 		return orders;
 	}
 
@@ -122,4 +122,14 @@ public class OrderServiceImpl implements OrderService {
 		return this.repository.updateStatus(id, OrderStatus.valueOf(status));
 	}
 
+	@Async
+	@Override
+	public void sendNewOrderToEmployeePanel(Order order) {
+		try {
+			this.orderHandler.broadcastOrder(order);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

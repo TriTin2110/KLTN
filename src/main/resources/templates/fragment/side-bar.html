@@ -1,11 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org" th:fragment="side-bar">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+
+#new-order-notification{
+    position: fixed;
+    background-color: white;
+    right: -300px;
+    font-size: 20px;
+    border: 4px solid #4ab34a;
+    padding: 8px;
+    pointer-events: none;
+    top: 10px;
+    border-radius: 6px;
+    box-shadow: 8px 12px 16px 2px rgba(0, 0, 0, 0.33);
+    z-index: 1000;
+    opacity: 0;
+    transition: 1s transform ease, 0.85s opacity ease;
+    transform: translateX(0);
+}
+
+#new-order-notification.active
+{
+	opacity: 1;
+    transform: translateX(-320px);
+}
+</style>
 </head>
 <body>
-	<div th:fragment="side-bar">
 		<div class="sidebar">
 		<div class="sidebar-header">
 			<a style="background-color: transparent;" th:href="@{/}"><img th:src="@{/images/logo.jpg}" alt="Logo"></a>
@@ -25,6 +49,15 @@
 			<li><a href="#"><i class="fas fa-cogs"></i> Cài đặt</a></li>
 		</ul>
 	</div>
+	<div id="new-order-notification">
+		<b style="color: green;">Thông báo: </b>
+		<span>Có đơn hàng mới</span>
 	</div>
+	
+	<script th:src="@{/js/currency.js}"></script>
+	<script type="text/javascript">
+		const ws = new WebSocket('ws://localhost:8080/order-websocket?role=employee&userId=nguyen')
+	</script>
+	<script type="text/javascript" th:src="@{/js/admin/order/websocket.js}"></script>
 </body>
 </html>

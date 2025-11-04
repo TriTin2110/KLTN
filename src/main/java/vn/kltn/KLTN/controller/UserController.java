@@ -1,5 +1,6 @@
 package vn.kltn.KLTN.controller;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,6 +140,8 @@ public class UserController {
 		User user = (User) request.getSession().getAttribute("user");
 		Point point = user.getPoint();
 		List<Order> orders = pointService.getAllOrder(point.getId());
+		orders = orders.stream().sorted(Comparator.comparing(Order::getStatus)
+				.thenComparing(Comparator.comparing(Order::getCreatedDate)).reversed()).toList();
 		model.addAttribute("user", user);
 		model.addAttribute("orders", orders);
 		return "profile";

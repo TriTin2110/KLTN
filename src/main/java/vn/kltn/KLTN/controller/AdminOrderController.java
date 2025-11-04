@@ -54,6 +54,7 @@ public class AdminOrderController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("success", (rowAffected > 0) ? true : false);
 		map.put("status", OrderStatus.valueOf(data.get("status")));
+		map.put("orderId", data.get("orderId"));
 		return map;
 	}
 }

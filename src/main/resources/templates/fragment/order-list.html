@@ -1,35 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org" th:fragment="order-list">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+.status {
+	border-radius: 5%;
+	padding: 5px;
+	font-weight: bold;
+	white-space: nowrap;
+	color: white;
+	text-align: center;
+}
+</style>
 </head>
 <body>
-	<div th:fragment="order-list">
+	<div>
 		<h2 style="text-align: center;">Đơn hàng của bạn</h2>
-					<div style="overflow-y: auto; height: 220px;">
-						<table class="table table-hover table-bordered">
-							<tr class="bg-info">
-								<th>Mã đơn hàng</th>
-								<th>Ngày đặt hàng</th>
-								<th>Trạng thái</th>
-								<th>Tổng tiền</th>
-								<th>Xem chi tiết</th>
-							</tr>
-							<tr style="vertical-align: middle;" th:each="order : ${orders}">
-								<td th:text="${order.id}"></td>
-								<td th:text="${order.createdDate}"></td>
-								<td><div style="background-color: gainsboro;
-    border-radius: 5%;
-    padding: 5px; font-weight: bold; white-space: nowrap;" th:text="${order.status.getValue()}"></div></td>
-								<td class="pro-price" th:text="${order.totalPrice}"></td>
-								<td>
-									<a th:href="@{/order/show-detail/{id} (id=${order.id})}" class="btn btn-success">Chi tiết</a>
-								</td>
-							</tr>
-							
-						</table>
-					</div>
+		<div style="overflow-y: auto; height: 220px;">
+			<table class="table table-hover table-bordered">
+				<tr class="bg-info">
+					<th>Mã đơn hàng</th>
+					<th>Ngày đặt hàng</th>
+					<th>Trạng thái</th>
+					<th>Tổng tiền</th>
+					<th>Xem chi tiết</th>
+				</tr>
+				<tr style="vertical-align: middle;" th:each="order : ${orders}">
+					<td th:text="${order.id}"></td>
+					<td th:text="${order.createdDate}"></td>
+					<td><div
+							th:style="${order.status.getValue() == 'Đã hoàn tất'?'background-color: #46a546':(order.status.getValue() == 'Bị hủy'?'background-color: #ff6565;':'background-color: gray;')}"
+							th:text="${order.status.getValue()}" class="status"></div></td>
+					<td class="pro-price" th:text="${order.totalPrice}"></td>
+					<td><a th:href="@{/order/show-detail/{id} (id=${order.id})}"
+						class="btn btn-success" style="color: white;">Chi tiết</a></td>
+				</tr>
+
+			</table>
+		</div>
 	</div>
 </body>
 </html>

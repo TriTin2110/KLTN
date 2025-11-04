@@ -26,4 +26,6 @@ public interface OrderService {
 	public List<Order> findAllWithItems();
 
 	public int updateStatus(String id, String status);
+
+	public void sendNewOrderToEmployeePanel(Order order);
 }
