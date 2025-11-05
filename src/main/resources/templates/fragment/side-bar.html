@@ -43,6 +43,8 @@
 			<li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/admin/users')} ? 'active' : '']]]"
 				 th:href="@{/admin/users}"><i class="fas fa-users"></i> Người dùng</a></li>
 				<!-- Order ở đây -->
+			<li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/admin/order/')} ? 'active' : '']]]"
+				 th:href="@{/admin/order/}"><i class="fa-solid fa-blog"></i> Đơn hàng</a></li>
 			<li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/news/editor')} ? 'active' : '']]]"
 				 th:href="@{/news/editor}"><i class="fa-solid fa-blog"></i> Tin tức</a></li>
 			<li><a href="#"><i class="fas fa-chart-line"></i> Báo cáo</a></li>
@@ -55,9 +57,5 @@
 	</div>
 	
 	<script th:src="@{/js/currency.js}"></script>
-	<script type="text/javascript">
-		const ws = new WebSocket('ws://localhost:8080/order-websocket?role=employee&userId=nguyen')
-	</script>
-	<script type="text/javascript" th:src="@{/js/admin/order/websocket.js}"></script>
 </body>
 </html>

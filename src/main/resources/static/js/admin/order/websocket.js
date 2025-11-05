@@ -1,4 +1,16 @@
-var statusConverter = new Map([
+function toggleNoticePanel()
+	{
+			let notificationPanel = document.getElementById('notification-panel') 
+			if(notificationPanel.classList.contains('active'))
+			{
+				notificationPanel.classList.remove('active')
+			}
+			else{
+				notificationPanel.classList.add('active')
+			}
+	}
+	
+	var statusConverter = new Map([
   ["PENDING", "Đang xử lý"],
   ["COMPLETED", "Đã hoàn tất"],
   ["CANCELLED", "Bị hủy"],
@@ -8,7 +20,7 @@ var statusConverter = new Map([
 
 ws.onmessage = function (res){
 	let order = JSON.parse(res.data)
-	let newOrderNotification = document.getElementById('new-order-notification')
+	let newOrderNotification = document.getElementById('new-order-notification') //Nằm ở sidebar
 	newOrderNotification.classList.add('active')
 	setTimeout(function (){
 		newOrderNotification.classList.remove('active')

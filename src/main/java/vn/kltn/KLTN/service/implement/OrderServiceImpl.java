@@ -124,9 +124,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Async
 	@Override
-	public void sendNewOrderToEmployeePanel(Order order) {
+	public void sendNewOrderToEmployeePanel(Order order, String customerId, String notificationImage) {
 		try {
-			this.orderHandler.broadcastOrder(order);
+			this.orderHandler.broadcastOrder(order, customerId, notificationImage);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

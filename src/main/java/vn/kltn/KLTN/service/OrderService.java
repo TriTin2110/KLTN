@@ -27,5 +27,5 @@ public interface OrderService {
 
 	public int updateStatus(String id, String status);
 
-	public void sendNewOrderToEmployeePanel(Order order);
+	public void sendNewOrderToEmployeePanel(Order order, String customerId, String notificationImage);
 }

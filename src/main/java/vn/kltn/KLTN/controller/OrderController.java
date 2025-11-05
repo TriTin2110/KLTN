@@ -1,6 +1,7 @@
 package vn.kltn.KLTN.controller;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import vn.kltn.KLTN.entity.Cart;
 import vn.kltn.KLTN.entity.CartItem;
+import vn.kltn.KLTN.entity.Notification;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.OrderItem;
 import vn.kltn.KLTN.entity.Point;
@@ -24,6 +26,7 @@ import vn.kltn.KLTN.enums.OrderStatus;
 import vn.kltn.KLTN.model.OrderDetailDTO;
 import vn.kltn.KLTN.model.UserDTO;
 import vn.kltn.KLTN.service.CartService;
+import vn.kltn.KLTN.service.NotificationService;
 import vn.kltn.KLTN.service.OrderService;
 import vn.kltn.KLTN.service.PointService;
 
@@ -33,12 +36,15 @@ public class OrderController {
 	private OrderService orderService;
 	private CartService cartService;
 	private PointService pointService;
+	private final NotificationService notificationService;
 
 	@Autowired
-	public OrderController(OrderService orderService, CartService cartService, PointService pointService) {
+	public OrderController(OrderService orderService, CartService cartService, PointService pointService,
+			NotificationService notificationService) {
 		this.orderService = orderService;
 		this.cartService = cartService;
 		this.pointService = pointService;
+		this.notificationService = notificationService;
 	}
 
 	@GetMapping("/show-order-input")
@@ -61,6 +67,7 @@ public class OrderController {
 		Point point = user.getPoint();
 		Order order = cart.getOrder();
 		List<OrderItem> orderItems = cart.getCartItems().stream().map(o -> o.convertOrderItem()).toList();
+		String notificationImage = orderItems.get(0).getProductImage();
 		point = pointService.addOrder(point.getId(), order);
 
 		order.setPhoneNumber(userDTO.getPhoneNumber());
@@ -73,7 +80,7 @@ public class OrderController {
 		order.setCart(null); // Xóa ràng buộc giữa order và cart
 		cart.setOrder(null);
 		orderService.add(order);
-		orderService.sendNewOrderToEmployeePanel(order);
+		orderService.sendNewOrderToEmployeePanel(order, user.getUsername(), notificationImage);
 
 		Order newOrder = new Order(cart.getId() + "-" + System.currentTimeMillis());
 		cart.setOrder(newOrder);
@@ -81,11 +88,15 @@ public class OrderController {
 		cart.setTotalPrice(0);
 		newOrder.setCart(cart);
 		orderService.add(newOrder); // Cập nhật order mới cho cart
+		Notification notification = new Notification("Đơn hàng: " + order.getId(), notificationImage, order.getId(),
+				LocalDateTime.now(), user.getUsername(), order.getStatus().getValue());
+		notificationService.add(notification);
 		return "redirect:/user/profile";
 	}
 
 	@GetMapping("/show-detail/{id}")
 	public String showDetail(@PathVariable("id") String orderId, Model model) {
+		System.out.println("orderId " + orderId);
 		OrderDetailDTO orderDetailDTO = orderService.findById(orderId);
 		Order order = orderDetailDTO.getOrder();
 		List<OrderItem> orderItems = orderDetailDTO.getOrderItems();

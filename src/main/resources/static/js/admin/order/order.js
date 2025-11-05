@@ -1,4 +1,3 @@
-
 let orders = JSON.parse(orderJson)
 let orderId = document.getElementById('order-id')
 	let orderAddress = document.getElementById('order-address')
@@ -8,8 +7,8 @@ let orderId = document.getElementById('order-id')
 	let currentOrderStatus = document.getElementById('current-order-status')
 	let totalPrice = document.getElementById('total-price')
 	let listOrderItem = document.getElementById('list-order-item')
-	
 function openEditPanel(id) {
+	console.log(orders)
 	let order = orders.find(o => o.id == id)
 	let editor = document.getElementById('order-editor')
 	let tablePanel = document.getElementById('table-panel')
@@ -44,7 +43,7 @@ function openEditPanel(id) {
 	orderStatus.append(select)//Gán khung select option cho phép nhân viên có thể thay đổi trạng thái
 	currentOrderStatus.innerText = order.status
 	
-	handlingStatus(order.status) //Kiểm tra trạng thái hiện tại
+	handlingStatus(order) //Kiểm tra trạng thái hiện tại
 	const orderItem = order.orderItem
 	for (item of orderItem) {
 		let tr = document.createElement('tr')
@@ -83,7 +82,7 @@ function updateStatus() {
 		if (data.success) {
 			handlingStatus(data)
 		}
-		let resultPanel = document.getElementById((data.success) ? 'success-panel' : 'failed-panel')
+		let resultPanel = document.getElementById((data.success) ? 'success-panel' : 'failed-panel') //Hiển thị thông báo cập nhật status
 		resultPanel.classList.add('active')
 		setTimeout(() => {
 			resultPanel.classList.remove('active')
@@ -93,23 +92,18 @@ function updateStatus() {
 }
 
 function handlingStatus(data) {
-	let statusText =  data.status
+	let statusText = data.status
 	let orderId = data.orderId
 	let currentOrderStatus = document.getElementById('current-order-status')
 	currentOrderStatus.textContent = statusText
-	let status = document.getElementById('status')
-	let btnUpdate = document.getElementById('btn-update')
 	if (statusText == 'CANCELLED' || statusText == 'COMPLETED') {
-		if (statusText == 'CANCELLED')
-			currentOrderStatus.style.color = 'red'
-		else
-			currentOrderStatus.style.color = 'green'
-		status.style.display = 'none'
-		btnUpdate.style.display = 'none'
-		orders.filter(o => o.id != orderId) //Xóa order ra khỏi danh sách orders nếu trạng thái là CANCELLED hoặc COMPLETED
+		orders = orders.filter(o => o.id != orderId) //Xóa order ra khỏi danh sách orders nếu trạng thái là CANCELLED hoặc COMPLETED
+		let tr = document.getElementById(orderId) //Xóa ra khỏi table order
+		let tbody = tr.parentElement
+		tbody.removeChild(tr)
 		return
 	}else{
-		let order = orders.find(o => o.id = orderId)
+		let order = orders.find(o => o.id == orderId)
 		if(order){
 			order.status = statusConverter.get(statusText)	//Cập nhật trạng thái cho order
 			let orderRow = document.getElementById(orderId)
@@ -125,5 +119,5 @@ function showTableOrder(){
 	editor.style.display = 'none'
 	tablePanel.style.display = 'block'
 	let elements = [orderId, orderAddress, orderPhone, totalPrice, orderDate, orderStatus, currentOrderStatus, listOrderItem]
-	elements.forEach(e => e.innerHTML = "")
+	elements.forEach(e => e.innerText = "")
 }

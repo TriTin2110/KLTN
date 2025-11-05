@@ -18,16 +18,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.enums.OrderStatus;
+import vn.kltn.KLTN.service.NotificationService;
 import vn.kltn.KLTN.service.OrderService;
 
 @Controller
 @RequestMapping("/admin/order")
 public class AdminOrderController {
 	private OrderService orderService;
+	private NotificationService notificationService;
 
 	@Autowired
-	public AdminOrderController(OrderService orderService) {
+	public AdminOrderController(OrderService orderService, NotificationService notificationService) {
 		this.orderService = orderService;
+		this.notificationService = notificationService;
 	}
 
 	@GetMapping("/")
@@ -51,10 +54,15 @@ public class AdminOrderController {
 	@ResponseBody
 	public Map<String, Object> updateStatus(@RequestBody Map<String, String> data) {
 		int rowAffected = orderService.updateStatus(data.get("orderId"), data.get("status"));
+		String orderId = data.get("orderId");
+		OrderStatus status = OrderStatus.valueOf(data.get("status"));
+		if (rowAffected > 0) {
+			notificationService.updateStatus(orderId, status.getValue());
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("success", (rowAffected > 0) ? true : false);
-		map.put("status", OrderStatus.valueOf(data.get("status")));
-		map.put("orderId", data.get("orderId"));
+		map.put("status", status);
+		map.put("orderId", orderId);
 		return map;
 	}
 }

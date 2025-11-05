@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import vn.kltn.KLTN.entity.Cart;
 import vn.kltn.KLTN.entity.Chat;
+import vn.kltn.KLTN.entity.Notification;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.Point;
 import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.enums.RoleAvailable;
 import vn.kltn.KLTN.modules.PasswordEncode;
 import vn.kltn.KLTN.service.ChatService;
+import vn.kltn.KLTN.service.NotificationService;
 import vn.kltn.KLTN.service.PointService;
 import vn.kltn.KLTN.service.RoleService;
 import vn.kltn.KLTN.service.UserService;
@@ -38,15 +40,17 @@ public class UserController {
 	private VerifyService verifyService;
 	private PointService pointService;
 	private ChatService chatService;
+	private NotificationService notificationService;
 
 	@Autowired
 	public UserController(RoleService roleService, UserService service, VerifyService verifyService,
-			PointService pointService, ChatService chatService) {
+			PointService pointService, ChatService chatService, NotificationService notificationService) {
 		this.roleService = roleService;
 		this.service = service;
 		this.verifyService = verifyService;
 		this.pointService = pointService;
 		this.chatService = chatService;
+		this.notificationService = notificationService;
 	}
 
 	@GetMapping("/sign-up")
@@ -174,5 +178,14 @@ public class UserController {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@PostMapping("/notification")
+	@ResponseBody
+	public Map<String, List<Notification>> getNotification(@RequestBody Map<String, String> map,
+			HttpServletRequest request) {
+		Map<String, List<Notification>> result = new HashMap<String, List<Notification>>();
+		result.put("result", notificationService.findByUserIdOrderByLocalDateTimeDesc(map.get(("userName"))));
+		return result;
 	}
 }

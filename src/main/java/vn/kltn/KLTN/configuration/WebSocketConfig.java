@@ -7,6 +7,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
+import vn.kltn.KLTN.modules.NoticeHandler;
 import vn.kltn.KLTN.modules.chat.ChatHandShake;
 import vn.kltn.KLTN.modules.chat.ChatRoomHanler;
 import vn.kltn.KLTN.modules.order.OrderHandler;
@@ -18,20 +19,24 @@ import vn.kltn.KLTN.modules.order.OrderHandler;
 public class WebSocketConfig implements WebSocketConfigurer {
 	private ChatRoomHanler chatRoomHanler;
 	private OrderHandler orderHandler;
+	private NoticeHandler noticeHandler;
 	private ChatHandShake chatHandShake;
 
 	@Autowired
-	public WebSocketConfig(ChatRoomHanler chatRoomHanler, ChatHandShake chatHandShake, OrderHandler orderHandler) {
+	public WebSocketConfig(ChatRoomHanler chatRoomHanler, ChatHandShake chatHandShake, OrderHandler orderHandler,
+			NoticeHandler noticeHandler) {
 		this.chatHandShake = chatHandShake;
 		this.chatRoomHanler = chatRoomHanler;
 		this.orderHandler = orderHandler;
+		this.noticeHandler = noticeHandler;
 	}
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		// TODO Auto-generated method stub
 		registry.addHandler(chatRoomHanler, "/chat").addInterceptors(chatHandShake)
-				.addHandler(orderHandler, "/order-websocket").addInterceptors(chatHandShake); // Đăng ký
+				.addHandler(orderHandler, "/order-websocket").addInterceptors(chatHandShake)
+				.addHandler(noticeHandler, "/notice").addInterceptors(chatHandShake); // Đăng ký
 		// websocket và thêm
 		// Interceptors để xử lý
 		// request

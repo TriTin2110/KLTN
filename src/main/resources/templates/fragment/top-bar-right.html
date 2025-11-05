@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org" th:fragment="topbar-right">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+#notification-panel {
+	position: absolute;
+	width: 24%;
+	z-index: 800;
+	right: 10px;
+	background-color: #FFFFFF;
+	padding: 20px 5px;
+	font-size: 16px;
+	border: 1px solid saddlebrown;
+	margin-top: 10px;
+	box-shadow: -1px 11px 25px -4px;
+	height: 72vh;
+	overflow: auto;
+	opacity: 0;
+	pointer-events: none;
+	transition: 0.25s opacity ease;
+}
+
+#notification-panel.active {
+	opacity: 1;
+	pointer-events: auto;
+}
+#notification-list{
+	letter-spacing: normal;
+}
+
+#notification-list div{
+	font-size: 14px;
+    white-space: nowrap;
+}
+
+#notification-list a{
+	color: black;
+    text-decoration: none;
+    outline: none;
+}
+
+@media(max-width:768px){
+	#notification-panel{
+		width: 100%;
+		right: 0px;
+		margin-top: unset;
+	}
+}
+</style>
+</head>
+<body>
+			<i class="fa-solid fa-bell" style="cursor: pointer;"
+					onclick="toggleNoticePanel()"></i>
+			<div id="notification-panel">
+				<table class="table table-hover">
+					<tbody id="notification-list">
+					</tbody>
+				</table>
+			</div>
+</body>
+</html>

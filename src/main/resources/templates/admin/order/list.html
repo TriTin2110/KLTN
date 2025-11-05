@@ -13,9 +13,10 @@
 	rel="stylesheet">
 
 <style type="text/css">
-body{
+body {
 	font-size: 14px;
 }
+
 #news-editor {
 	display: none;
 }
@@ -25,35 +26,34 @@ body{
 	min-height: 300px; /* tuỳ chọn: để nội dung nhìn thoáng */
 }
 
-#success-panel{
-background-color: #90f190;
-    border: 3px solid green;
-    margin-left: 32%;
-    
+#success-panel {
+	background-color: #90f190;
+	border: 3px solid green;
+	margin-left: 32%;
 }
 
-#failed-panel{
-background-color: #ffa1a1;
-    border: 3px solid red;
-    margin-left: 32%;
-    
+#failed-panel {
+	background-color: #ffa1a1;
+	border: 3px solid red;
+	margin-left: 32%;
 }
-.result-panel{
+
+.result-panel {
 	position: fixed;
 	font-size: 17px;
-    padding: 7px;
-    border-radius: 8px;
-    z-index: 1000;
-    opacity: 0;
-  transform: translateY(-8px);
-  transition: opacity 0.5s ease, transform 0.5s ease; 
-  pointer-events: none;
-}
-.result-panel.active{
-	opacity: 1;
-  transform: translateY(0);
+	padding: 7px;
+	border-radius: 8px;
+	z-index: 1000;
+	opacity: 0;
+	transform: translateY(-8px);
+	transition: opacity 0.5s ease, transform 0.5s ease;
+	pointer-events: none;
 }
 
+.result-panel.active {
+	opacity: 1;
+	transform: translateY(0);
+}
 </style>
 </head>
 <body>
@@ -67,11 +67,11 @@ background-color: #ffa1a1;
 		<!-- TOPBAR -->
 		<div class="topbar">
 			<h1>Quản lý đơn hàng</h1>
-			<div id="success-panel" class="result-panel">Cập nhật trạng thái thành công!</div>
-			<div id="failed-panel" class="result-panel">Cập nhật trạng thái không thành công!</div>
-			<div class="topbar-right">
-				<span>Admin</span> <i class="fas fa-user-circle"></i>
-			</div>
+			<div id="success-panel" class="result-panel">Cập nhật trạng
+				thái thành công!</div>
+			<div id="failed-panel" class="result-panel">Cập nhật trạng thái
+				không thành công!</div>
+			<div><span>Admin</span> <i class="fas fa-user-circle"></i></div>
 		</div>
 
 		<!-- DASHBOARD CARDS -->
@@ -91,7 +91,14 @@ background-color: #ffa1a1;
 			th:replace="~{/admin/order/order-list-table.html :: order-list-table}"></div>
 
 		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-		<script th:src="@{/js/currency.js}"></script>
 		<script type="text/javascript">formatToVND()</script>
+		<script th:inline="javascript">
+		let orderJson = /*[[${orderJson}]]*/ []
+		</script>
+		<script th:src="@{/js/admin/order/order.js}"></script>
+		<script type="text/javascript">
+		const ws = new WebSocket('ws://localhost:8080/order-websocket?role=employee&userId=nguyen')
+	</script>
+	<script type="text/javascript" th:src="@{/js/admin/order/websocket.js}"></script>
 </body>
 </html>
