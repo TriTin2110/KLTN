@@ -17,20 +17,25 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import vn.kltn.KLTN.entity.Order;
+import vn.kltn.KLTN.entity.Point;
 import vn.kltn.KLTN.enums.OrderStatus;
 import vn.kltn.KLTN.service.NotificationService;
 import vn.kltn.KLTN.service.OrderService;
+import vn.kltn.KLTN.service.PointService;
 
 @Controller
 @RequestMapping("/admin/order")
 public class AdminOrderController {
 	private OrderService orderService;
 	private NotificationService notificationService;
+	private PointService pointService;
 
 	@Autowired
-	public AdminOrderController(OrderService orderService, NotificationService notificationService) {
+	public AdminOrderController(OrderService orderService, NotificationService notificationService,
+			PointService pointService) {
 		this.orderService = orderService;
 		this.notificationService = notificationService;
+		this.pointService = pointService;
 	}
 
 	@GetMapping("/")
@@ -58,6 +63,12 @@ public class AdminOrderController {
 		OrderStatus status = OrderStatus.valueOf(data.get("status"));
 		if (rowAffected > 0) {
 			notificationService.updateStatus(orderId, status.getValue());
+			if (status.equals(OrderStatus.COMPLETED))// Nếu trạng thái đơn hàng là COMPLETED thì sẽ cập nhật điểm
+			{
+				Order order = orderService.findByOrderId(orderId);
+				Point point = order.getPoint();
+				pointService.updatePointCompletedOrder(point, order);
+			}
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("success", (rowAffected > 0) ? true : false);

@@ -81,7 +81,6 @@ public class OrderController {
 		cart.setOrder(null);
 		orderService.add(order);
 		orderService.sendNewOrderToEmployeePanel(order, user.getUsername(), notificationImage);
-
 		Order newOrder = new Order(cart.getId() + "-" + System.currentTimeMillis());
 		cart.setOrder(newOrder);
 		cart.setCartItems(new ArrayList<CartItem>()); // Xóa tất cả sản phẩm tồn tại trong giỏ hàng

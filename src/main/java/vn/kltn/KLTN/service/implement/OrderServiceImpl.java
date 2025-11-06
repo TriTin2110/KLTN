@@ -132,4 +132,11 @@ public class OrderServiceImpl implements OrderService {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public Order findByOrderId(String orderId) {
+		// TODO Auto-generated method stub
+		Optional<Order> opt = this.repository.findById(orderId);
+		return (opt.isEmpty()) ? null : opt.get();
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -96,6 +97,13 @@ public class PointServiceImpl implements PointService {
 		Point point = findById(pointId);
 		List<Order> orders = new ArrayList<Order>(point.getOrder());
 		return orders;
+	}
+
+	@Override
+	@Transactional
+	@Async // Xử lý đồng bộ
+	public void updatePointCompletedOrder(Point point, Order order) {
+		// Cập nhật point tại đây
 	}
 
 }

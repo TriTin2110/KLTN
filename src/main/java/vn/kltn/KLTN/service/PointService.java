@@ -19,4 +19,6 @@ public interface PointService {
 	public Point addOrder(String pointId, Order order);
 
 	public List<Order> getAllOrder(String pointId);
+
+	public void updatePointCompletedOrder(Point point, Order order);
 }

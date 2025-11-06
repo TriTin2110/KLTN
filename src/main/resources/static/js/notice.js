@@ -24,15 +24,14 @@ function openWebSocket() {
 	wsNotice.onmessage = function(res) {
 		let data = JSON.parse(res.data)
 		let notifications = JSON.parse(localStorage.getItem('notifications'))
-		let updated = false;
 		notifications.forEach(n =>{
-			if(n.content == data.content)
+			if(n.content == data.content)//Nếu là cập nhật
 			{
 				n.type = data.type
 				n.localDateTime = data.localDateTime
 				let container = document.getElementById(n.content)
 				let status = container.querySelector('.notification-status')
-				let dateHTML = document.querySelector('.notification-date') 
+				let dateHTML = container.querySelector('.notification-date') 
 				status.innerHTML = 'Trạng thái: <b>'+data.type+"</b>"
 				const [year, month, day, hour, minute, second, nano] = data.localDateTime;
 				let date = new Date(year, month, day, hour, minute, second, nano/1000000);
@@ -41,7 +40,7 @@ function openWebSocket() {
 				return
 			}
 		})
-		if(!updated)
+		if(!updated)//Nếu là thêm mới
 		{
 			const [year, month, day, hour, minute, second, nano] = data.localDateTime;
 				let date = new Date(year, month, day, hour, minute, second, nano/1000000);
@@ -59,7 +58,6 @@ function formatDate(date)
     const d = String(date.getDate()).padStart(2, '0');
     const m = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
     const y = date.getFullYear();
-
     return `(${hours}:${minutes}) ${d}/${m}/${y}`;
 }
 
@@ -79,6 +77,8 @@ function showNotification() {
   // Chuyển sang Date object để so sánh
   return new Date(b.localDateTime) - new Date(a.localDateTime);
 }).forEach(n => {
+	const [year, month, day, hour, minute, second, nano] = n.localDateTime;
+	n.localDateTime = new Date(year, month, day, hour, minute, second, nano/1000000);
 	appendNotification(n)
 	})
 }
@@ -98,7 +98,7 @@ function appendNotification(n)
 		image.src = 'https://s3.cloudfly.vn/kltn/images/' + n.image
 		title.textContent = n.title
 		status.innerHTML = 'Trạng thái: <b>' + n.type + '</b>'
-		date.textContent = 'Ngày tạo: ' + formatDate(new Date(n.localDateTime))
+		date.textContent = 'Ngày tạo: ' + formatDate(n.localDateTime)
 		container.href = '/order/show-detail/' + n.content
 	
 		status.classList.add('notification-status')
