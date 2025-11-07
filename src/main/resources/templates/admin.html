@@ -75,6 +75,7 @@
                 <th>Image</th>
                 <th>Prices</th>
                 <th>Sizes</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -83,10 +84,13 @@
                 <td th:text="${p.name}"></td>
                 <td><img th:src="${'https://s3.cloudfly.vn/kltn/images/' + p.image}" alt="Ảnh sản phẩm"/></td>
 	            <td>
-	            	<span th:text="${#strings.arrayJoin(p.sizePrice.values(), ', ')}"></span>
+	            	<span th:text="${#strings.arrayJoin(p.sizePrice.values(), ', ')}"></span> <!-- Lấy Price -->
 	            </td>
 	            <td >
-	            	<span th:text="${#strings.arrayJoin(p.sizePrice.keySet(), ', ')}"></span>
+	            	<span th:text="${#strings.arrayJoin(p.sizePrice.keySet(), ', ')}"></span> <!-- Lấy Size -->
+	            </td>
+	            <td style="font-weight: bold;">
+	            	<span th:style="${(p.productStatus.getLabel() == 'Còn hàng')?'color:green':'color:red;'}" th:text="${p.productStatus.getLabel()}"></span>
 	            </td>
                 <td>
                     <a th:href="@{/product/admin/edit(name=${p.name})}">Sửa</a>

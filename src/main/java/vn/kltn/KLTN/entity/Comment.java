@@ -1,6 +1,6 @@
 package vn.kltn.KLTN.entity;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -13,7 +13,7 @@ public class Comment {
 	@Id
 	private String id;
 	private String content;
-	private Date datePost;
+	private LocalDateTime datePost;
 	private int rating;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST })
@@ -27,10 +27,11 @@ public class Comment {
 	public Comment() {
 	}
 
-	public Comment(String id, String content, Date datePost, int rating) {
+	public Comment(String id, String content, LocalDateTime datePost, int rating) {
 		this.id = id;
 		this.content = content;
 		this.datePost = datePost;
+		this.rating = rating;
 	}
 
 	public String getId() {
@@ -49,11 +50,11 @@ public class Comment {
 		this.content = content;
 	}
 
-	public Date getDatePost() {
+	public LocalDateTime getDatePost() {
 		return datePost;
 	}
 
-	public void setDatePost(Date datePost) {
+	public void setDatePost(LocalDateTime datePost) {
 		this.datePost = datePost;
 	}
 

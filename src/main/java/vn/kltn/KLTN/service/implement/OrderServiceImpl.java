@@ -15,6 +15,7 @@ import vn.kltn.KLTN.entity.OrderItem;
 import vn.kltn.KLTN.enums.OrderStatus;
 import vn.kltn.KLTN.enums.Payment;
 import vn.kltn.KLTN.model.OrderDetailDTO;
+import vn.kltn.KLTN.model.OrderDetailProfileDTO;
 import vn.kltn.KLTN.modules.order.OrderHandler;
 import vn.kltn.KLTN.repository.OrderRepository;
 import vn.kltn.KLTN.service.OrderService;
@@ -138,5 +139,11 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		Optional<Order> opt = this.repository.findById(orderId);
 		return (opt.isEmpty()) ? null : opt.get();
+	}
+
+	@Override
+	public List<OrderDetailProfileDTO> findByPointId(String id) {
+		// TODO Auto-generated method stub
+		return this.repository.findByPointId(id);
 	}
 }

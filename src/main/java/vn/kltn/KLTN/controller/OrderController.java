@@ -95,7 +95,6 @@ public class OrderController {
 
 	@GetMapping("/show-detail/{id}")
 	public String showDetail(@PathVariable("id") String orderId, Model model) {
-		System.out.println("orderId " + orderId);
 		OrderDetailDTO orderDetailDTO = orderService.findById(orderId);
 		Order order = orderDetailDTO.getOrder();
 		List<OrderItem> orderItems = orderDetailDTO.getOrderItems();
@@ -105,9 +104,9 @@ public class OrderController {
 	}
 
 	@GetMapping("/remove/{id}")
-	public String removeOrder(@PathVariable("id") String orderId) {
+	public String removeOrder(@PathVariable("id") String orderId, HttpServletRequest request) {
 		try {
-			orderService.remove(orderId);
+			orderService.updateStatus(orderId, OrderStatus.CANCELLED.toString());
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

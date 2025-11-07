@@ -5,6 +5,7 @@ import java.util.List;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.enums.Payment;
 import vn.kltn.KLTN.model.OrderDetailDTO;
+import vn.kltn.KLTN.model.OrderDetailProfileDTO;
 
 public interface OrderService {
 	public List<Order> checkingAll(String userName);
@@ -30,4 +31,7 @@ public interface OrderService {
 	public void sendNewOrderToEmployeePanel(Order order, String customerId, String notificationImage);
 
 	public Order findByOrderId(String orderId);
+
+	public List<OrderDetailProfileDTO> findByPointId(String id);
+
 }

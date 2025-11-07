@@ -24,9 +24,11 @@ import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.Point;
 import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.enums.RoleAvailable;
+import vn.kltn.KLTN.model.OrderDetailProfileDTO;
 import vn.kltn.KLTN.modules.PasswordEncode;
 import vn.kltn.KLTN.service.ChatService;
 import vn.kltn.KLTN.service.NotificationService;
+import vn.kltn.KLTN.service.OrderService;
 import vn.kltn.KLTN.service.PointService;
 import vn.kltn.KLTN.service.RoleService;
 import vn.kltn.KLTN.service.UserService;
@@ -41,16 +43,19 @@ public class UserController {
 	private PointService pointService;
 	private ChatService chatService;
 	private NotificationService notificationService;
+	private OrderService orderService;
 
 	@Autowired
 	public UserController(RoleService roleService, UserService service, VerifyService verifyService,
-			PointService pointService, ChatService chatService, NotificationService notificationService) {
+			PointService pointService, ChatService chatService, NotificationService notificationService,
+			OrderService orderService) {
 		this.roleService = roleService;
 		this.service = service;
 		this.verifyService = verifyService;
 		this.pointService = pointService;
 		this.chatService = chatService;
 		this.notificationService = notificationService;
+		this.orderService = orderService;
 	}
 
 	@GetMapping("/sign-up")
@@ -143,9 +148,12 @@ public class UserController {
 	public String userProfile(Model model, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
 		Point point = user.getPoint();
-		List<Order> orders = pointService.getAllOrder(point.getId());
-		orders = orders.stream().sorted(Comparator.comparing(Order::getStatus)
-				.thenComparing(Comparator.comparing(Order::getCreatedDate)).reversed()).toList();
+		List<OrderDetailProfileDTO> orders = orderService.findByPointId(point.getId());
+//		List<Order> orders = pointService.getAllOrder(point.getId());
+		orders = orders.stream()
+				.sorted(Comparator.comparing(OrderDetailProfileDTO::getStatus)
+						.thenComparing(Comparator.comparing(OrderDetailProfileDTO::getCreatedDate)).reversed())
+				.toList();
 		model.addAttribute("user", user);
 		model.addAttribute("orders", orders);
 		return "profile";

@@ -1,7 +1,6 @@
 package vn.kltn.KLTN.controller;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriUtils;
 
 import vn.kltn.KLTN.entity.Product;
-import vn.kltn.KLTN.modules.StringHandler;
+import vn.kltn.KLTN.enums.ProductStatus;
 import vn.kltn.KLTN.repository.ProductRepository;
 import vn.kltn.KLTN.service.CommentService;
 import vn.kltn.KLTN.service.FileService;
@@ -77,7 +76,7 @@ public class ProductController {
 		try {
 			Product p = new Product();
 			p.setName(name);
-
+			p.setProductStatus(ProductStatus.STILL);
 			// Upload ảnh lên cloud
 			String imageUrl;
 			if (imageFile != null && !imageFile.isEmpty()) {
@@ -120,12 +119,10 @@ public class ProductController {
 	}
 
 	@PostMapping("/update")
-	public String update(@RequestParam("name") String name,
+	public String update(@RequestParam("name") String name, @RequestParam("status") String status,
 			@RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
 			@RequestParam("prices") String prices, @RequestParam("sizes") String sizes,
 			RedirectAttributes redirectAttributes) {
-		System.out.println("sizes: " + sizes);
-		System.out.println("prices: " + prices);
 
 		try {
 			String trimmedName = name.trim();
@@ -140,7 +137,7 @@ public class ProductController {
 				redirectAttributes.addFlashAttribute("error", "Không tìm thấy sản phẩm cần cập nhật!");
 				return "redirect:/product/admin/show-page";
 			}
-
+			existing.setProductStatus(ProductStatus.valueOf(status)); // Cập nhật trạng thái
 			// Nếu có ảnh mới thì upload lên cloud
 			if (imageFile != null && !imageFile.isEmpty()) {
 				String imageUrl = fileService.uploadImageFileToCloudFly(imageFile);
@@ -214,5 +211,4 @@ public class ProductController {
 		return "detail-product";
 	}
 
-	
 }

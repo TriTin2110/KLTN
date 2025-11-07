@@ -2,14 +2,14 @@ let wsNotice = null
 window.addEventListener('pageshow', () => {
 	if (userNameNotification) {
 		openWebSocket()
-		if (!localStorage.getItem('notifications')) {
+		if (!sessionStorage.getItem('notifications')) {
 			fetch('/user/notification', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ userName: userNameNotification })
 			}).then(res => res.json()).then(data => {
 				let notifications = data.result
-				localStorage.setItem('notifications', JSON.stringify(notifications)) //Giúp load notification đúng 1 lần khi user đăng nhập
+				sessionStorage.setItem('notifications', JSON.stringify(notifications)) //Giúp load notification đúng 1 lần khi user đăng nhập
 				showNotification()
 
 			})
@@ -19,11 +19,14 @@ window.addEventListener('pageshow', () => {
 		}
 	}
 })
+
+
 function openWebSocket() {
 	wsNotice = new WebSocket("ws://localhost:8080/notice?role=user&userId=" + userNameNotification)
 	wsNotice.onmessage = function(res) {
 		let data = JSON.parse(res.data)
-		let notifications = JSON.parse(localStorage.getItem('notifications'))
+		let notifications = JSON.parse(sessionStorage.getItem('notifications'))
+		let updated = false
 		notifications.forEach(n =>{
 			if(n.content == data.content)//Nếu là cập nhật
 			{
@@ -42,12 +45,10 @@ function openWebSocket() {
 		})
 		if(!updated)//Nếu là thêm mới
 		{
-			const [year, month, day, hour, minute, second, nano] = data.localDateTime;
-				let date = new Date(year, month, day, hour, minute, second, nano/1000000);
-				data.localDateTime = date
 			notifications.push(data)
+			console.log(data)
 		}
-		localStorage.setItem('notifications', JSON.stringify(notifications))//Cập nhật lại danh sách
+			sessionStorage.setItem('notifications', JSON.stringify(notifications))//Cập nhật lại danh sách
 	}
 }
 
@@ -72,7 +73,7 @@ function toggleNoticePanel() {
 }
 
 function showNotification() {
-	let notifications = JSON.parse(localStorage.getItem('notifications'))
+	let notifications = JSON.parse(sessionStorage.getItem('notifications'))
 	notifications.sort((a, b) => {
   // Chuyển sang Date object để so sánh
   return new Date(b.localDateTime) - new Date(a.localDateTime);
@@ -110,12 +111,16 @@ function appendNotification(n)
 		container.append(status)
 		container.append(date)
 		td2.append(container)
-
+		
+		image.style.width = '70px'
+		td1.style.paddingRight = 'unset'
+		td2.style.paddingLeft = 'unset'
+		
 		tr.append(td1)
 		tr.append(td2)
 		notificationList.append(tr)
 }
 
 function dropLocalStorage() {
-	localStorage.clear()
+	sessionStorage.clear()
 }

@@ -1,13 +1,19 @@
 package vn.kltn.KLTN.controller;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import vn.kltn.KLTN.entity.Comment;
 import vn.kltn.KLTN.entity.User;
@@ -27,30 +33,35 @@ public class CommentController {
 
 	@PostMapping("/{productName}")
 	@PreAuthorize("hasRole('USER')")
-	
-	public Comment create(@PathVariable("productName") String productName, @RequestParam("content") String content,
-			@RequestParam("rating") int rating, @AuthenticationPrincipal User user) {
+	@ResponseBody
+	public Map<String, Object> create(@PathVariable("productName") String productName,
+			@RequestBody Map<String, String> map, @AuthenticationPrincipal User user) {
+		String content = map.get("content");
+		int rating = Integer.parseInt(map.get("rating"));
+		Map<String, Object> result = new HashMap<String, Object>();
+		boolean success = true;
+		result.put("success", true);
 		if (content == null || content.trim().isEmpty()) {
-			return null;
+			success = false;
 		}
 		String commentId = user.getUsername() + "_" + productName + "_" + System.currentTimeMillis();
-		// Nếu đã có bình luận → quay lại trang chi tiết
-		Comment existed = commentService.findById(commentId);
-		if (existed != null) {
-			return null;
-		}
 
 		// Tạo mới
-		Comment cmt = new Comment(commentId, content, new java.sql.Date(System.currentTimeMillis()), rating);
+		Comment cmt = new Comment(commentId, content, LocalDateTime.now(), rating);
 		cmt = commentService.add(cmt, productName, user.getUsername());
 		if (cmt == null) {
-			return null;
+			success = false;
+
 		}
-		return cmt;
+		if (success) {
+			System.out.println(user.getUsername());
+			result.put("comment", cmt);
+			result.put("userNameComment", user.getUsername());
+		}
+		result.put("success", success);
+		return result;
 	}
 
-	
-	
 	/**
 	 * Cập nhật nội dung bình luận
 	 */

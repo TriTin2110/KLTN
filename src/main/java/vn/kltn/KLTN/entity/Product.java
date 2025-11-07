@@ -12,6 +12,8 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -22,12 +24,15 @@ import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
+import vn.kltn.KLTN.enums.ProductStatus;
 
 @Entity
 public class Product {
 	@Id
 	private String name;
 	private String image;
+	@Enumerated(EnumType.STRING)
+	private ProductStatus productStatus;
 
 	@Transient
 	private int lowestPrice;
@@ -185,4 +190,13 @@ public class Product {
 		this.comments.add(comment);
 		comment.setProduct(this);
 	}
+
+	public ProductStatus getProductStatus() {
+		return productStatus;
+	}
+
+	public void setProductStatus(ProductStatus productStatus) {
+		this.productStatus = productStatus;
+	}
+
 }

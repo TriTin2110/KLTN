@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-
+.sidebar-menu{
+	font-size: 18px;
+}
 #new-order-notification{
     position: fixed;
     background-color: white;
@@ -47,6 +49,8 @@
 				 th:href="@{/admin/order/}"><i class="fa-solid fa-blog"></i> Đơn hàng</a></li>
 			<li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/news/editor')} ? 'active' : '']]]"
 				 th:href="@{/news/editor}"><i class="fa-solid fa-blog"></i> Tin tức</a></li>
+				 <li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/admin/chat')} ? 'active' : '']]]"
+				 th:href="@{/admin/chat}"><i class="fa-solid fa-blog"></i> Chat</a></li>
 			<li><a href="#"><i class="fas fa-chart-line"></i> Báo cáo</a></li>
 			<li><a href="#"><i class="fas fa-cogs"></i> Cài đặt</a></li>
 		</ul>

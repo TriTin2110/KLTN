@@ -64,7 +64,7 @@ public class NotificationServiceImpl implements NotificationService {
 		// TODO Auto-generated method stub
 		this.repository.updateStatus(orderId, status, LocalDateTime.now());
 		Notification notification = findByContent(orderId);
-		updateStatusWebSocket(notification);
+		updateStatusWebSocket(notification);// Update notification bên phía admin
 	}
 
 	private void updateStatusWebSocket(Notification notification) {

@@ -79,11 +79,11 @@
 	<!--Content-->
 	<div class="content">
 		<div class="container">
-			<div>
+			<div style="margin: 70px 0px;">
 				<table class="table table-hover">
 					<thead class="table-light">
 						<tr>
-							<th colspan="6" style="text-align: center; font-size: 20px;">Thông
+							<th colspan="6" class="table-dark" style="text-align: center; font-size: 20px;">Thông
 								tin sản phẩm</th>
 						</tr>
 						<tr>
@@ -130,7 +130,7 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div style="text-align: right; margin: 20px 0px;">
+						<div style="text-align: right; margin: 20px 0px;" th:if="${order.status.toString() != 'COMPLETED' && order.status.toString() != 'CANCELLED'}">
 							<h4>
 								Tổng tiền: <span th:text="${order.totalPrice}" class="pro-price"
 									style="font-size: unset;"></span>
@@ -184,13 +184,11 @@
 	
 	let currentOrderStatus = document.getElementById("current-order-status")
 	let statusText = currentOrderStatus.textContent
-	let btnCancel = document.getElementById("btn-cancel")
 	if (statusText == 'Bị hủy' || statusText == 'Đã hoàn tất') {
 		if (statusText == 'Bị hủy')
 			currentOrderStatus.style.color = 'red'
 		else if(statusText == 'Đã hoàn tất')
 			currentOrderStatus.style.color = 'green'
-		btnCancel.style.display = 'none'
 	}
 	</script>
 </body>
