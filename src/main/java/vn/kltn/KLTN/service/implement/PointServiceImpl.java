@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.Point;
+import vn.kltn.KLTN.enums.Rank;
 import vn.kltn.KLTN.repository.PointRepository;
 import vn.kltn.KLTN.service.PointService;
 
@@ -104,6 +105,23 @@ public class PointServiceImpl implements PointService {
 	@Async // Xử lý đồng bộ
 	public void updatePointCompletedOrder(Point point, Order order) {
 		// Cập nhật point tại đây
+		int currentTotalSpent = point.getTotalSpent();
+		int orderTotalPrice = order.getTotalPrice();
+		point.setTotalSpent(currentTotalSpent + orderTotalPrice);
+		
+		// Tính số điểm tích lũy dựa trên hạng userRank và totalPrice
+		int pointsToAdd;
+		Rank rank = point.getUserRank();
+		if (rank == Rank.SILVER) {
+	        pointsToAdd = orderTotalPrice / 10000;
+	    } else {
+	        pointsToAdd = orderTotalPrice / 10000; // default silver
+	    }
+		
+		int currentAccumulatedPoint = point.getAccumulatedPoint();
+	    point.setAccumulatedPoint(currentAccumulatedPoint + pointsToAdd);
+	    
+	    repository.saveAndFlush(point);
 	}
 
 }

@@ -54,6 +54,7 @@
 							</div>
 
 							<p class="mt-1 mb-0" th:text="${c.content}"></p>
+							
 						</div>
 					</div>
 				</li>
@@ -79,7 +80,7 @@
 					<button class="btn btn-primary mt-2" th:data-product-id="${product.name}" onclick="addComment(this.dataset.productId)">Gửi</button>
 			</div>
 
-			<div sec:authorize="!hasRole('USER')" class="mt-3">
+			<div sec:authorize="!isAuthenticated()" class="mt-3">
 				<a th:href="@{/user/sign-in}">Đăng nhập</a> để bình luận.
 			</div>
 		</section>
