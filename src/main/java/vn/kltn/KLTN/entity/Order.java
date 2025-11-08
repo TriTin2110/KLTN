@@ -37,11 +37,11 @@ public class Order {
 
 	@ManyToOne(cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "point_id")
-	@JsonIgnore
 	private Point point;
 
 	@OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
 			CascadeType.MERGE }, fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<OrderItem> orderItem;
 
 	public Order() {

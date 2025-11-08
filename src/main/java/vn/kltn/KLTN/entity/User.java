@@ -9,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,6 +34,7 @@ public class User implements UserDetails {
 	private Date dateOfBirth;
 
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.REMOVE })
+	@JsonIgnore
 	private List<Comment> comments;
 	@ManyToOne
 	@JoinColumn(name = "role_id")

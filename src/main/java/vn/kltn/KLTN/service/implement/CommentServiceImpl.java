@@ -1,6 +1,5 @@
 package vn.kltn.KLTN.service.implement;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +11,7 @@ import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Comment;
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.entity.User;
+import vn.kltn.KLTN.model.CommentDTO;
 import vn.kltn.KLTN.repository.CommentRepository;
 import vn.kltn.KLTN.service.CommentService;
 import vn.kltn.KLTN.service.ProductService;
@@ -33,17 +33,13 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	@Transactional
-	public Comment add(Comment comment, String productId, String userName) {
+	public CommentDTO add(Comment comment, Product product, User user) {
 		// TODO Auto-generated method stub
 		try {
-			Product product = productService.findById(productId);
-			User user = userService.findById(userName);
-			if (product == null || user == null)
-				return null;
 			comment.setProduct(product);
 			comment.setUser(user);
 			repository.save(comment);
-			return comment;
+			return new CommentDTO(comment.getId(), comment.getContent(), comment.getDatePost(), comment.getRating());
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -72,12 +68,7 @@ public class CommentServiceImpl implements CommentService {
 	@Transactional
 	public List<Comment> findAllByProductId(String productId) {
 		// TODO Auto-generated method stub
-		Product product = productService.findById(productId);
-		if (product != null) {
-			List<Comment> comments = new ArrayList<Comment>(product.getComments());
-			return comments;
-		}
-		return null;
+		return this.repository.findCommentsByProductId(productId);
 	}
 
 	@Override

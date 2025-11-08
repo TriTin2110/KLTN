@@ -21,9 +21,6 @@ public class Point {
 	private Rank userRank;
 	@OneToMany(mappedBy = "point", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY)
 	private List<Order> orders;
-//	@OneToOne
-//	@JoinColumn(name = "user_name")
-//	private User user;
 
 	public Point() {
 	}

@@ -31,6 +31,12 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+		<!--Thư viện hỗ trợ tìm kiếm theo độ tương đồng-->
+		<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-text</artifactId>
+			<version>1.10.0</version>
+</dependency>
 		<!-- Websocket -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

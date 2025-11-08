@@ -2,7 +2,9 @@ package vn.kltn.KLTN.controller;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,19 +18,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import vn.kltn.KLTN.entity.Comment;
+import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.entity.User;
 import vn.kltn.KLTN.enums.RoleAvailable;
+import vn.kltn.KLTN.model.CommentDTO;
 import vn.kltn.KLTN.service.CommentService;
+import vn.kltn.KLTN.service.ProductService;
 
 @Controller
 @RequestMapping("/comment")
 public class CommentController {
 
 	private final CommentService commentService;
+	private final ProductService productService;
 
 	@Autowired
-	public CommentController(CommentService commentService) {
+	public CommentController(CommentService commentService, ProductService productService) {
 		this.commentService = commentService;
+		this.productService = productService;
 	}
 
 	@PostMapping("/{productName}")
@@ -36,26 +43,34 @@ public class CommentController {
 	@ResponseBody
 	public Map<String, Object> create(@PathVariable("productName") String productName,
 			@RequestBody Map<String, String> map, @AuthenticationPrincipal User user) {
-		String content = map.get("content");
-		int rating = Integer.parseInt(map.get("rating"));
 		Map<String, Object> result = new HashMap<String, Object>();
 		boolean success = true;
+		List<Product> products = productService.findAll();
+		Optional<Product> opt = products.stream().filter(p -> p.getName().equals(productName)).findFirst();
+		if (opt.isEmpty()) {
+			result.put("success", false);
+			return result;
+		}
+
+		Product product = opt.get();
+		String commentId = user.getUsername() + "_" + productName + "_" + System.currentTimeMillis();
+		String content = map.get("content");
+		int rating = Integer.parseInt(map.get("rating"));
 		result.put("success", true);
 		if (content == null || content.trim().isEmpty()) {
 			success = false;
 		}
-		String commentId = user.getUsername() + "_" + productName + "_" + System.currentTimeMillis();
 
 		// Tạo mới
 		Comment cmt = new Comment(commentId, content, LocalDateTime.now(), rating);
-		cmt = commentService.add(cmt, productName, user.getUsername());
-		if (cmt == null) {
+		CommentDTO cmtDTO = commentService.add(cmt, product, user);
+		if (cmtDTO == null) {
 			success = false;
 
 		}
 		if (success) {
 			System.out.println(user.getUsername());
-			result.put("comment", cmt);
+			result.put("comment", cmtDTO);
 			result.put("userNameComment", user.getUsername());
 		}
 		result.put("success", success);
