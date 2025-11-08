@@ -136,7 +136,7 @@
   font-size: 13px;
 }
 .content .signup .container .signin-right form .recaptcha a {
-  color: #2962ff;
+  color: #1F85DE;
 }
 .content .signup .container .signin-right form .submit {
   display: inline-block;
@@ -345,7 +345,7 @@
   font-size: 13px;
 }
 .content .signin .container .signin-right form .recaptcha a {
-  color: #2962ff;
+  color: #1F85DE;
 }
 .content .signin .container .signin-right form .submit {
   transform-origin: left center;
@@ -482,7 +482,7 @@
     font-size: 13px;
   }
   .content .signin .container .signin-right form .recaptcha a {
-    color: #2962ff;
+    color: #1F85DE;
   }
   .content .signin .container .signin-right form .submit {
     display: flex;
@@ -521,7 +521,7 @@
 
 .signup-left {
   flex: 1;
-  background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+  background: linear-gradient(135deg, #1F85DE, #1F85DE);
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -566,14 +566,14 @@
 }
 
 .signup-right form input:focus {
-  border-color: #6c5ce7;
-  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+  border-color: #1F85DE;
+  box-shadow: 0 0 0 3px #1F85DE(108, 92, 231, 0.15);
   outline: none;
 }
 
 .signup-right .submit {
   width: 100%;
-  background: #6c5ce7;
+  background: #1F85DE;
   color: #fff;
   border: none;
   padding: 12px;
@@ -584,7 +584,7 @@
 }
 
 .signup-right .submit:hover {
-  background: #5b44d4;
+  background: #1F85DE;
   transform: translateY(-1px);
 }
 
@@ -594,7 +594,7 @@
 }
 
 .signup-right .backto a {
-  color: #6c5ce7;
+  color: #1F85DE;
   font-weight: 600;
   text-decoration: none;
 }
@@ -728,3 +728,104 @@ input.valid {
   transition: all 0.3s ease;
 }
 
+
+/* Đang nhap */
+.signin-container {
+            position: relative;
+            height: 80vh; /* Full height viewport */
+            background-image: url('/images/banner-dang-nhap.jpg');
+            background-size: cover;
+            background-position: left;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        .signin-overlay {
+            position: absolute;
+            top: 50%;
+            right: 10%; /* Đặt form ở bên phải, cách lề 10% */
+            transform: translateY(-50%);
+            width: 35%; /* Chiều rộng form */
+            min-width: 300px;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.9); /* Background mờ trắng để dễ đọc */
+            backdrop-filter: blur(10px); /* Hiệu ứng blur cho modern look */
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+        .signin-overlay form {
+            width: 100%;
+        }
+        .signin-overlay .form-control1 {
+            margin-bottom: 20px;
+        }
+        .signin-overlay .form-control1 input {
+            width: 100%;
+            height: 50px;
+            padding: 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .signin-overlay .form-control1 input:focus {
+            outline: none;
+            border-color: #1F85DE; 
+            box-shadow: 0 0 0 3px #1F85DE(108, 92, 231, 0.1);
+        }
+        .signin-overlay .submit {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .signin-overlay .submit input[type="submit"] {
+            flex: 1;
+            background: #1F85DE; /* Màu tím từ banner */
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .signin-overlay .submit input[type="submit"]:hover {
+            background: #1F85DE;
+        }
+        .signin-overlay .forgetpassword {
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+        .signin-overlay .recaptcha {
+            font-size: 12px;
+            color: #666;
+            text-align: left;
+            margin: 10px 0;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        /* Responsive cho mobile */
+        @media (max-width: 768px) {
+            .signin-overlay {
+                width: 90%;
+                right: 5%;
+                left: 5%;
+                padding: 20px;
+            }
+            .signin-container {
+                height: auto;
+                min-height: 100vh;
+                justify-content: center;
+                padding: 20px 0;
+            }
+        }
