@@ -23,8 +23,9 @@ public class AdminChatController {
 
 	@GetMapping("")
 	public String showList(Model model) {
-		List<Chat> chatList = chatService.findAll().stream().sorted((c1, c2) -> c2.getDate().compareTo(c1.getDate()))
-				.toList();
+		List<Chat> chatList = chatService.findAll();
+		if (chatList.size() > 1)
+			chatList.sort((c1, c2) -> c2.getDate().compareTo(c1.getDate()));
 		model.addAttribute("chatList", chatList);
 		return "admin/chat/chat";
 	}

@@ -1,5 +1,6 @@
 package vn.kltn.KLTN.controller;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +82,7 @@ public class UserController {
 		Point point = new Point(user.getUsername());
 		Chat chat = new Chat(user.getUsername());
 
+		chat.setDate(LocalDateTime.now());
 		user.addCart(cart);
 		cart.addOrder(order);
 		user.setChat(chat);
