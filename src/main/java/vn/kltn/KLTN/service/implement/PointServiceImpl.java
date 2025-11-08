@@ -103,25 +103,30 @@ public class PointServiceImpl implements PointService {
 	@Override
 	@Transactional
 	@Async // Xử lý đồng bộ
-	public void updatePointCompletedOrder(Point point, Order order) {
+	public void updatePointCompletedOrder(Point point, Order order) { 
 		// Cập nhật point tại đây
 		int currentTotalSpent = point.getTotalSpent();
 		int orderTotalPrice = order.getTotalPrice();
 		point.setTotalSpent(currentTotalSpent + orderTotalPrice);
 		
+		System.out.println("tich diem");
 		// Tính số điểm tích lũy dựa trên hạng userRank và totalPrice
-		int pointsToAdd;
-		Rank rank = point.getUserRank();
-		if (rank == Rank.SILVER) {
-	        pointsToAdd = orderTotalPrice / 10000;
-	    } else {
-	        pointsToAdd = orderTotalPrice / 10000; // default silver
-	    }
-		
-		int currentAccumulatedPoint = point.getAccumulatedPoint();
-	    point.setAccumulatedPoint(currentAccumulatedPoint + pointsToAdd);
-	    
-	    repository.saveAndFlush(point);
+		try {
+			int pointsToAdd;
+			Rank rank = point.getUserRank();
+			if (rank == Rank.SILVER) {
+		        pointsToAdd = orderTotalPrice / 10000;
+		    } else {
+		        pointsToAdd = orderTotalPrice / 10000; // default silver
+		    }
+			
+			int currentAccumulatedPoint = point.getAccumulatedPoint();
+		    point.setAccumulatedPoint(currentAccumulatedPoint + pointsToAdd);
+		    
+		    repository.saveAndFlush(point);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

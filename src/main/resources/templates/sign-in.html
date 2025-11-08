@@ -54,9 +54,39 @@
                         </div>
                     </form>
                 </div>
-                <!-- Phần reset password giữ nguyên, nhưng ẩn nếu không cần -->
                 <div class="signin-overlay" id="b-sign" style="display: none;">
                     <!-- Nội dung reset password từ file gốc -->
+					<form action="/user/reset-password" method="post">
+											<div class="username form-control1 ">
+												<h2>Phục hồi mật khẩu</h2>
+											</div>
+											<div id="error"
+												style="display: none; color: red; font-weight: bold;"></div>
+											<div class="form-control1">
+												<input type="text" id="email" name="email" placeholder="Email"
+													autocomplete="email">
+											</div>
+											<div class="form-control1" id="verify-code" style="display: none;">
+												<input type="text" id="verify-code-input" name="verify-code"
+													placeholder="Mã xác thực">
+											</div>
+											<div class="form-control1" id="vefify-password"
+												style="display: none;">
+												<input type="password" id="new-password" name="password"
+													placeholder="Password mới">
+											</div>
+											<div class="recaptcha form-control1">
+												This site is protected by reCAPTCHA and the Google <a href="">Privacy
+													Policy</a> and <a href="">Terms of Service</a> apply.
+											</div>
+											<div class="submit">
+												<input class="btn" id="send-mail-button" type="button"
+													value="Gửi" onclick="sendMail()">
+												<div class="forgetpassword">
+													<a href="" id="huy">Hủy</a>
+												</div>
+											</div>
+										</form>
                 </div>
             </div>
         </section>
