@@ -250,7 +250,7 @@
 							<!-- Có ảnh -->
 							      <img class="img-resize" loading="lazy"
 							           th:if="${!#strings.isEmpty(news.image)}"
-							           th:src="${news.image}"
+							           th:src="'https://s3.cloudfly.vn/kltn/images/news/main-image/'+${news.image}"
 							           th:alt="${#strings.defaultString(news.name,'news')}" />
 
 							      <!-- Không có ảnh -> dùng ảnh mặc định -->
@@ -259,7 +259,7 @@
 							           th:src="@{/images/blog/no-image.jpg}"
 							           alt="news" />
 					      <!-- Hiển thị tiêu đề -->
-					      <a th:text="${news.name}">Tiêu đề</a>
+					      <a th:href="@{/news/{id} (id = ${news.name})}" th:text="${news.name}">Tiêu đề</a>
 					      <!-- Hiển thị tên tác giả -->
 					      <span th:text="|Tác giả: ${news.authorName}|">Tác giả</span>
 						  <p th:text="${news.shortDescription}">Tóm tắt</p>

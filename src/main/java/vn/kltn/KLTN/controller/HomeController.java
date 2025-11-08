@@ -109,4 +109,13 @@ public class HomeController {
 		return 1 - (double) distance / maxLength; // Giá trị từ 0 -> 1 (1 giống hoàn toàn)
 	}
 
+	@GetMapping("/introduce")
+	public String introduce() {
+		return "introduce";
+	}
+
+	@GetMapping("/contact")
+	public String contact() {
+		return "contact";
+	}
 }
