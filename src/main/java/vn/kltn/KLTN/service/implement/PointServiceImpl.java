@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.Point;
+import vn.kltn.KLTN.enums.OrderStatus;
 import vn.kltn.KLTN.enums.Rank;
 import vn.kltn.KLTN.repository.PointRepository;
 import vn.kltn.KLTN.service.PointService;
@@ -102,31 +103,73 @@ public class PointServiceImpl implements PointService {
 
 	@Override
 	@Transactional
-	@Async // Xử lý đồng bộ
-	public void updatePointCompletedOrder(Point point, Order order) { 
-		// Cập nhật point tại đây
-		int currentTotalSpent = point.getTotalSpent();
-		int orderTotalPrice = order.getTotalPrice();
-		point.setTotalSpent(currentTotalSpent + orderTotalPrice);
-		
-		System.out.println("tich diem");
-		// Tính số điểm tích lũy dựa trên hạng userRank và totalPrice
-		try {
-			int pointsToAdd;
-			Rank rank = point.getUserRank();
-			if (rank == Rank.SILVER) {
-		        pointsToAdd = orderTotalPrice / 10000;
-		    } else {
-		        pointsToAdd = orderTotalPrice / 10000; // default silver
-		    }
-			
-			int currentAccumulatedPoint = point.getAccumulatedPoint();
-		    point.setAccumulatedPoint(currentAccumulatedPoint + pointsToAdd);
-		    
-		    repository.saveAndFlush(point);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+	// @Async
+	public void updatePointCompletedOrder(Point point, Order order) {
+	    try {
+	        if (point == null || order == null) {
+	            return;
+	        }
+
+	        // tích điểm khi đơn hàng COMPLETED
+	        if (order.getStatus() == null || order.getStatus() != OrderStatus.COMPLETED) {
+	            return;
+	        }
+
+	        //  Lấy số tiền thanh toán và cộng vào totalSpent
+	        int orderTotalPrice = order.getTotalPrice();
+	        if (orderTotalPrice <= 0) {
+	            return;
+	        }
+
+	        int currentTotalSpent = point.getTotalSpent();
+	        point.setTotalSpent(currentTotalSpent + orderTotalPrice);
+
+	        // B4: Lấy hạng hiện tại của user
+	        Rank currentRank = point.getUserRank(); // Rank: SILVER, GOLD, ...
+
+	        // B5: Tính điểm dựa trên hạng
+	        // SILVER: 10.000đ = 1 điểm
+	        // GOLD  : 10.000đ = 3 điểm
+	        int rate;
+	        if (currentRank == Rank.GOLD) {
+	            rate = 3;
+	        } else {
+	            // Chưa có hạng hoặc SILVER -> mặc định tích điểm như Bạc
+	            rate = 1;
+	        }
+
+	        int pointsToAdd = (orderTotalPrice / 10000) * rate;
+
+	        // Cộng điểm tích lũy
+	        int currentAccumulatedPoint = point.getAccumulatedPoint();
+	        int newAccumulatedPoint = currentAccumulatedPoint + pointsToAdd;
+	        point.setAccumulatedPoint(newAccumulatedPoint);
+
+	        // Kiểm tra và thăng hạng theo accumulatedPoint
+	        // 1 den 1000  -> SILVER
+	        // 1001+     -> GOLD
+	        if (newAccumulatedPoint >= 1001) {
+	            point.setUserRank(Rank.GOLD);
+	        } else if (newAccumulatedPoint >= 1) {
+	            point.setUserRank(Rank.SILVER);
+	        } else {
+	            // Chưa có điểm nào -> chưa có hạng
+	            point.setUserRank(null);
+	        }
+
+	        //  Lưu 
+	        repository.saveAndFlush(point);
+//	        
+//	        // test console ne`
+//	        System.out.println("test cập nhật điểm cho user: " 
+//	        	    
+//	        	    + " | Hạng hiện tại: " + point.getUserRank()
+//	        	    + " | Tổng chi tiêu: " + point.getTotalSpent()
+//	        	    + " | Điểm tích lũy: " + point.getAccumulatedPoint());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 }
