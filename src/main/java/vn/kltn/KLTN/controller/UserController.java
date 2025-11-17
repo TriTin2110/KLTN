@@ -149,9 +149,8 @@ public class UserController {
 	@GetMapping("/profile")
 	public String userProfile(Model model, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
-		Point point = user.getPoint();
+		Point point = pointService.findById(user.getUsername());
 		List<OrderDetailProfileDTO> orders = orderService.findByPointId(point.getId());
-//		List<Order> orders = pointService.getAllOrder(point.getId());
 		orders = orders.stream()
 				.sorted(Comparator.comparing(OrderDetailProfileDTO::getStatus)
 						.thenComparing(Comparator.comparing(OrderDetailProfileDTO::getCreatedDate)).reversed())

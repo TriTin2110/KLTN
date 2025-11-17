@@ -199,4 +199,10 @@ public class Product {
 		this.productStatus = productStatus;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [name=" + name + ", image=" + image + ", productStatus=" + productStatus + ", category="
+				+ category.getName() + "]";
+	}
+
 }
