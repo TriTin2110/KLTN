@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.ai.document.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,7 @@ public class AIController {
 	private VectorStoreSevice vectorStoreSevice;
 
 	@GetMapping("/insert")
-	public String getAnswer() {
+	public String insertData() {
 		List<Product> products = productService.findAll();
 		List<Document> documents = null;
 		ProductStoreDTO productStoreDTO = null;
@@ -33,5 +34,10 @@ public class AIController {
 			builder.append(documents.get(0).getFormattedContent());
 		}
 		return builder.toString();
+	}
+
+	@GetMapping("/asking/{question}")
+	public List<Document> getData(@PathVariable("question") String question) {
+		return vectorStoreSevice.search(question);
 	}
 }
