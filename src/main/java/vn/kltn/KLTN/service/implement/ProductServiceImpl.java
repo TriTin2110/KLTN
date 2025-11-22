@@ -30,6 +30,7 @@ import vn.kltn.KLTN.entity.Event;
 import vn.kltn.KLTN.entity.Ingredient;
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.entity.Supplier;
+import vn.kltn.KLTN.enums.ProductStatus;
 import vn.kltn.KLTN.repository.ProductRepository;
 import vn.kltn.KLTN.service.CategoryService;
 import vn.kltn.KLTN.service.FileService;
@@ -241,6 +242,7 @@ public class ProductServiceImpl implements ProductService {
 				product = map.get(name);
 			if (name != null && !map.containsKey(name) && product == null) {
 				product = new Product(name, image);
+				product.setProductStatus(ProductStatus.STILL);
 				insertAddtionInformation(product, categoryId, discount, endDate);
 			}
 
@@ -248,17 +250,6 @@ public class ProductServiceImpl implements ProductService {
 				if (price != null)
 					product.getSizePrice().put(size, (price.isBlank()) ? 0 : Integer.parseInt(price));
 			}
-
-//			if (name != null && size != null && !size.isBlank() && !product.getSizes().contains(size)) {
-//				product.getSizes().add(size);
-//			}
-//
-//			if (name != null && price != null && !price.isBlank()) {
-//				int p = (price.isBlank()) ? 0 : Integer.parseInt(price);
-//				if (!product.getPrices().contains(p)) {
-//					product.getPrices().add(p);
-//				}
-//			}
 
 			if (name != null && ingredients != null && !ingredients.isBlank()) {
 				Ingredient i = mapIngredient.get(ingredients);

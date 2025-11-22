@@ -36,7 +36,7 @@ public class AIConfiguration {
 				.initializeSchema(true).build();
 	}
 
-	@Bean
+	@Bean(name = "myCustomChatClient")
 	public ChatClient createChatClient(ChatClient.Builder builder) {
 		ChatMemory memory = MessageWindowChatMemory.builder().maxMessages(5).build(); // lưu tối đa 5 tin nhắn vào bộ
 																						// nhớ

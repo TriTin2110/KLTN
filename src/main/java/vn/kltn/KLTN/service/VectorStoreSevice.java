@@ -9,5 +9,5 @@ import vn.kltn.KLTN.model.ProductStoreDTO;
 public interface VectorStoreSevice {
 	public List<Document> insertData(ProductStoreDTO productStoreDTO);
 
-	public List<Document> search(String input);
+	public String search(String input);
 }

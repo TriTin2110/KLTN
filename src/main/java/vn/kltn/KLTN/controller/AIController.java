@@ -37,7 +37,7 @@ public class AIController {
 	}
 
 	@GetMapping("/asking/{question}")
-	public List<Document> getData(@PathVariable("question") String question) {
+	public String getData(@PathVariable("question") String question) {
 		return vectorStoreSevice.search(question);
 	}
 }

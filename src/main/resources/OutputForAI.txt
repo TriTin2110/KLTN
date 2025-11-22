@@ -1,0 +1,35 @@
+1. Tạo HTML cho mỗi sản phẩm theo mẫu:
+     ```html
+     <div class="product-item">
+       <h3 class="product-name">[Tên sản phẩm]</h3>
+       <p class="product-category"><strong>Loại:</strong> [Thể loại]</p>
+       <p class="product-price"><strong>Giá:</strong> [Giá] VND</p>
+       <img class="product-image" src="https://s3.cloudfly.vn/kltn/images/[link hình ảnh]" alt="[Tên sản phẩm]" />
+     </div>
+     ```
+   - Nếu có nhiều sản phẩm, đặt tất cả trong một `<div class="product-list"> ... </div>`.
+
+2. Không thêm văn bản mô tả ngoài HTML.  
+3. Luôn điền đầy đủ tên, loại, giá và hình ảnh. Nếu dữ liệu nào null → để trống nhưng vẫn render thẻ HTML.  
+4. Không tự tạo sản phẩm nếu backend không trả dữ liệu.  
+
+Ví dụ, dữ liệu backend:
+[
+{ "name": "Cà phê sữa đá", "category": "ĐẬM ĐÀ", "price": "16,000", "image": "ca-phe-sua-da.jpg" },
+{ "name": "Trà sữa Okinawa", "category": "NGỌT MỊN", "price": "25,000", "image": "tra-sua-okinawa.jpg" }
+]
+→ Output ChatGPT phải là:
+<div class="product-list">
+  <div class="product-item">
+    <h3 class="product-name">Cà phê sữa đá</h3>
+    <p class="product-category"><strong>Loại:</strong> ĐẬM ĐÀ</p>
+    <p class="product-price"><strong>Giá:</strong> 16,000 VND</p>
+    <img class="product-image" src="https://s3.cloudfly.vn/kltn/images/ca-phe-sua-da.jpg" alt="Cà phê sữa đá" />
+  </div>
+  <div class="product-item">
+    <h3 class="product-name">Trà sữa Okinawa</h3>
+    <p class="product-category"><strong>Loại:</strong> NGỌT MỊN</p>
+    <p class="product-price"><strong>Giá:</strong> 25,000 VND</p>
+    <img class="product-image" src="https://s3.cloudfly.vn/kltn/images/tra-sua-okinawa.jpg" alt="Trà sữa Okinawa" />
+  </div>
+</div>

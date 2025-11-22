@@ -1,5 +1,7 @@
 package vn.kltn.KLTN.model;
 
+import org.springframework.ai.document.Document;
+
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.enums.ProductStatus;
 
@@ -9,6 +11,15 @@ public class ProductStoreDTO {
 	private int price;
 
 	public ProductStoreDTO() {
+	}
+
+	public ProductStoreDTO(Document document) {
+		this.name = document.getMetadata().get("name").toString();
+		this.image = document.getMetadata().get("image").toString();
+		this.category = document.getMetadata().get("category").toString();
+		this.productStatus = ProductStatus.valueOf(document.getMetadata().get("productStatus").toString());
+		this.price = Integer.parseInt(document.getMetadata().get("price").toString());
+
 	}
 
 	public ProductStoreDTO(String name, String image, String category, ProductStatus productStatus, int price) {
