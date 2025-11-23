@@ -122,3 +122,22 @@
 	    height: 100%;
     overflow-y: auto;
 }
+
+#change-conversation{
+	border: none;
+	background-color: transparent;
+}
+
+#change-conversation:hover{
+	color: orangered;
+}
+
+.product-chat-bot-result{
+	display: block;
+    color: white;
+    font-weight: bold;
+}
+
+.product-chat-bot-result:hover{
+	color: orangered;
+}

@@ -114,12 +114,12 @@ public class ChatRoomHanler extends TextWebSocketHandler {
 					if ("user".equals(getRole(session)) && chat != null && chatRoomId == chat.getId()
 							|| "employee".equals(getRole(session))) {
 						Integer currentChatRoomId = (chat == null) ? null : chat.getId();
-						payload.putIfAbsent("chatRoomId", chatRoomId);
+						payload.putIfAbsent("chatRoomId", chatRoomId); // xử lí phần gửi tin nhắn cho nhân viên
 						payload.putIfAbsent("currentChatRoomId", currentChatRoomId);
 						payload.putIfAbsent("userId", getUserId(session));
 						payload.putIfAbsent("message", textMessage);
 						String json = new ObjectMapper().writeValueAsString(payload);
-						session.sendMessage(new TextMessage(json));
+						session.sendMessage(new TextMessage(json));// gửi tin nhắn cho nhân viên và user
 						return;
 					}
 				} catch (IOException e) {

@@ -33,7 +33,7 @@ public class AIConfiguration {
 		return RedisVectorStore.builder(pool, embeddingModel).indexName("product")
 				.metadataFields(MetadataField.text("name"), MetadataField.text("category"), MetadataField.text("image"),
 						MetadataField.text("productStatus"), MetadataField.numeric("price"))
-				.initializeSchema(true).build();
+				.initializeSchema(false).build();
 	}
 
 	@Bean(name = "myCustomChatClient")

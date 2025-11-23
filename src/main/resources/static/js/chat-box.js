@@ -9,6 +9,8 @@ inputField.addEventListener('keyup', (e) => {
 		showCustomerText()
 })
 
+
+
 document.addEventListener('DOMContentLoaded', () => {
 	scrollToLastMessage()
 })
@@ -114,12 +116,44 @@ function toggleChatFrame(idRoom, userId) {
 	{
 		ws.close()
 		chatFrame.classList.remove('active')
-		chatButton.classList.remove('close')
+		chatButton.classList.remove('close')//Hiển thị widget
 	}
 	else {
-		ws = new WebSocket(`ws://localhost:8080/chat?role=user&userId=${userId}`) //Tạo websocket
+		openConnection(`ws://localhost:8080/chat?role=user&userId=${userId}`, idRoom)
+		chatFrame.classList.add('active')
+		chatButton.classList.add('close')//Ẩn widget
+	}
+}
+
+function changeConversation(e)
+{
+	ws.close()
+	content.innerHTML = ''
+	let button = e
+	let currentConversation = button.dataset.conversation
+	let userId = button.dataset.username
+	let idRoom = button.dataset.id
+	let conversationStatement
+	if('employee' === currentConversation)//Chuyển sang chat bot
+	{
+		button.innerHTML = "Chuyển sang <b>Chat trực tiếp</b>"
+		conversationStatement = 'chat bot'
+		//khi kết nối với chat bot thì sẽ không truyền id (do cuộc trò chuyện với chat bot sẽ không được lưu trên DB)
+		openConnection(`ws://localhost:8080/chat-bot?role=user&userId=${userId}`)
+	}
+	else{//Chuyển sang chat với nhân viên
+		button.innerHTML = "Chuyển sang <b>Chat bot</b>"
+		conversationStatement = 'employee'
+		openConnection(`ws://localhost:8080/chat?role=user&userId=${userId}`, idRoom)
+	}
+	button.dataset.conversation = conversationStatement
+}
+
+function openConnection(connection, idRoom)
+{
+	ws = new WebSocket(connection) //Tạo websocket
 		ws.onopen = function() { //Sau khi kết nối thành công
-			if (role === 'user')
+			if (role === 'user' && idRoom)
 				loadContentForUser(idRoom)
 		}
 		ws.onmessage = function(res) { //Lấy phản hồi từ server gửi lên
@@ -127,10 +161,7 @@ function toggleChatFrame(idRoom, userId) {
 			console.log(data)
 			let div = document.createElement('div')
 			div.className = "message message-employee bg-secondary"
-			div.textContent = data.message
+			div.innerHTML = data.message
 			content.append(div)
 		}
-		chatFrame.classList.add('active')
-		chatButton.classList.add('close')
-	}
 }

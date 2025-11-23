@@ -510,7 +510,6 @@ ul.navbar-nav {
   }
 }
 a:-webkit-any-link {
-  color: -webkit-link;
   cursor: pointer;
 }
 .img-resize {

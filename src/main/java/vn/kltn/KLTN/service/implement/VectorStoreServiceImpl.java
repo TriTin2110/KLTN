@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
@@ -27,14 +30,19 @@ public class VectorStoreServiceImpl implements VectorStoreSevice {
 	@Autowired
 	private VectorStore vectorStore;
 	@Autowired
-	private ChatClient.Builder builder;
-	@Autowired
 	@Qualifier("myCustomChatClient") // Chỉ định dùng Bean tự tạo
 	private ChatClient customChatClient;
+	private ChatClient outputChatClient;
 	@Value("classpath:/OutputForAI.txt")
 	private Resource outputSystemResource;
 
 	private final float SCORE = 0.8f;
+
+	@Autowired
+	public VectorStoreServiceImpl(ChatClient.Builder builder) {
+		ChatMemory memory = MessageWindowChatMemory.builder().maxMessages(5).build();
+		this.outputChatClient = builder.defaultAdvisors(MessageChatMemoryAdvisor.builder(memory).build()).build();
+	}
 
 	@Override
 	public List<Document> insertData(ProductStoreDTO productStoreDTO) {
@@ -58,7 +66,6 @@ public class VectorStoreServiceImpl implements VectorStoreSevice {
 	public String search(String userInput) {
 		// TODO Auto-generated method stub
 		String prompt = customChatClient.prompt(userInput).call().chatResponse().getResult().getOutput().getText();
-		System.out.println(prompt);
 		return getDataByDescription(prompt, userInput);
 	}
 
@@ -132,45 +139,68 @@ public class VectorStoreServiceImpl implements VectorStoreSevice {
 	}
 
 	private String getOutput(List<Document> documents, String userInput) {
-		StringBuilder builder = new StringBuilder();
-		ProductStoreDTO store = null;
 		String resultText = documents.stream().map(product -> {
-			return "[" + product.getMetadata().get("name").toString() + product.getMetadata().get("price").toString()
-					+ product.getMetadata().get("productStatus").toString() + "]";
+			return "[ name: " + product.getMetadata().get("name").toString() + ", price: "
+					+ product.getMetadata().get("price").toString() + ", status: "
+					+ product.getMetadata().get("productStatus").toString() + ", category: "
+					+ product.getMetadata().get("category").toString() + "]";
 		}).collect(Collectors.joining(", "));
 
+		System.out.println(resultText);
 		String promptAnswer = """
 				Bạn là trợ lý tìm kiếm đồ uống.
 				Người dùng vừa tìm kiếm: "%s".
 
-				Danh sách các sản phẩm thực tế có trong cửa hàng:
+				Danh sách các sản phẩm thực tế có trong cửa hàng (chỉ được sử dụng các sản phẩm này):
 				%s
 
-				Yêu cầu:
-				1. Nếu có ít nhất một sản phẩm phù hợp với truy vấn, trả lời 1 câu HTML tự nhiên: <p>...</p>
-				2. Nếu không có sản phẩm nào phù hợp, phải trả lời **chính xác**:
-				   "Không tìm thấy đồ uống phù hợp."
-				3. Không được thêm bất kỳ sản phẩm nào khác, không được giải thích, không bịa.
-				4. Trả lời ngắn gọn, tự nhiên.
-				""".formatted(userInput, resultText);
+				Nhiệm vụ:
+				1. Phân tích ý định (intent) của truy vấn để tạo câu mở đầu phù hợp:
+				   - Nếu truy vấn chứa: "rẻ nhất", "giá thấp", "giá rẻ"
+				       → Câu mở đầu ví dụ: "Đây là sản phẩm có giá thấp nhất phù hợp với nhu cầu của bạn:"
+				   - Nếu truy vấn chứa: "đắt nhất", "cao nhất", "giá cao"
+				       → Câu mở đầu ví dụ: "Đây là sản phẩm có giá cao nhất:"
+				   - Nếu truy vấn chứa: "ngon nhất", "best", "được đánh giá cao", "tốt nhất"
+				       → Câu mở đầu ví dụ: "Đây là sản phẩm được đánh giá cao nhất:"
+				   - Nếu truy vấn chứa: "có ... không", "có không", "có ko"
+				       → Trả lời dạng khẳng định tự nhiên, ví dụ:
+				         "Có bạn nhé, chúng tôi có phục vụ món này:"
+				         hoặc
+				         "Dạ có, và đây là lựa chọn phù hợp cho bạn:"
+				   - Nếu truy vấn không rơi vào các loại trên
+				       → Câu mở đầu trung tính, ví dụ:
+				         "Tôi nghĩ đây là một số sản phẩm phù hợp với bạn:"
 
-		String answer = this.builder.build().prompt(promptAnswer).call().chatResponse().getResult().getOutput()
-				.getText();// Tạo câu mở đầu
-		builder.append(answer);
-		if (!"Không tìm thấy đồ uống phù hợp.".equalsIgnoreCase(answer)) {
-			builder.append("<div class=\"product-list\">");
-			for (Document document : documents) {
-				store = new ProductStoreDTO(document);
-				builder.append("<div class=\"product-item\">\r\n" + "    <h3 class=\"product-name\">" + store.getName()
-						+ "</h3>\r\n" + "    <p class=\"product-category\"><strong>Loại:</strong> "
-						+ store.getCategory() + "</p>\r\n" + "    <p class=\"product-price\"><strong>Giá:</strong> "
-						+ store.getPrice() + "</p>\r\n"
-						+ "    <img class=\"product-image\" src=\"https://s3.cloudfly.vn/kltn/images/"
-						+ store.getImage() + "\" alt=\"" + store.getName() + "\" />\r\n" + "  </div>" + "");
-			}
-			builder.append("</div>");
-		}
-		return builder.toString();
+				2. Nếu người dùng yêu cầu:
+				- “các loại khác với các loại trên”
+				- “còn loại nào nữa không?”
+				- “ngoài những loại đó thì còn gì?”
+
+				Và câu trước (người dùng vừa nói) có đề cập đến một danh sách sản phẩm cụ thể,
+				thì bạn phải:
+					1) Nhận dạng các sản phẩm người dùng muốn loại trừ.
+					2) Loại trừ chúng khỏi danh sách đầy đủ.
+					3) Nếu không còn gì → trả “Không tìm thấy đồ uống phù hợp.”
+
+				Nếu không có sản phẩm nào phù hợp → trả về duy nhất:
+				   Không tìm thấy đồ uống phù hợp.
+
+				3. Nếu có sản phẩm phù hợp → liệt kê theo format bắt buộc:
+				   <a class="product-chat-bot-result" target="_blank" href="http://localhost:8080/san-pham/[Tên sản phẩm 1]">1. [Tên sản phẩm 1]</a>
+				        <a class="product-chat-bot-result" target="_blank" href="http://localhost:8080/san-pham/[Tên sản phẩm 2]">2. [Tên sản phẩm 2]</a>
+				        <a class="product-chat-bot-result" target="_blank" href="http://localhost:8080/san-pham/[Tên sản phẩm 3]">3. [Tên sản phẩm 3]</a>
+
+				4. Không mô tả sản phẩm, không kèm giá, không phân tích thêm.
+				5. Không tạo ra sản phẩm không có trong danh sách thực tế.
+				6. Output chỉ gồm 1 câu mở đầu + danh sách sản phẩm (nếu có).
+				"""
+				.formatted(userInput, resultText);
+
+		String answer = outputChatClient.prompt(promptAnswer).call().chatResponse().getResult().getOutput().getText();// Tạo
+																														// câu
+																														// mở
+																														// đầu
+		return answer;
 	}
 
 }

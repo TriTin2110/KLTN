@@ -8,6 +8,7 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 import vn.kltn.KLTN.modules.NoticeHandler;
+import vn.kltn.KLTN.modules.chat.ChatBotHandler;
 import vn.kltn.KLTN.modules.chat.ChatHandShake;
 import vn.kltn.KLTN.modules.chat.ChatRoomHanler;
 import vn.kltn.KLTN.modules.order.OrderHandler;
@@ -21,20 +22,23 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	private OrderHandler orderHandler;
 	private NoticeHandler noticeHandler;
 	private ChatHandShake chatHandShake;
+	private ChatBotHandler chatBotHandler;
 
 	@Autowired
 	public WebSocketConfig(ChatRoomHanler chatRoomHanler, ChatHandShake chatHandShake, OrderHandler orderHandler,
-			NoticeHandler noticeHandler) {
+			NoticeHandler noticeHandler, ChatBotHandler chatBotHandler) {
 		this.chatHandShake = chatHandShake;
 		this.chatRoomHanler = chatRoomHanler;
 		this.orderHandler = orderHandler;
 		this.noticeHandler = noticeHandler;
+		this.chatBotHandler = chatBotHandler;
 	}
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		// TODO Auto-generated method stub
 		registry.addHandler(chatRoomHanler, "/chat").addInterceptors(chatHandShake)
+				.addHandler(chatBotHandler, "/chat-bot").addInterceptors(chatHandShake)
 				.addHandler(orderHandler, "/order-websocket").addInterceptors(chatHandShake)
 				.addHandler(noticeHandler, "/notice").addInterceptors(chatHandShake); // Đăng ký
 		// websocket và thêm
