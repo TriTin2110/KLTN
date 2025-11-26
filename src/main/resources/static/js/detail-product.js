@@ -1,4 +1,5 @@
 let quantity = document.getElementById("quantity")
+
 if(quantity)
 	var quantityValue = quantity.value
 let priceText = document.getElementById("price")

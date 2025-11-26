@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymelearf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="editor">
+		<div id="event-editor">
+			<form th:action="@{/admin/event/insert}" th:method="post"
+				enctype="multipart/form-data" th:object="${event}" id="main-form" onsubmit="return checkingDataBeforeSubmit()">
+				<div style="margin-bottom: 30px">
+					<label for="title">Tiêu đề <span style="color: red;">*</span>:</label>
+					<input class="form-control" type="text" th:field="*{name}" th:value="${event.name}" placeholder="Tiêu đề" required="required">
+				</div>
+				
+				<div style="margin-bottom: 30px">
+					<label for="description">Mô tả ngắn <span style="color: red;">*</span>:</label>
+					<textarea style="resize: vertical;" class="form-control" id="description" th:field="*{description}" th:text="${event.description}" required="required"></textarea>
+				</div>
+				
+				<div style="margin-bottom: 30px" class="row">
+					<div class="col-md-6">
+						<label>Ngày bắt đầu <span style="color: red;">*</span>:</label>
+					<input class="form-control" type="date" id="startDateInput" th:field="*{startDate}" th:value="${event.startDate}" placeholder="Ngày bắt đầu" required="required">
+					</div>
+					<div class="col-md-6">
+					<label>Ngày kết thúc <span style="color: red;">*</span>:</label>
+					<input class="form-control" type="date" id="endDateInput" th:field="*{endDate}" th:value="${event.endDate}" placeholder="Ngày kết thúc" required="required">
+					</div>
+				</div>
+				
+				<div style="margin-bottom: 30px">
+					<label for="main-image">Ảnh bìa:</label>
+					<input type="hidden" id="main-image" th:field="*{image}">
+					<input class="form-control" type="file" name="image-chooser" id="image-chooser" onchange="changeMainImageView(this)">
+					<img id="main-image-view" style="margin-top: 10px;">
+				</div>
+				
+				<div>
+					<table class="list-product" id="product-table-editor">
+						<thead>
+							<tr>
+								<th>STT</th>
+								<th>Sản phẩm</th>
+								<th>Giảm giá (%)</th>
+								<th>Thao tác</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="3"><button onclick="addCategory()" type="button">Thêm nhóm sản phẩm!</button></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				
+				<div style="text-align: center;">
+					<button class="btn btn-primary"
+						style="font-size: 20px; margin-top: 20px;" type="submit">Đăng
+						bài</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

@@ -72,6 +72,7 @@ public class VectorStoreServiceImpl implements VectorStoreSevice {
 	private String getDataByDescription(String prompt, String userInput) {
 		// TODO Auto-generated method stub
 		List<Document> documents = null;
+		System.out.println(prompt);
 		if (!prompt.matches("^\\[Tên sản phẩm:[^,]*,Thể loại:[^,]*, Giá:[^\\]]*\\]$")) {
 			return prompt;
 		} else {
@@ -157,16 +158,13 @@ public class VectorStoreServiceImpl implements VectorStoreSevice {
 				Nhiệm vụ:
 				1. Phân tích ý định (intent) của truy vấn để tạo câu mở đầu phù hợp:
 				   - Nếu truy vấn chứa: "rẻ nhất", "giá thấp", "giá rẻ"
-				       → Câu mở đầu ví dụ: "Đây là sản phẩm có giá thấp nhất phù hợp với nhu cầu của bạn:"
+				       → Câu mở đầu phải thỏa mãn được nhu cầu của khách hàng
 				   - Nếu truy vấn chứa: "đắt nhất", "cao nhất", "giá cao"
-				       → Câu mở đầu ví dụ: "Đây là sản phẩm có giá cao nhất:"
+				       → Câu mở đầu phải thỏa mãn được nhu cầu của khách hàng
 				   - Nếu truy vấn chứa: "ngon nhất", "best", "được đánh giá cao", "tốt nhất"
-				       → Câu mở đầu ví dụ: "Đây là sản phẩm được đánh giá cao nhất:"
+				      → Câu mở đầu phải thỏa mãn được nhu cầu của khách hàng
 				   - Nếu truy vấn chứa: "có ... không", "có không", "có ko"
-				       → Trả lời dạng khẳng định tự nhiên, ví dụ:
-				         "Có bạn nhé, chúng tôi có phục vụ món này:"
-				         hoặc
-				         "Dạ có, và đây là lựa chọn phù hợp cho bạn:"
+				        → Câu mở đầu phải thỏa mãn được nhu cầu của khách hàng
 				   - Nếu truy vấn không rơi vào các loại trên
 				       → Câu mở đầu trung tính, ví dụ:
 				         "Tôi nghĩ đây là một số sản phẩm phù hợp với bạn:"
@@ -182,8 +180,7 @@ public class VectorStoreServiceImpl implements VectorStoreSevice {
 					2) Loại trừ chúng khỏi danh sách đầy đủ.
 					3) Nếu không còn gì → trả “Không tìm thấy đồ uống phù hợp.”
 
-				Nếu không có sản phẩm nào phù hợp → trả về duy nhất:
-				   Không tìm thấy đồ uống phù hợp.
+				Nếu không có sản phẩm nào phù hợp → trả lời rằng không có sản phẩm phù hợp hoặc là không tìm thấy sản phẩm phù họp với yêu cầu của người dùng!
 
 				3. Nếu có sản phẩm phù hợp → liệt kê theo format bắt buộc:
 				   <a class="product-chat-bot-result" target="_blank" href="http://localhost:8080/san-pham/[Tên sản phẩm 1]">1. [Tên sản phẩm 1]</a>

@@ -24,6 +24,7 @@ import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
+import vn.kltn.KLTN.enums.EventStatus;
 import vn.kltn.KLTN.enums.ProductStatus;
 
 @Entity
@@ -31,6 +32,9 @@ public class Product {
 	@Id
 	private String name;
 	private String image;
+	private int discount;
+	@Enumerated(EnumType.STRING)
+	private EventStatus eventStatus;
 	@Enumerated(EnumType.STRING)
 	private ProductStatus productStatus;
 
@@ -197,6 +201,22 @@ public class Product {
 
 	public void setProductStatus(ProductStatus productStatus) {
 		this.productStatus = productStatus;
+	}
+
+	public int getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+
+	public EventStatus getEventStatus() {
+		return eventStatus;
+	}
+
+	public void setEventStatus(EventStatus eventStatus) {
+		this.eventStatus = eventStatus;
 	}
 
 	@Override

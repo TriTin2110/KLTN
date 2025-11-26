@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | Quản lý sản phẩm</title>
+<link rel="stylesheet" th:href="@{/css/admin.css}">
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	rel="stylesheet">
+
+<style type="text/css">
+#event-editor {
+	display: none;
+}
+/* Padding bên trong vùng soạn thảo */
+.ck-editor__editable_inline {
+	padding: 20px !important;
+	min-height: 300px; /* tuỳ chọn: để nội dung nhìn thoáng */
+}
+</style>
+</head>
+<body>
+
+	<!-- ===== SIDEBAR ===== -->
+	<div th:replace="~{/fragment/side-bar.html :: side-bar}"></div>
+
+	<!-- ===== MAIN CONTENT ===== -->
+	<div class="main-content">
+
+		<!-- TOPBAR -->
+		<div class="topbar">
+			<h1>Quản lý bài viết</h1>
+			<div th:replace="~{/fragment/top-bar-right.html::topbar-right}"></div>
+		</div>
+
+		<div th:if="${success}" class="message success" th:text="${success}"></div>
+		<div th:if="${error}" class="message error" th:text="${error}"></div>
+
+		<div>
+			<button class="btn btn-success" id="event-btn"
+				style="margin-bottom: 20px;" onclick="openEditor()">Thêm
+				Event Mới!</button>
+		</div>
+
+		<!-- Editor event -->
+		<div th:replace="~{/admin/event/editor.html :: editor}"></div>
+
+		<!-- Danh sách tin tức -->
+		 <div th:replace="~{/admin/event/event-list-table.html :: event-list-table}"></div>
+	</div>
+	<script th:inline="javascript">
+		var categories = /*[[${categories}]]*/ ''
+			console.log(categories)
+	</script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/admin/event/event.js}">
+	</script>
+</body>
+</html>

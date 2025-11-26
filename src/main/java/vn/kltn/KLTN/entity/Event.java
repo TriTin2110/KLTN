@@ -1,34 +1,45 @@
 package vn.kltn.KLTN.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
+import vn.kltn.KLTN.enums.EventStatus;
+import vn.kltn.KLTN.model.CategoryItemDTO;
 
 @Entity
 public class Event {
 	@Id
 	private String name;
-	private Date startDate, endDate;
+	private String description, image;
+	private LocalDate startDate, endDate;
+	@Enumerated(EnumType.STRING)
+	private EventStatus eventStatus;
+	@Transient
+	private List<CategoryItemDTO> items;
 
 	@OneToMany(mappedBy = "event", cascade = { CascadeType.MERGE })
 	private List<Product> products;
 
 	public Event() {
+		this.products = new ArrayList<Product>();
 	}
 
-	public Event(String name, Date startDate, Date endDate) {
+	public Event(String name, LocalDate startDate, LocalDate endDate) {
 		this.name = name;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.products = new ArrayList<Product>();
 	}
 
-	public Event(String name, Date startDate, Date endDate, List<Product> products) {
+	public Event(String name, LocalDate startDate, LocalDate endDate, List<Product> products) {
 		this.name = name;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -43,19 +54,19 @@ public class Event {
 		this.name = name;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
@@ -72,9 +83,42 @@ public class Event {
 		product.setEvent(this);
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public List<CategoryItemDTO> getItems() {
+		return items;
+	}
+
+	public void setItems(List<CategoryItemDTO> items) {
+		this.items = items;
+	}
+
+	public EventStatus getEventStatus() {
+		return eventStatus;
+	}
+
+	public void setEventStatus(EventStatus eventStatus) {
+		this.eventStatus = eventStatus;
+	}
+
 	@Override
 	public String toString() {
-		return "Event [name=" + name + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+		return "Event [name=" + name + ", description=" + description + ", startDate=" + startDate + ", endDate="
+				+ endDate + "]";
 	}
 
 }
