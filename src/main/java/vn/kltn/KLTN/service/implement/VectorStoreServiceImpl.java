@@ -98,9 +98,8 @@ public class VectorStoreServiceImpl implements VectorStoreSevice {
 				builder.append(", price=" + numberOnly);
 			}
 			if (builder.isEmpty()) {
-				System.out.println("Bạn có thể cho tôi biết thức uống yêu thích của bạn không? (Ví dụ: Cà phê)");
+				return "Bạn có thể cho tôi biết thức uống yêu thích của bạn không? (Ví dụ: Cà phê)";
 			} else {
-
 				documents = filter(tempPrice, numberOnly, builder);
 				if (price.equalsIgnoreCase("max") || price.equalsIgnoreCase("min"))// Nếu yêu cầu giá cao/thấp nhất
 					documents = getMinMax(documents, tempPrice);
@@ -190,6 +189,7 @@ public class VectorStoreServiceImpl implements VectorStoreSevice {
 				4. Không mô tả sản phẩm, không kèm giá, không phân tích thêm.
 				5. Không tạo ra sản phẩm không có trong danh sách thực tế.
 				6. Output chỉ gồm 1 câu mở đầu + danh sách sản phẩm (nếu có).
+				7. [Tên sản phẩm] luôn phải giống với tên trong danh sách
 				"""
 				.formatted(userInput, resultText);
 

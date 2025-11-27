@@ -10,12 +10,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
+import vn.kltn.KLTN.enums.EventStatus;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Category extends Component {
 	private int totalProduct;
-
+	private EventStatus eventStatus;
 	@OneToMany(mappedBy = "category", cascade = { CascadeType.REMOVE, CascadeType.MERGE })
 	@JsonIgnore
 	private List<Product> products;
@@ -49,6 +50,14 @@ public class Category extends Component {
 		this.products.add(product);
 		this.totalProduct = this.products.size();
 		product.setCategory(this);
+	}
+
+	public EventStatus getEventStatus() {
+		return eventStatus;
+	}
+
+	public void setEventStatus(EventStatus eventStatus) {
+		this.eventStatus = eventStatus;
 	}
 
 	@Override

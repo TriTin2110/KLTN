@@ -12,14 +12,15 @@ import vn.kltn.KLTN.service.EventService;
 @Configuration
 @EnableScheduling
 public class ScheduleConfig {
+	private final int TIME_OUT = 60000;
+
 	@Autowired
 	private EventService eventService;
 
-	@Scheduled(fixedRate = 60000) // Chạy mỗi phút
+	@Scheduled(fixedRate = TIME_OUT) // Chạy mỗi phút
 	public void checkDiscountEvent() {
 		LocalDate date = LocalDate.now();
 		eventService.checkQueueEventStatus(date);
-
 		eventService.checkOnGoingEventStatus(date);
 	}
 }

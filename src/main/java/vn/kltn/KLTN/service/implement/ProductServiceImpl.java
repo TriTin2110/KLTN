@@ -54,6 +54,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@CachePut("products")
+	@Transactional
 	public List<Product> updateCache() {
 		List<Product> products = repository.findAll();
 		products = getLowestPrice(products);
