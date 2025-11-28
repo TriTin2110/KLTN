@@ -3237,3 +3237,18 @@ div.item:hover {
 		display: none
 	}
 }
+
+
+button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+button.out-of-stock {
+    background: linear-gradient(90deg, #ffeaea, #ffd6d6);
+    color: rgb(255, 0, 0);
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid #b71c1c;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+

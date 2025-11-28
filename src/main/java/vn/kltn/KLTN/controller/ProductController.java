@@ -202,9 +202,10 @@ public class ProductController {
 		String name = UriUtils.decode(idEncoded, StandardCharsets.UTF_8);
 
 		Product product = productService.findById(name);
-		if (product == null)
-			return "redirect:/?error=product_not_found";
-
+		if (product == null) {
+	        return "redirect:/?error=product_not_found";
+	    }
+		
 		model.addAttribute("product", product);
 		model.addAttribute("comments", commentService.findAllByProductId(name));
 

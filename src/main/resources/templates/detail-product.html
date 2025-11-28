@@ -145,7 +145,6 @@
 								<div class="product-content-desc-1">
 									<div class="product-title">
 										<h1 th:text="${product.name}"></h1>
-										<span id="pro_sku">SKU: S-0015-1</span>
 									</div>
 									<div id="mobile-main-image">
 										<img th:alt="${product.image}"
@@ -212,8 +211,12 @@
 											<div class="wrap-addcart clearfix">
 												<div class="row-flex">
 													<button type="button"
-														class="button btn-addtocart addtocart-modal"
-														onclick="addItem()">Thêm vào giỏ hàng</button>
+													        class="button btn-addtocart addtocart-modal"
+													        th:classappend="${product.productStatus.label == 'Hết hàng' or product.productStatus.label == 'Đã hết'} ? ' out-of-stock' : ''"
+													        th:disabled="${product.productStatus.label == 'Hết hàng' or product.productStatus.label == 'Đã hết'}"
+													        th:onclick="${(product.productStatus.label == 'Còn hàng')} ? 'addItem()' : null"
+													        th:text="${(product.productStatus.label == 'Hết hàng' or product.productStatus.label == 'Đã hết')} ? 'Hết hàng' : 'Thêm vào giỏ hàng'">
+													</button>
 												</div>
 											</div>
 										</div>

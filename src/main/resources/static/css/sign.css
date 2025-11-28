@@ -1,4 +1,17 @@
+body {
+       background-image: url('/images/banner-dang-nhap-2.jpg'); /* Đường dẫn ảnh của bạn */
+       background-size: cover;        /* Ảnh phủ toàn màn */
+       background-repeat: no-repeat;  /* Không lặp ảnh */
+       background-position: center;   /* Căn giữa */
+       background-attachment: fixed;  /* Cuộn không trượt */
+   }
 
+   /* Làm trong suốt box đăng nhập nếu muốn đẹp hơn */
+   .signin-overlay {
+       background: rgba(255, 255, 255, 0.85);
+       border-radius: 10px;
+       padding: 30px;
+   }
 
 .content .signup .container {
   width: 90%;
