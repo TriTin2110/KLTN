@@ -12,7 +12,6 @@ import vn.kltn.KLTN.entity.Event;
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.enums.EventStatus;
 import vn.kltn.KLTN.repository.EventRepository;
-import vn.kltn.KLTN.service.CouponService;
 import vn.kltn.KLTN.service.EventService;
 import vn.kltn.KLTN.service.ProductService;
 
@@ -22,8 +21,6 @@ public class EventServiceImpl implements EventService {
 	private EventRepository repository;
 	@Autowired
 	private ProductService productService;
-	@Autowired
-	private CouponService couponService;
 
 	@Override
 	@Transactional
@@ -46,8 +43,17 @@ public class EventServiceImpl implements EventService {
 		try {
 			Event event = findById(name);
 			if (event != null) {
-				event.getProducts().forEach(o -> o.setEvent(null));
+				List<Product> products = event.getProducts();
+				for (Product product : products) { // Đặt những trường liên quan đến event về null
+					if (product.getCategory().getEventStatus() != EventStatus.NONE)// Đặt lại EventStatus cho category
+						product.getCategory().setEventStatus(EventStatus.NONE);
+					product.setDiscount(0);
+					product.setEventStatus(EventStatus.NONE);
+					product.setEvent(null);
+				}
+				event.setProducts(null);
 				repository.delete(event);
+				productService.updateCache();
 				return true;
 			}
 		} catch (Exception e) {
@@ -90,19 +96,23 @@ public class EventServiceImpl implements EventService {
 	@Transactional
 	public void checkQueueEventStatus(LocalDate date) {
 		// TODO Auto-generated method stub
+		System.out.println("đã thực hiện kiểm tra event (start)");
+		List<Event> events = this.repository.findByStartDateAndEventStatus(date, EventStatus.ON_QUEUE);
 		try {
-			System.out.println("đã thực hiện kiểm tra event (start)");
-			List<Event> events = this.repository.findByStartDateAndEventStatus(date, EventStatus.ON_QUEUE);
 			if (events != null && !events.isEmpty()) {
 				List<Product> products = null;
 				for (Event event : events) {
 					products = event.getProducts();
 					for (Product product : products) {
+						if (product.getCategory().getEventStatus() != EventStatus.IS_GOING_ON)// Đặt lại EventStatus cho
+							// category
+							product.getCategory().setEventStatus(EventStatus.IS_GOING_ON);
 						product.setEventStatus(EventStatus.IS_GOING_ON);
 					}
 					event.setEventStatus(EventStatus.IS_GOING_ON);
-					this.repository.saveAndFlush(event);
 				}
+				this.repository.saveAllAndFlush(events);
+				productService.updateCache();
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -113,18 +123,23 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public void checkOnGoingEventStatus(LocalDate date) {
 		// TODO Auto-generated method stub
+		System.out.println("đã thực hiện kiểm tra event (end)");
+		List<Event> events = this.repository.findByEndDateAndEventStatus(date, EventStatus.IS_GOING_ON);
 		try {
-			System.out.println("đã thực hiện kiểm tra event (end)");
-			List<Event> events = this.repository.findByEndDateAndEventStatus(date, EventStatus.IS_GOING_ON);
 			if (events != null && !events.isEmpty()) {
 				List<Product> products = null;
 				for (Event event : events) {
 					products = event.getProducts();
 					for (Product product : products) {
-						product.setEventStatus(EventStatus.END);
+						if (product.getCategory().getEventStatus() != EventStatus.NONE)// Đặt lại EventStatus cho
+																						// category
+							product.getCategory().setEventStatus(EventStatus.NONE);
+						product.setEventStatus(EventStatus.NONE);
 					}
-					event.setEventStatus(EventStatus.END);
+					event.setEventStatus(EventStatus.NONE);
 				}
+				this.repository.saveAllAndFlush(events);
+				productService.updateCache();
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

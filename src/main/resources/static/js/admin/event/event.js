@@ -139,6 +139,7 @@ function addCategory()
 	
 	select.onchange = updateAllCategoryItems
 	select.classList = 'category-items'
+	select.required = true
 	td1.append(number)
 	td2.append(select)
 	td3.append(inputDiscount)

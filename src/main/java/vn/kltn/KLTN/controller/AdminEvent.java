@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +36,8 @@ public class AdminEvent {
 	public String showEventPage(Model model) {
 		List<Event> events = eventService.findAll();
 		List<Category> categories = categoryService.findAll();
+		categories.removeIf(c -> c.getEventStatus() != null && c.getEventStatus().equals(EventStatus.IS_GOING_ON)
+				|| c.getEventStatus() != null && c.getEventStatus().equals(EventStatus.ON_QUEUE));
 		Event event = new Event();
 		model.addAttribute("event", event);
 		model.addAttribute("events", events);
@@ -43,7 +46,7 @@ public class AdminEvent {
 	}
 
 	@PostMapping("/insert")
-	public void insertEvent(@ModelAttribute("event") Event event, @RequestParam("image-chooser") MultipartFile file) {
+	public String insertEvent(@ModelAttribute("event") Event event, @RequestParam("image-chooser") MultipartFile file) {
 		if (eventService.findById(event.getName()) == null) // Event chưa tồn tại
 		{
 			event.setEventStatus(EventStatus.ON_QUEUE); // Mặc định khi tạo event ra thì giá trị = ON_QUEUE, sau đó cứ
@@ -58,6 +61,7 @@ public class AdminEvent {
 					if (category.getName().equals(dto.getCategoryName())) {// Nếu có category nào nằm trong danh sách
 																			// event thì bóc từng product ra và set
 																			// discount
+						category.setEventStatus(EventStatus.ON_QUEUE);
 						products = category.getProducts();
 						for (Product product : products) {
 							product.setDiscount(dto.getDiscount());
@@ -70,6 +74,12 @@ public class AdminEvent {
 			}
 			eventService.add(event);
 		}
+		return "redirect:/admin/event";
+	}
 
+	@GetMapping("/delete/{id}")
+	public String delete(@PathVariable("id") String eventId) {
+		eventService.remove(eventId);
+		return "redirect:/admin/event";
 	}
 }
