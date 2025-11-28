@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="coupon-list-table" id="coupon-list-table">
+		<div class="form-section">
+			<h2>Danh sách Event hiện có</h2>
+			<table class="list-product">
+				<thead>
+					<tr>
+						<th>Mã giảm giá</th>
+						<th>Mô tả</th>
+						<th>Giảm giá (%)</th>
+						<th>Ngày bắt đầu</th>
+						<th>Ngày kết thúc</th>
+						<th>Điểm quy đổi</th>
+						<th>Sự kiện</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="n : ${coupons}">
+						<td th:text="${n.id}" style="padding: 20px 0px;"></td>
+						<td th:text="${n.description}" style="padding: 20px 0px;"></td>
+						<td th:text="${n.discountRate}" style="padding: 20px 0px;"></td>
+						<td th:text="${n.startAt}" style="padding: 20px 0px;"></td>
+						<td th:text="${n.endAt}" style="padding: 20px 0px;"></td>
+						<td th:text="${n.score}" style="padding: 20px 0px;"></td>
+						<td th:text="${n.event?.name}" style="padding: 20px 0px;"></td>
+						<td><span>
+								<button class="btn btn-danger" onclick="showConfirm(this)">Xóa</button>
+						</span> <span class="comfirm-delete-prompt" style="display: none;">
+								<div>Bạn có chắc chắn xóa?</div> <a
+								th:href="@{/admin/coupon/delete/{id} (id=${n.id})}"
+								class="btn btn-danger">Có</a>
+								<button onclick="showDeleteButton(this)"
+									class="btn btn-secondary">Không</button>
+						</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<script type="text/javascript">
+		function showConfirm(e)
+		{
+			let parentElement = e.parentElement
+			let confirmDeletePrompt = parentElement.nextElementSibling
+			confirmDeletePrompt.style.display = "inline"
+			parentElement.style.display = "none"
+		}
+
+		function showDeleteButton(e)
+		{
+			let parentElement = e.parentElement
+			let siblingElement = parentElement.previousElementSibling
+			siblingElement.style.display = "inline"
+				parentElement.style.display = "none"
+		}
+    </script>
+	</div>
+</body>
+</html>

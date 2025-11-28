@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymelearf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="coupon">
+		<div id="coupon-editor">
+			<form th:action="@{/admin/coupon/insert}" th:method="post"
+				enctype="multipart/form-data" th:object="${coupon}" id="main-form" onsubmit="return checkingDataBeforeSubmit()">
+				<div style="margin-bottom: 30px">
+					<label for="title">Mã giảm giá: <span style="color: red;">*</span>:</label>
+					<input class="form-control" type="text" th:field="*{id}" placeholder="Tiêu đề" required="required">
+				</div>
+				
+				<div style="margin-bottom: 30px">
+					<label for="description">Mô tả ngắn: <span style="color: red;">*</span>:</label>
+					<textarea style="resize: vertical;" class="form-control" id="description" th:field="*{description}" required="required"></textarea>
+				</div>
+				
+				<div style="margin-bottom: 30px">
+					<label for="discountRate">Giảm giá (%): <span style="color: red;">*</span>:</label>
+					<input class="form-control" type="number" th:field="*{discountRate}" placeholder="Giảm giá" required="required" maxlength="90" min="1">
+				</div>
+				
+				<div style="margin-bottom: 30px" class="row">
+					<div class="col-md-6">
+						<label>Ngày bắt đầu <span style="color: red;">*</span>:</label>
+					<input class="form-control" type="date" id="startDateInput" th:field="*{startAt}" placeholder="Ngày bắt đầu" required="required">
+					</div>
+					<div class="col-md-6">
+					<label>Ngày kết thúc <span style="color: red;">*</span>:</label>
+					<input class="form-control" type="date" id="endDateInput" th:field="*{endAt}"  placeholder="Ngày kết thúc" required="required">
+					</div>
+				</div>
+				<div style="margin-bottom: 30px">
+					<label>Điểm quy đổi: <span style="color: red;">*</span>:</label>
+					<input class="form-control" id="score" type="number" th:field="*{score}" placeholder="Điểm quy đổi" required="required" min="10">
+				</div>
+				<div>
+					<div style="margin-bottom: 5px;"><b>Sự kiện cho mã giảm giá: </b></div>
+					<select class="form-group" name="event" onchange="setupDate(this)">
+						<option value="default">Chọn sự kiện (tùy chọn)</option>
+						<option th:each="event: ${events}" th:value="${event.name}" th:text="${event.name}"></option>
+					</select>
+				</div>
+				<div style="text-align: center;">
+					<button class="btn btn-primary"
+						style="font-size: 20px; margin-top: 20px;" type="submit">Đăng
+						bài</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

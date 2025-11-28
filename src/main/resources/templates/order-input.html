@@ -13,6 +13,8 @@
 <link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}"
 	type="text/css">
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/user-management/edit.css}">
 
 <!-- UIkit CSS -->
 <link rel="stylesheet" th:href="@{/plugins/uikit/uikit.min.css}" />
@@ -93,19 +95,19 @@
 .col-md-6 h5 {
 	margin-bottom: 10px;
 }
+
 .text-line {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin-top: 20px;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	margin-top: 20px;
 }
 
 .text-line hr {
-  flex: 1;
-  border: 1px solid black;
-  margin-left: 10px;
+	flex: 1;
+	border: 1px solid black;
+	margin-left: 10px;
 }
-
 </style>
 </head>
 
@@ -121,15 +123,17 @@
 				<div id="desktop-table">
 					<div class="row" style="padding: 20px;">
 						<div class="col-md-6" style="padding: 20px;">
-							<form th:action="@{/order/show-confirm-order}" method="POST" th:object="${userDTO}">
-							<input type="hidden" th:field="*{username}">
+							<form th:action="@{/order/show-confirm-order}" method="POST"
+								th:object="${userDTO}">
+								<input type="hidden" th:field="*{username}">
+								<input type="hidden" id="coupon" th:field="*{couponId}">
 								<div style="margin-bottom: 10px;">
-									<strong>Họ tên: </strong> <span th:text="*{fullName}"></span>
-									<input type="hidden" th:field="*{fullName}">
+									<strong>Họ tên: </strong> <span th:text="*{fullName}"></span> <input
+										type="hidden" th:field="*{fullName}">
 								</div>
 								<div>
-									<strong>Email: </strong> <span th:text="*{email}"></span>
-									<input type="hidden" th:field="*{email}">
+									<strong>Email: </strong> <span th:text="*{email}"></span> <input
+										type="hidden" th:field="*{email}">
 								</div>
 								<div style="padding: 10px 0px;">
 									<strong>Số điện thoại: </strong> <span> <input
@@ -147,13 +151,26 @@
 									</span>
 								</div>
 								<div style="margin-top: 20px;">
-									<strong>Mã giảm giá:</strong> <input class="form-control"
-										type="text" style="display: inline; width: 80%;" />
+									<strong>Mã giảm giá:</strong> <select class="form-group"
+										th:data-total-price="${totalPrice}"
+										onchange="updateTotalPriceWithCoupon(this)">
+										<option value="default">Chọn mã giảm giá</option>
+										<option th:each="coupon : ${coupons}"
+											th:if="${coupon.score <= 0 || (coupon.score > 0 && coupon.score <= user.point.accumulatedPoint)}"
+											th:value="${coupon.id}"
+											th:text="${coupon.score <= 0 
+                    ? coupon.id + ' - Giảm ' + coupon.discountRate + '%'
+                    : coupon.id + ' - Giảm ' + coupon.discountRate + '% ( -' + coupon.score + ' điểm )'}">
+										</option>
+									</select>
+									<div><i style="font-size: 13px;">Điểm tích lũy của bạn hiện tại là: <span th:text="${user.point.accumulatedPoint}"></span></i></div>
 								</div>
 								<div style="margin-top: 20px;">
-									<label id="order-method"><strong>Hình thức thanh toán:</strong></label>
+									<label id="order-method"><strong>Hình thức
+											thanh toán:</strong></label>
 									<div>
-										<input type="radio" value="Tiền mặt" checked="checked"> Tiền mặt
+										<input type="radio" value="Tiền mặt" checked="checked">
+										Tiền mặt
 									</div>
 								</div>
 								<input style="margin-top: 30px; width: 100%;" type="submit"
@@ -161,7 +178,8 @@
 							</form>
 						</div>
 						<div class="col-md-6">
-							<div style="border: 1px solid gray; border-radius: 2%; height: 242px; overflow-y: auto;">
+							<div
+								style="border: 1px solid gray; border-radius: 2%; height: 242px; overflow-y: auto;">
 								<h4 style="text-align: center;">
 									<strong><u><i>Danh sách món</i></u></strong>
 								</h4>
@@ -188,23 +206,28 @@
 									</div>
 								</div>
 							</div>
-							<div style="text-align: right; margin-top: 30px;"><h3>Tổng tiền: <span
-								id="total-price-view" class="pro-price" th:text="${totalPrice}" style="font-size: unset;"></span></h3></div>
+							<div style="text-align: right; margin-top: 30px;">
+								<h3>
+									Tổng tiền: <span id="total-price-view" class="pro-price"
+										th:text="${totalPrice}" style="font-size: unset;"></span>
+								</h3>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div id="mobile-table">
 					<div style="padding: 20px;">
 						<div style="padding: 20px;">
-							<form th:action="@{/order/show-confirm-order}" method="POST" th:object="${userDTO}">
-							<input type="hidden" th:field="*{username}">
+							<form th:action="@{/order/show-confirm-order}" method="POST"
+								th:object="${userDTO}">
+								<input type="hidden" th:field="*{username}">
 								<div style="margin-bottom: 10px;">
-									<strong>Họ tên: </strong> <span th:text="*{fullName}"></span>
-									<input type="hidden" th:field="*{fullName}">
+									<strong>Họ tên: </strong> <span th:text="*{fullName}"></span> <input
+										type="hidden" th:field="*{fullName}">
 								</div>
 								<div>
-									<strong>Email: </strong> <span th:text="*{email}"></span>
-									<input type="hidden" th:field="*{email}">
+									<strong>Email: </strong> <span th:text="*{email}"></span> <input
+										type="hidden" th:field="*{email}">
 								</div>
 								<div style="padding: 10px 0px;">
 									<strong>Số điện thoại: </strong> <span> <input
@@ -222,16 +245,18 @@
 									</span>
 								</div>
 								<div style="margin-top: 20px;">
-									<strong>Mã giảm giá:</strong> <input class="form-control"
-										type="text" style="display: inline; width: unset;" />
+									<strong>Mã giảm giá:</strong> <select>
+										<option th:each="coupon: ${coupons}" th:text="${coupon.id}"
+											th:value="${coupon.id}">
+									</select>
 								</div>
-								
+
 								<div class="text-line">
-								<h4 style="margin: unset;">Sản phẩm</h4>
-								<hr>
+									<h4 style="margin: unset;">Sản phẩm</h4>
+									<hr>
 								</div>
 								<div style="overflow-y: auto; height: 208px;">
-								<div class="row"
+									<div class="row"
 										style="border-bottom: 1px solid #dbd5d5; padding: 10px 0px;"
 										th:each="cartItem: ${cartItems}">
 										<div class="col-3">
@@ -251,11 +276,12 @@
 										</div>
 
 									</div>
-									</div>
+								</div>
 								<div style="margin-top: 30px; text-align: center;">
-									<strong>Tổng tiền: <span th:text="${totalPrice}" class="pro-price"></span></strong>
-									<input style="display: block; width: 100%; margin-top: 10px;" type="submit"
-									class="btn btn-primary" value="Đặt đơn">
+									<strong>Tổng tiền: <span
+										th:text="${totalPrice}" class="pro-price"></span></strong> <input
+										style="display: block; width: 100%; margin-top: 10px;"
+										type="submit" class="btn btn-primary" value="Đặt đơn">
 								</div>
 							</form>
 						</div>
@@ -267,7 +293,9 @@
 		<!-- footer -->
 		<span th:replace="~{/fragment/footer.html :: footer}"></span>
 	</div>
-
+	<script th:inline="javascript">
+		var coupons = /*[[${coupons}]]*/ ''
+	</script>
 	<script async defer crossorigin="anonymous" th:src="@{/plugins/sdk.js}"></script>
 	<script th:src="@{/plugins/jquery-3.4.1/jquery-3.4.1.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap/popper.min.js}"></script>

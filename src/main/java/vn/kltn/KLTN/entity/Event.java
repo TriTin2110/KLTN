@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,6 +27,7 @@ public class Event {
 	@Transient
 	private List<CategoryItemDTO> items;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "event", cascade = { CascadeType.MERGE })
 	private List<Product> products;
 

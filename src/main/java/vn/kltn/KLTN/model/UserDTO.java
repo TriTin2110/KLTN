@@ -5,7 +5,7 @@ import vn.kltn.KLTN.entity.Cart;
 public class UserDTO {
 	private String username;
 	private String email;
-	private String address, fullName, phoneNumber;
+	private String address, fullName, phoneNumber, couponId;
 	private Cart cart;
 
 	public UserDTO() {
@@ -67,6 +67,14 @@ public class UserDTO {
 
 	public void setCart(Cart cart) {
 		this.cart = cart;
+	}
+
+	public String getCouponId() {
+		return couponId;
+	}
+
+	public void setCouponId(String couponId) {
+		this.couponId = couponId;
 	}
 
 	@Override

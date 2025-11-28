@@ -7,12 +7,13 @@
 <title>Admin Panel | Quản lý sản phẩm</title>
 <link rel="stylesheet" th:href="@{/css/admin.css}">
 <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{/css/user-management/edit.css}">
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 	rel="stylesheet">
 
 <style type="text/css">
-#event-editor {
+#coupon-editor {
 	display: none;
 }
 /* Padding bên trong vùng soạn thảo */
@@ -40,23 +41,22 @@
 		<div th:if="${error}" class="message error" th:text="${error}"></div>
 
 		<div>
-			<button class="btn btn-success" id="event-btn"
+			<button class="btn btn-success" id="coupon-btn"
 				style="margin-bottom: 20px;" onclick="openEditor()">Thêm
 				Event Mới!</button>
 		</div>
 
 		<!-- Editor event -->
-		<div th:replace="~{/admin/event/editor.html :: editor}"></div>
+		<div th:replace="~{/admin/coupon/editor.html :: coupon}"></div>
 
 		<!-- Danh sách tin tức -->
-		 <div th:replace="~{/admin/event/event-list-table.html :: event-list-table}"></div>
+		 <div th:replace="~{/admin/coupon/coupon-list-table.html :: coupon-list-table}"></div>
 	</div>
 	<script th:inline="javascript">
-		var categories = /*[[${categories}]]*/ ''
-			console.log(categories)
+		var events = /*[[${events}]]*/ '' //Dùng để có thể lấy ngày bắt đầu và ngày kết thúc của event
 	</script>
 	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-	<script type="text/javascript" th:src="@{/js/admin/event/event.js}">
+<script type="text/javascript" th:src="@{/js/admin/coupon/coupon.js}">
 	</script>
 </body>
 </html>

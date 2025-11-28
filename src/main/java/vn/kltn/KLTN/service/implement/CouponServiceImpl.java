@@ -1,5 +1,6 @@
 package vn.kltn.KLTN.service.implement;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,30 +10,22 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Coupon;
 import vn.kltn.KLTN.entity.Event;
-import vn.kltn.KLTN.entity.Product;
+import vn.kltn.KLTN.enums.EventStatus;
 import vn.kltn.KLTN.repository.CouponRepository;
 import vn.kltn.KLTN.service.CouponService;
-import vn.kltn.KLTN.service.ProductService;
 
 @Service
 public class CouponServiceImpl implements CouponService {
 	@Autowired
 	private CouponRepository repository;
-	@Autowired
-	private ProductService productService;
 
 	@Override
 	@Transactional
 	public boolean add(Coupon coupon) {
 		// TODO Auto-generated method stub
 		try {
-
-			if (findById(coupon.getId()) == null) {
-				if (coupon.getProduct() != null) {
-					repository.save(coupon);
-					return true;
-				}
-			}
+			repository.save(coupon);
+			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -47,8 +40,6 @@ public class CouponServiceImpl implements CouponService {
 		try {
 			Coupon coupon = findById(id);
 			if (coupon != null) {
-				Product product = coupon.getProduct();
-				product.setCoupon(null);
 				repository.delete(coupon);
 				return true;
 			}
@@ -64,11 +55,8 @@ public class CouponServiceImpl implements CouponService {
 	public boolean update(Coupon coupon) {
 		// TODO Auto-generated method stub
 		try {
-			if (findById(coupon.getId()) != null) {
-				Product product = coupon.getProduct();
-				repository.saveAndFlush(coupon);
-				return true;
-			}
+			repository.saveAndFlush(coupon);
+			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -102,5 +90,43 @@ public class CouponServiceImpl implements CouponService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	@Transactional
+	public void checkQueueEventStatus(LocalDate date) {
+		// TODO Auto-generated method stub
+		System.out.println("đã thực hiện kiểm tra coupon (start)");
+		List<Coupon> coupons = this.repository.findByStartAtAndEventStatus(date, EventStatus.ON_QUEUE);
+		try {
+			if (coupons != null && !coupons.isEmpty()) {
+				for (Coupon coupon : coupons) {
+					coupon.setEventStatus(EventStatus.IS_GOING_ON);
+				}
+				this.repository.saveAllAndFlush(coupons);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	@Transactional
+	public void checkOnGoingEventStatus(LocalDate date) {
+		// TODO Auto-generated method stub
+		System.out.println("đã thực hiện kiểm tra coupon (end)");
+		List<Coupon> coupons = this.repository.findByEndAtAndEventStatus(date, EventStatus.IS_GOING_ON);
+		try {
+			if (coupons != null && !coupons.isEmpty()) {
+				for (Coupon coupon : coupons) {
+					coupon.setEventStatus(EventStatus.NONE);
+				}
+				this.repository.saveAllAndFlush(coupons);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package vn.kltn.KLTN.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import vn.kltn.KLTN.entity.Coupon;
@@ -17,4 +18,8 @@ public interface CouponService {
 	public List<Coupon> findAll();
 
 	public boolean updateEvent(Coupon coupon, Event event);
+
+	public void checkQueueEventStatus(LocalDate date);
+
+	public void checkOnGoingEventStatus(LocalDate date);
 }

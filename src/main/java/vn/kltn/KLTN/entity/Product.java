@@ -22,7 +22,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import vn.kltn.KLTN.enums.EventStatus;
 import vn.kltn.KLTN.enums.ProductStatus;
@@ -55,9 +54,6 @@ public class Product {
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "event_id")
 	private Event event;
-	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
-	@JoinColumn(name = "coupon_id")
-	private Coupon coupon;
 	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
 	private List<Comment> comments;
 	@ManyToMany
@@ -98,14 +94,6 @@ public class Product {
 
 	public void setEvent(Event event) {
 		this.event = event;
-	}
-
-	public Coupon getCoupon() {
-		return coupon;
-	}
-
-	public void setCoupon(Coupon coupon) {
-		this.coupon = coupon;
 	}
 
 	public List<Comment> getComments() {
@@ -150,11 +138,6 @@ public class Product {
 
 	public void addIngredient(Ingredient ingredient) {
 		this.ingredients.add(ingredient);
-	}
-
-	public void addCoupon(Coupon coupon) {
-		this.coupon = coupon;
-		coupon.setProduct(this);
 	}
 
 	public boolean alreadyContainIngredient(String input) {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import vn.kltn.KLTN.entity.Cart;
 import vn.kltn.KLTN.entity.CartItem;
+import vn.kltn.KLTN.entity.Coupon;
 import vn.kltn.KLTN.entity.Notification;
 import vn.kltn.KLTN.entity.Order;
 import vn.kltn.KLTN.entity.OrderItem;
@@ -26,6 +27,7 @@ import vn.kltn.KLTN.enums.OrderStatus;
 import vn.kltn.KLTN.model.OrderDetailDTO;
 import vn.kltn.KLTN.model.UserDTO;
 import vn.kltn.KLTN.service.CartService;
+import vn.kltn.KLTN.service.CouponService;
 import vn.kltn.KLTN.service.NotificationService;
 import vn.kltn.KLTN.service.OrderService;
 import vn.kltn.KLTN.service.PointService;
@@ -36,27 +38,30 @@ public class OrderController {
 	private OrderService orderService;
 	private CartService cartService;
 	private PointService pointService;
+	private CouponService couponService;
 	private final NotificationService notificationService;
 
 	@Autowired
 	public OrderController(OrderService orderService, CartService cartService, PointService pointService,
-			NotificationService notificationService) {
+			NotificationService notificationService, CouponService couponService) {
 		this.orderService = orderService;
 		this.cartService = cartService;
 		this.pointService = pointService;
 		this.notificationService = notificationService;
+		this.couponService = couponService;
 	}
 
 	@GetMapping("/show-order-input")
 	public String showInputOrderPage(Model model, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
 		Cart cart = user.getCart();
+		List<Coupon> coupons = couponService.findAll();
 		UserDTO userDTO = new UserDTO(user.getUsername(), user.getEmail(), user.getAddress(), user.getFullName(),
 				user.getPhoneNumber(), cart);
 		model.addAttribute("userDTO", userDTO);
 		model.addAttribute("cartItems", cart.getCartItems());
 		model.addAttribute("totalPrice", cart.getTotalPrice());
-
+		model.addAttribute("coupons", coupons);
 		return "order-input";
 	}
 
@@ -68,13 +73,20 @@ public class OrderController {
 		Order order = cart.getOrder();
 		List<OrderItem> orderItems = cart.getCartItems().stream().map(o -> o.convertOrderItem()).toList();
 		String notificationImage = orderItems.get(0).getProductImage();
-		point = pointService.addOrder(point.getId(), order);
+		int totalPrice = cart.getTotalPrice();
+		if (userDTO.getCouponId() != null && !userDTO.getCouponId().isBlank()) {
+			Coupon coupon = couponService.findById(userDTO.getCouponId());
+			totalPrice = (int) (Math.ceil(Math.ceil(totalPrice * (1 - (coupon.getDiscountRate() / 100.0))) / 1000)
+					* 1000);
+			point.setAccumulatedPoint(point.getAccumulatedPoint() - coupon.getScore());
+		}
 
+		point = pointService.addOrder(point.getId(), order);
 		order.setPhoneNumber(userDTO.getPhoneNumber());
 		order.setAddress(userDTO.getAddress());
 		order.setCreatedDate(new Date(System.currentTimeMillis()));
-		order.setStatus(OrderStatus.PENDING);
-		order.setTotalPrice(cart.getTotalPrice());
+		order.setStatus(OrderStatus.WAITING);
+		order.setTotalPrice(totalPrice);
 		order.setPoint(point);
 		order.setOrderItem(orderItems);
 		order.setCart(null); // Xóa ràng buộc giữa order và cart

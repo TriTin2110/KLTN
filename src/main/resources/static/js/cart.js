@@ -1,5 +1,5 @@
 var userName = document.querySelector("#user-name")
-
+var coupons = coupons
 window.addEventListener('pageshow', () => {
 	if (userName) {
 		fetch('/cart/header', {
@@ -55,12 +55,10 @@ function removeItem(e, tableId) {
 					let totalPrice = data.totalPrice
 					tbody.removeChild(tr)
 					updateTotalPrice(totalPrice)
-					if(tableId === 'cart-item-list-desktop' || tableId === 'cart-item-list-mobile')
-					{
+					if (tableId === 'cart-item-list-desktop' || tableId === 'cart-item-list-mobile') {
 						loadAllProduct(data)
 					}
-					if(totalPrice <= 0)
-					{
+					if (totalPrice <= 0) {
 						document.getElementById('total-price').style.display = 'none'
 					}
 				}
@@ -74,23 +72,21 @@ function updateTotalPrice(totalPrice) {
 	let totalPriceView = document.getElementById('total-price-view')
 	totalPriceView.textContent = parseInt(totalPrice)
 	formatElementToVND(totalPriceView)
-	
+
 	//Cập nhật totalPrice cho trang cart (nếu có)
 	let orderTotalPriceView = document.getElementById('order-total-price-view')
-	if(orderTotalPriceView)
-	{
+	if (orderTotalPriceView) {
 		orderTotalPriceView.textContent = parseInt(totalPrice)
 		formatElementToVND(orderTotalPriceView)
 	}
 }
 
-function loadAllProduct(data)
-{
+function loadAllProduct(data) {
 	let tbody = document.getElementById('cart-view').querySelector('tbody')
 	tbody.innerHTML = ''
-	data.cartItem.forEach(product =>{
-					renderCart(data, product)	
-				})
+	data.cartItem.forEach(product => {
+		renderCart(data, product)
+	})
 }
 
 function renderCart(data, product) {
@@ -120,24 +116,21 @@ function renderCart(data, product) {
 	updateTotalPrice(totalPrice)
 }
 
-function totalPriceProcess()
-{
+function totalPriceProcess() {
 	document.getElementById('total-price').style.display = 'block'
 	document.getElementById('btn-show-cart').style.display = 'block'
 	let quantities = document.querySelectorAll('.quantity')
 	let headerQuantity = document.querySelectorAll('.header-product-quantity')
 	let totalPrice = 0
-	for(let i = 0; i < quantities.length; i++)
-	{
+	for (let i = 0; i < quantities.length; i++) {
 		headerQuantity[i].textContent = quantities[i].value
 		let price = quantities[i].dataset.price
 		totalPrice += price * quantities[i].value
 	}
-	if(totalPrice <= 0)
-	{
+	if (totalPrice <= 0) {
 		document.getElementById('total-price').style.display = 'none'
 		document.getElementById('btn-show-cart').style.display = 'none'
-	}else{
+	} else {
 		// Thay đổi totalprice của trang cart và header
 		let orderTotalPriceView = document.getElementById('order-total-price-view')
 		orderTotalPriceView.textContent = totalPrice
@@ -147,23 +140,43 @@ function totalPriceProcess()
 		formatElementToVND(totalPriceView)
 	}
 }
-function checkout(){
+function checkout() {
 	let quantities = []
-	document.querySelectorAll('.quantity').forEach(q =>{
-			quantities.push({
-				itemId: q.dataset.id,
-				quantity: q.value
-			})
+	document.querySelectorAll('.quantity').forEach(q => {
+		quantities.push({
+			itemId: q.dataset.id,
+			quantity: q.value
+		})
 	})
-	
+
 	fetch('/cart/check-cart-item', {
-		headers: {'Content-Type': 'application/json'},
+		headers: { 'Content-Type': 'application/json' },
 		method: 'POST',
 		body: JSON.stringify(quantities)
 	}).then(res => res.text())
-	.then(url => {
-		window.location.href =  url
-	})
+		.then(url => {
+			window.location.href = url
+		})
 }
 
-
+function updateTotalPriceWithCoupon(select) {
+	console.log(coupons)
+	let coupon = coupons.find(c => c.id == select.value)
+	let totalPriceValue = Number.parseInt(select.dataset.totalPrice)
+	let totalPriceViews = document.querySelectorAll('#total-price-view')
+	let couponIdField = document.getElementById('coupon')
+	if (coupon) {
+		let discountRate = Number.parseInt(coupon.discountRate)
+		totalPriceValue = Math.ceil(Math.ceil(totalPriceValue * (1 - (discountRate / 100.0))) / 1000) * 1000
+		for (let totalPriceView of totalPriceViews) {
+			totalPriceView.innerText = totalPriceValue
+			formatElementToVND(totalPriceView)
+		}
+	} else {
+		for (let totalPriceView of totalPriceViews) {
+			totalPriceView.innerText = totalPriceValue
+			formatElementToVND(totalPriceView)
+		}
+	}
+	couponIdField.value = (coupon)?coupon.id:null
+}

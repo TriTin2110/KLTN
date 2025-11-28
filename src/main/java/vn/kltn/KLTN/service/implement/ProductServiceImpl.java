@@ -1,6 +1,5 @@
 package vn.kltn.KLTN.service.implement;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,7 +24,6 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import vn.kltn.KLTN.entity.Category;
 import vn.kltn.KLTN.entity.Comment;
-import vn.kltn.KLTN.entity.Coupon;
 import vn.kltn.KLTN.entity.Event;
 import vn.kltn.KLTN.entity.Ingredient;
 import vn.kltn.KLTN.entity.Product;
@@ -172,37 +170,13 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	@Transactional
-	public boolean updateCoupon(Product product, Coupon coupon) {
-		// TODO Auto-generated method stub
-		try {
-			product.setCoupon(coupon);
-			repository.saveAndFlush(product);
-			return true;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	@Override
-	public void insertAddtionInformation(Product product, String categoryId, String discount, String endAt) {
+	public void insertAddtionInformation(Product product, String categoryId) {
 		if (categoryId != null && !categoryId.isBlank()) {
 			Category category = categoryService.addProductToList(categoryId, product);
 			if (category == null) {
 				category = new Category(categoryId, null);
 				category.addProduct(product);
 			}
-		}
-		if (discount != null && !discount.isBlank()) {
-			Date date = null;
-			if (endAt != null && !endAt.isBlank()) {
-				java.util.Date dateUtil = new java.util.Date(endAt);
-				date = new Date(dateUtil.getTime());
-			}
-			Coupon coupon = new Coupon(product.getName() + "-" + System.currentTimeMillis(), (short) 10, date);
-			product.addCoupon(coupon);
 		}
 
 	}
@@ -244,7 +218,7 @@ public class ProductServiceImpl implements ProductService {
 			if (name != null && !map.containsKey(name) && product == null) {
 				product = new Product(name, image);
 				product.setProductStatus(ProductStatus.STILL);
-				insertAddtionInformation(product, categoryId, discount, endDate);
+				insertAddtionInformation(product, categoryId);
 			}
 
 			if (name != null && size != null && !size.isBlank() && !product.getSizePrice().containsKey(size)) {

@@ -121,6 +121,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
+	@Transactional
 	public void checkOnGoingEventStatus(LocalDate date) {
 		// TODO Auto-generated method stub
 		System.out.println("đã thực hiện kiểm tra event (end)");

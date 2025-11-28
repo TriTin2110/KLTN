@@ -155,7 +155,10 @@ public class UserController {
 				.sorted(Comparator.comparing(OrderDetailProfileDTO::getStatus)
 						.thenComparing(Comparator.comparing(OrderDetailProfileDTO::getCreatedDate)).reversed())
 				.toList();
+		user.setPoint(point);
+		request.setAttribute("user", user);
 		model.addAttribute("user", user);
+		model.addAttribute("point", point);
 		model.addAttribute("orders", orders);
 		return "profile";
 	}

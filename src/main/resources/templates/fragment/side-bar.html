@@ -53,6 +53,8 @@
 				 th:href="@{/admin/chat}"><i class="fa-solid fa-blog"></i> Chat</a></li>
 				 <li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/admin/event')} ? 'active' : '']]]"
 				 th:href="@{/admin/event}"><i class="fa-solid fa-calendar"></i> Sự kiện</a></li>
+				 <li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/admin/coupon')} ? 'active' : '']]]"
+				 th:href="@{/admin/coupon}"><i class="fa-solid fa-calendar"></i> Phiếu giảm giá</a></li>
 			<li><a href="#"><i class="fas fa-chart-line"></i> Báo cáo</a></li>
 			<li><a href="#"><i class="fas fa-cogs"></i> Cài đặt</a></li>
 		</ul>
