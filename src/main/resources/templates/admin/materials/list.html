@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel | Quản lý nguyên vật liệu</title>
+
+  <!-- CSS gốc của Admin Panel -->
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+  <!-- Style riêng -->
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link rel="stylesheet" th:href="@{/css/user-management/user-management.css}" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <div th:replace="~{/fragment/side-bar.html :: side-bar}"></div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h1>Quản lý nguyên vật liệu</h1>
+      <div class="topbar-right">
+        <span>Admin</span>
+        <i class="fas fa-user-circle"></i>
+      </div>
+    </div>
+
+    <!-- CARDS THỐNG KÊ -->
+    <div class="cards">
+      <div class="card">
+        <h3>Tổng nguyên vật liệu</h3>
+        <p th:text="${materials.size()}">0</p>
+      </div>
+      <div class="card">
+        <h3>Nhà cung cấp</h3>
+        <p th:text="${supplierCount}">0</p>
+      </div>
+      <div class="card">
+        <h3>Đơn vị khác nhau</h3>
+        <p th:text="${unitCount}">0</p>
+      </div>
+    </div>
+
+    <!-- THANH HÀNH ĐỘNG -->
+    <div class="toolbar">
+      <a class="btn-primary-sm" th:href="@{/admin/materials}">
+        <i class="fa fa-rotate"></i> Làm mới
+      </a>
+
+      <a class="btn-success-sm" th:href="@{/admin/materials/new}">
+        <i class="fa fa-plus"></i> Thêm nguyên vật liệu
+      </a>
+	  
+	  <a class="btn-success-sm" th:href="@{/admin/materials/import-page}">
+	      <i class="fa fa-file-excel"></i> Nhập từ Excel
+	  </a>
+    </div>
+
+    <!-- BẢNG NGUYÊN VẬT LIỆU -->
+    <div class="table-wrapper">
+      <table class="ap-table">
+
+        <colgroup>
+          <col style="width:6%">
+          <col style="width:16%">
+          <col style="width:20%">
+          <col style="width:14%">
+          <col style="width:16%">
+          <col style="width:12%">
+        </colgroup>
+
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên</th>
+            <th>Mô tả</th>
+            <th>Đơn vị</th>
+            <th>Giá</th>
+            <th>Nhà cung cấp</th>
+            <th class="text-end">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="m, stat : ${materials}">
+            <td th:text="${stat.index + 1}"></td>
+            <td th:text="${m.name}"></td>
+            <td th:text="${m.description}"></td>
+            <td th:text="${m.unit}"></td>
+			<td th:text="${#numbers.formatInteger(m.unitPrice, 1, 'POINT')} + ' VNĐ'"></td>
+            <td th:text="${m.supplier != null ? m.supplier.name : '---'}"></td>
+
+            <td class="text-end">
+              <a class="btn-green-sm"
+                 th:href="@{'/admin/materials/edit/' + ${m.id}}">
+                 Sửa
+              </a>
+
+              <a class="btn-blue-sm"
+                 th:href="@{'/admin/materials/delete/' + ${m.id}}"
+                 onclick="return confirm('Xóa nguyên vật liệu này?');">
+                 Xóa
+              </a>
+            </td>
+          </tr>
+
+          <tr th:if="${#lists.isEmpty(materials)}">
+            <td colspan="7" class="empty">Không có dữ liệu</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</body>
+</html>

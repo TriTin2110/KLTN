@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="${material.id == null ? 'Thêm nguyên vật liệu' : 'Sửa nguyên vật liệu'}"></title>
+
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link rel="stylesheet" th:href="@{/css/user-management/edit.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <div th:replace="~{/fragment/side-bar.html :: side-bar}"></div>
+
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h1 th:text="${material.id == null ? 'Thêm nguyên vật liệu' : 'Sửa nguyên vật liệu'}"></h1>
+      <div class="topbar-right">
+        <span>Admin</span>
+        <i class="fas fa-user-circle"></i>
+      </div>
+    </div>
+
+
+    <div class="form-section">
+      <h2 th:text="${material.id == null ? 'Tạo mới nguyên vật liệu' : 'Cập nhật thông tin nguyên vật liệu'}"></h2>
+
+      <form th:action="@{/admin/materials}" th:object="${material}" method="post">
+
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="row-input two-cols">
+          <div class="input-group">
+            <label>Tên nguyên vật liệu</label>
+            <input type="text" th:field="*{name}" required>
+          </div>
+          <div class="input-group">
+			<label>Đơn vị</label>
+			    <select class="form-control" th:field="*{unit}">
+			        <option value="" disabled>-- Chọn đơn vị --</option>
+
+			        <option value="Cái">Cái</option>
+			        <option value="Lon">Lon</option>
+					<option value="Hộp">Hộp</option>
+					<option value="Chai">Chai</option>
+			        <option value="Thùng">Thùng</option>
+			        <option value="Bịch">Bịch</option>
+			        <option value="Kilogram">Kilogram (kg)</option>
+			        <option value="Lít">Lít</option>
+			    </select>
+          </div>
+        </div>
+
+        <div class="row-input">
+          <div class="input-group">
+            <label>Mô tả</label>
+            <input type="text" th:field="*{description}">
+          </div>
+          <div class="input-group">
+			<label>Giá</label>
+
+			    
+			    <input id="displayPrice" type="text" class="form-control"
+			           placeholder="Nhập giá nguyên vật liệu"
+			           oninput="formatCurrency(this)">
+
+			    
+			    <input id="unitPrice" type="hidden" th:field="*{unitPrice}">
+          </div>
+        </div>
+
+		<div class="form-group">
+		    <label>Nhà cung cấp</label>
+		    <select id="supplierSelect" th:field="*{supplier.name}" class="form-control">
+		        <option value="" disabled selected>-- Chọn nhà cung cấp --</option>
+
+		        <!-- Danh sách NCC -->
+		        <option th:each="s : ${suppliers}"
+		                th:value="${s.name}"
+		                th:text="${s.name}">
+		        </option>
+
+		        <!-- Lựa chọn đặc biệt -->
+		        <option value="__new__">➕ Thêm nhà cung cấp mới</option>
+		    </select>
+		</div>
+		<div id="newSupplierForm" style="display:none; margin-top: 15px;">
+		    
+		    <label>Tên NCC mới</label>
+		    <input type="text" class="form-control" name="newSupplierName" placeholder="Nhập tên NCC">
+
+		    <label class="mt-2">Địa chỉ</label>
+		    <input type="text" class="form-control" name="newSupplierAddress" placeholder="Nhập địa chỉ">
+
+		    <label class="mt-2">Số điện thoại</label>
+		    <input type="text" class="form-control" name="newSupplierPhone" placeholder="Nhập SĐT">
+
+		</div>
+
+        <div class="form-actions">
+          <a th:href="@{/admin/materials}" class="btn-cancel">
+            <i class="fa fa-arrow-left"></i> Quay lại
+          </a>
+
+          <button type="submit" class="btn-save">
+            <i class="fa fa-save"></i> Lưu thay đổi
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+      const select = document.getElementById("supplierSelect");
+      const newForm = document.getElementById("newSupplierForm");
+
+      select.addEventListener("change", function () {
+          if (this.value === "__new__") {
+              newForm.style.display = "block";
+          } else {
+              newForm.style.display = "none";
+          }
+      });
+	  
+	  // Format số thành 500.000 VNĐ
+	      function formatCurrency(input) {
+	          let value = input.value.replace(/\D/g, "");   // bỏ ký tự không phải số
+
+	          if (value) {
+	              let formatted = Number(value).toLocaleString("vi-VN"); 
+	              input.value = formatted + " VNĐ";
+
+	              // gán số thực để submit (hidden input)
+	              document.getElementById("unitPrice").value = value;
+	          } else {
+	              input.value = "";
+	              document.getElementById("unitPrice").value = "";
+	          }
+	      }
+
+	      window.addEventListener("DOMContentLoaded", function() {
+	          const price = document.getElementById("unitPrice").value;
+	          if (price) {
+	              document.getElementById("displayPrice").value =
+	                  Number(price).toLocaleString("vi-VN") + " VNĐ";
+	          }
+	      });
+  </script>
+</body>
+</html>

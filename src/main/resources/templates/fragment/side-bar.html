@@ -38,8 +38,10 @@
 			<h2>Admin Panel</h2>
 		</div>
 		<ul class="sidebar-menu">
-			<li><a href="#"><i class="fas fa-tachometer-alt"></i>
-					Dashboard</a></li>
+			<li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/product/admin/show-page')} ? 'active' : '']]]"
+				th:href="@{/admin/materials}"><i class="fas fa-box"></i> Nguyên vật liệu</a></li>
+			<li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/product/admin/show-page')} ? 'active' : '']]]"
+				th:href="@{/admin/inventory}"><i class="fas fa-box"></i>Quản lý kho hàng</a></li>
 			<li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/product/admin/show-page')} ? 'active' : '']]]"
 				 th:href="@{/product/admin/show-page}"><i class="fas fa-box"></i> Sản phẩm</a></li>
 			<li><a class="nav-link [[${#httpServletRequest.requestURI.contains('/admin/users')} ? 'active' : '']]]"

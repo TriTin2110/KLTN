@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <meta charset="UTF-8">
+	    <title>Admin | Kiểm soát nguyên vật liệu</title>
+
+	    <link rel="stylesheet" th:href="@{/css/inventory.css}">
+	    <link rel="stylesheet" th:href="@{/css/admin.css}">
+	    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+	    <link rel="stylesheet" th:href="@{/css/user-management/user-management.css}">
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+	</head>
+
+<body>
+
+<div th:replace="~{/fragment/side-bar.html :: side-bar}"></div>
+
+<div class="main-content">
+
+    <!-- ======================= FLASH MESSAGE ======================= -->
+    <div th:if="${success}"
+         class="alert alert-success"
+         style="margin: 15px 0; padding:12px; border-radius:6px; font-size:15px;">
+        <i class="fa fa-check-circle"></i>
+        <span th:text="${success}"></span>
+    </div>
+
+    <div th:if="${error}"
+         class="alert alert-danger"
+         style="margin: 15px 0; padding:12px; border-radius:6px; font-size:15px;">
+        <i class="fa fa-times-circle"></i>
+        <span th:text="${error}"></span>
+    </div>
+    <!-- ============================================================= -->
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <h1>Kiểm soát nguyên vật liệu</h1>
+        <div class="topbar-right">
+            <span>Admin</span>
+            <i class="fas fa-user-circle"></i>
+        </div>
+    </div>
+
+    <!-- CARDS THỐNG KÊ -->
+    <div class="cards">
+        <div class="card">
+            <h3>Tổng nguyên vật liệu</h3>
+            <p th:text="${materials.size()}"></p>
+        </div>
+
+        <div class="card">
+            <h3>Tổng nhà cung cấp</h3>
+            <p th:text="${supplierCount}"></p>
+        </div>
+
+        <div class="card">
+            <h3>Tổng số lượng tồn</h3>
+            <p th:text="${totalStock}"></p>
+        </div>
+    </div>
+
+    <!-- THANH HÀNH ĐỘNG -->
+    <div class="toolbar">
+        <a class="btn-primary-sm" th:href="@{/admin/inventory}">
+            <i class="fa fa-rotate"></i> Làm mới
+        </a>
+
+        <a class="btn-success-sm" onclick="toggleImportForm()">
+            <i class="fa fa-plus"></i> Nhập hàng
+        </a>
+		
+		<a class="btn-primary-sm" onclick="toggleStockCheck()">
+		    <i class="fa fa-list-check"></i> Kiểm kê
+		</a>
+    </div>
+
+    <!-- ===================== FORM NHẬP KHO NHIỀU DÒNG ===================== -->
+	<div id="importForm" class="form-section" style="margin-top: 20px; display:none;">
+        <h2>Nhập hàng</h2>
+
+		<form th:action="@{/admin/inventory/import-multiple}" method="post">
+
+		        <!-- CSRF -->
+		        <input type="hidden"
+		               th:if="${_csrf != null}"
+		               th:name="${_csrf.parameterName}"
+		               th:value="${_csrf.token}" />
+
+		        <table class="ap-table">
+		            <thead>
+		            <tr>
+		                <th style="width: 55%">Nguyên vật liệu</th>
+		                <th style="width: 20%">Số lượng</th>
+		                <th style="width: 10%"></th>
+		            </tr>
+		            </thead>
+
+		            <tbody id="importBody">
+
+		            <!-- Dòng đầu tiên -->
+		            <tr>
+		                <td>
+							<select name="materialId" class="form-control material-select">
+							    <option th:each="m : ${materials}"
+							            th:value="${m.id}"
+							            th:text="${m.name}">
+							    </option>
+							</select>
+		                </td>
+
+		                <td>
+		                    <input type="number" name="quantity"
+		                           class="form-control" min="1" required>
+		                </td>
+
+		                <td class="text-center" style="display:flex; gap:6px; justify-content:center;">
+		                    <!-- Nút thêm dòng -->
+		                    <button type="button" class="btn btn-primary btn-sm add-btn" onclick="addRow()">
+		                        +
+		                    </button>
+
+		                    <!-- Nút xoá dòng -->
+		                    <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">
+		                        <i class="fa fa-trash"></i>
+		                    </button>
+		                </td>
+		            </tr>
+
+		            </tbody>
+		        </table>
+
+		        <!-- Nút submit tất cả -->
+				<div class="form-actions mt-4" style="display:flex; justify-content:flex-end;">
+				    <button class="btn-save btn-submit-all">
+				        <i class="fa fa-download"></i> Nhập kho
+				    </button>
+				</div>
+
+		    </form>
+    </div>
+
+
+    <!-- TEMPLATE ẨN DÙNG ĐỂ NHÂN BẢN -->
+	<table style="display:none;">
+	    <tbody id="rowTemplate">
+	    <tr>
+	        <td>
+	            <select name="materialId" class="form-control">
+	                <option th:each="m : ${materials}"
+	                        th:value="${m.id}"
+	                        th:text="${m.name}">
+	                </option>
+	            </select>
+	        </td>
+
+	        <td>
+	            <input type="number" name="quantity"
+	                   class="form-control" min="1" required>
+	        </td>
+
+	        <td class="text-center" style="display:flex; gap:6px; justify-content:center;">
+	            <!-- nút thêm dòng -->
+	            <button type="button" class="btn btn-primary btn-sm add-btn" onclick="addRow()">
+	                +
+	            </button>
+	            <!-- nút xoá -->
+	            <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">
+	                <i class="fa fa-trash"></i>
+	            </button>
+	        </td>
+	    </tr>
+	    </tbody>
+	</table>
+	<div id="stockCheckForm" style="display:none; margin-top:40px;">
+		<h2>Kiểm kê nguyên vật liệu hiện tại</h2>
+	    <!-- ============================ BẢNG TỒN KHO ============================ -->
+	    <div class="table-wrapper">
+	        <table class="ap-table">
+	            <thead>
+	            <tr>
+	                <th>STT</th>
+	                <th>Tên</th>
+	                <th>Mô tả</th>
+	                <th>Tồn kho</th>
+	                <th>Đơn vị</th>
+	                <th>Nhà cung cấp</th>
+	                <th class="text-end">Số lượng hiện tại</th>
+	            </tr>
+	            </thead>
+	
+	            <tbody>
+	            <tr th:each="m, stat : ${materials}">
+	                <td th:text="${stat.index + 1}"></td>
+	                <td th:text="${m.name}"></td>
+	                <td th:text="${m.description}"></td>
+	
+	                <td><span class="badge bg-primary" th:text="${m.quantity}"></span></td>
+	                <td th:text="${m.unit}"></td>
+	                <td th:text="${m.supplier != null ? m.supplier.name : '---'}"></td>
+	
+	                <td class="text-end">
+	                    <form th:action="@{'/admin/inventory/update/' + ${m.id}}"
+	                          method="post"
+	                          style="display:flex; gap:6px; justify-content:end;">
+	
+	                        <input type="hidden"
+	                               th:if="${_csrf != null}"
+	                               th:name="${_csrf.parameterName}"
+	                               th:value="${_csrf.token}" />
+	
+	                        <input name="quantity" type="number" min="0"
+	                               class="form-control" style="width:90px;"
+	                               th:value="${m.quantity}">
+	
+	                        <button class="btn-update-sm btn-green-sm">Cập nhật</button>
+	                    </form>
+	                </td>
+	            </tr>
+	
+	            <tr th:if="${#lists.isEmpty(materials)}">
+	                <td colspan="7" class="empty">Không có dữ liệu</td>
+	            </tr>
+	
+				<script>
+				    // KÍCH HOẠT SELECT2 CHO CÁC SELECT BAN ĐẦU
+				    $(document).ready(function () {
+				        $('.material-select').select2({
+				            width: '100%',
+				            placeholder: "Tìm nguyên vật liệu...",
+				            allowClear: true
+				        });
+				    });
+
+				    // THÊM DÒNG MỚI
+					function addRow() {
+					    const template = document.getElementById("rowTemplate").innerHTML;
+					    const body = document.getElementById("importBody");
+
+					    const newRow = document.createElement("tr");
+					    newRow.innerHTML = template;
+					    body.appendChild(newRow);
+
+					    // apply select2 cho select mới
+					    $(newRow).find('.material-select').select2({
+					        width: '100%',
+					        placeholder: "Tìm nguyên vật liệu...",
+					        matcher: function(params, data) {
+					            if ($.trim(params.term) === '') return data;
+
+					            let search = removeVietnameseTones(params.term.toLowerCase());
+					            let text = removeVietnameseTones(data.text.toLowerCase());
+
+					            return text.indexOf(search) > -1 ? data : null;
+					        }
+					    });
+					}
+
+				    // XOÁ DÒNG
+				    function removeRow(btn) {
+				        const row = btn.closest("tr");
+				        row.remove();
+				    }
+
+				    // BẬT/TẮT FORM NHẬP KHO
+				    function toggleImportForm() {
+				        const form = document.getElementById("importForm");
+
+				        if (form.style.display === "none" || form.style.display === "") {
+				            form.style.display = "block";
+				            form.scrollIntoView({ behavior: "smooth", block: "start" });
+				        } else {
+				            form.style.display = "none";
+				        }
+				    }
+
+				    // BẬT/TẮT FORM KIỂM KÊ
+				    function toggleStockCheck() {
+				        const block = document.getElementById("stockCheckForm");
+
+				        if (block.style.display === "none" || block.style.display === "") {
+				            block.style.display = "block";
+				            block.scrollIntoView({ behavior: "smooth", block: "start" });
+				        } else {
+				            block.style.display = "none";
+				        }
+				    }
+					
+					// Hàm bỏ dấu tiếng Việt
+					function removeVietnameseTones(str) {
+					    return str.normalize("NFD")
+					              .replace(/[\u0300-\u036f]/g, "")
+					              .replace(/đ/g, "d")
+					              .replace(/Đ/g, "D")
+					              .toLowerCase();
+					}
+					
+					function initSelect2() {
+					    $('.material-select').select2({
+					        width: '100%',
+					        placeholder: "Tìm nguyên vật liệu...",
+					        matcher: function(params, data) {
+					            if ($.trim(params.term) === '') {
+					                return data;
+					            }
+
+					            let search = removeVietnameseTones(params.term.toLowerCase());
+					            let text = removeVietnameseTones(data.text.toLowerCase());
+
+					            if (text.indexOf(search) > -1) {
+					                return data;
+					            }
+					            return null;
+					        }
+					    });
+					}
+					
+					$(document).ready(function () {
+					    initSelect2();
+					});
+				</script>
+
+	            </tbody>
+	        </table>
+	    </div>
+	</div>
+</div>
+
+</body>
+</html>
