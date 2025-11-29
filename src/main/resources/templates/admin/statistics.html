@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin | Thống kê doanh thu</title>
+
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    .cards {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px auto;
+      width: 90%;
+      flex-wrap: wrap;
+    }
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 23%;
+      padding: 20px;
+      text-align: center;
+      transition: 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+    .card h3 {
+      font-size: 1.1rem;
+      color: #555;
+    }
+    .card p {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #007bff;
+      margin: 10px 0;
+    }
+    .chart-container {
+      width: 90%;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body>
+  <div th:replace="~{/fragment/side-bar.html :: side-bar}"></div>
+
+  <div class="main-content">
+    <div class="topbar">
+      <h1>Thống kê doanh thu</h1>
+      <div class="topbar-right">
+        <span>Admin</span>
+        <i class="fas fa-user-circle"></i>
+      </div>
+    </div>
+
+    <!-- TỔNG QUAN NHANH -->
+    <div class="cards">
+      <div class="card">
+        <h3><i class="fa fa-coins"></i> Doanh thu hôm nay</h3>
+        <p th:text="${#numbers.formatInteger(todayRevenue, 0, 'POINT')} + ' ₫'">0 ₫</p>
+      </div>
+      <div class="card">
+        <h3><i class="fa fa-shopping-cart"></i> Đơn hàng hôm nay</h3>
+        <p th:text="${todayOrders}">0</p>
+      </div>
+      <div class="card">
+        <h3><i class="fa fa-calendar-alt"></i> Doanh thu tháng này</h3>
+        <p th:text="${#numbers.formatInteger(monthRevenue, 0, 'POINT')} + ' ₫'">0 ₫</p>
+      </div>
+	  <div class="card">
+	      <h3><i class="fa fa-sack-dollar"></i> Tổng doanh thu</h3>
+	      <p th:text="${#numbers.formatInteger(allRevenue, 0, 'POINT')} + ' ₫'">0 ₫</p>
+	    </div>
+      <div class="card">
+        <h3><i class="fa fa-chart-line"></i> Đơn hàng trong tháng</h3>
+        <p th:text="${monthOrders}">0</p>
+      </div>
+    </div>
+
+    <!-- BIỂU ĐỒ -->
+    <div class="form-section">
+      <h2 style="margin-bottom: 20px;">📊 Biểu đồ thống kê chi tiết</h2>
+
+      <div class="chart-container">
+        <h3>Doanh thu theo ngày</h3>
+        <canvas id="revenueChart" height="120"></canvas>
+      </div>
+
+      <div class="chart-container">
+        <h3>Số lượng đơn hàng theo ngày</h3>
+        <canvas id="orderChart" height="120"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script th:inline="javascript">
+  /*<![CDATA[*/
+    const revenueData = /*[[${revenueData}]]*/ [];
+    const orderCountData = /*[[${orderCountData}]]*/ [];
+
+    const labels = revenueData.map(item => item[0]);
+    const revenue = revenueData.map(item => item[1]);
+    const orders = orderCountData.map(item => item[1]);
+
+    new Chart(document.getElementById('revenueChart'), {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Doanh thu (VNĐ)',
+          data: revenue,
+          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return value.toLocaleString('vi-VN') + ' ₫';
+              }
+            }
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return 'Doanh thu: ' + context.parsed.y.toLocaleString('vi-VN') + ' ₫';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('orderChart'), {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Số đơn hàng',
+          data: orders,
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true } },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return 'Đơn hàng: ' + context.parsed.y.toLocaleString('vi-VN');
+              }
+            }
+          }
+        }
+      }
+    });
+  /*]]>*/
+  </script>
+</body>
+</html>
