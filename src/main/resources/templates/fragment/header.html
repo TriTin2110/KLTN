@@ -32,19 +32,19 @@
 						<a class="nav-link"
 							th:href="@{/}">TRANG CHỦ</a></li>
 						<li class="nav-item lisanpham"><a class="nav-link"
-							href="all.html">SẢN PHẨM <i class="fa fa-chevron-down"
+							href="#">SẢN PHẨM <i class="fa fa-chevron-down"
 								aria-hidden="true"></i>
 						</a>
 							<ul class="sub_menu">
-								<li class=""><a href="detailproduct.html" title="Cà phê">
+								<li class=""><a href="/search/cà%20phê" title="Cà phê">
 										cà phê </a></li>
-								<li class=""><a href="detailproduct.html" title="Trà sữa">
+								<li class=""><a href="/search/Trà%20sữa" title="Trà sữa">
 										Trà sữa </a></li>
-								<li class=""><a href="detailproduct.html" title="Matcha">
+								<li class=""><a href="/search/Matcha" title="Matcha">
 										Matcha </a></li>
-								<li class=""><a href="detailproduct.html" title="Socola">
+								<li class=""><a href="/search/Socola" title="Socola">
 										Socola </a></li>
-								<li class=""><a href="detailproduct.html"
+								<li class=""><a href="/search/Trà%20trái%20cây"
 									title="Trà trái cây"> Trà trái cây </a></li>
 							</ul></li>
 						<li class="nav-item"><a class="nav-link"
@@ -190,9 +190,8 @@
 						class="fas fa-user-alt dropdown" style="color: blue;">
 						<ul class="user-dropdown-item">
 							<li><a th:href="@{/user/profile}">Thông tin</a></li>
-							<li sec:authorize="hasRole('ADMIN')">
-							  <a th:href="@{/admin/users}">Quản trị</a>
-							</li>
+							<li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin/users}">Quản trị</a></li>
+							<li><a th:href="@{/user/change-password}">Đổi mật khẩu</a></li>
 							<li><a th:href="@{/logout}" onclick="dropLocalStorage()">Đăng xuất</a></li>
 						</ul>
 					</i> <a sec:authorize="!isAuthenticated()" style="color: #272727"

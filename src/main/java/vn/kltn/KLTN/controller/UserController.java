@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,9 @@ public class UserController {
 	private ChatService chatService;
 	private NotificationService notificationService;
 	private OrderService orderService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	public UserController(RoleService roleService, UserService service, VerifyService verifyService,
@@ -200,4 +204,53 @@ public class UserController {
 		result.put("result", notificationService.findByUserIdOrderByLocalDateTimeDesc(map.get(("userName"))));
 		return result;
 	}
+	
+	// Trang đổi mật khẩu
+	@GetMapping("/change-password")
+	public String showChangePasswordPage() {
+	    return "user/change-password";
+	}
+
+	@PostMapping("/change-password")
+	@ResponseBody
+	public Map<String, Object> changePassword(@RequestBody Map<String, String> data, HttpServletRequest request) {
+	    Map<String, Object> response = new HashMap<>();
+
+	    User user = (User) request.getSession().getAttribute("user");
+	    if (user == null) {
+	        response.put("success", false);
+	        response.put("text", "Bạn cần đăng nhập để đổi mật khẩu!");
+	        return response;
+	    }
+
+	    String oldPassword = data.get("oldPassword");
+	    String newPassword = data.get("newPassword");
+	    String confirmPassword = data.get("confirmPassword");
+
+	    if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+	        response.put("success", false);
+	        response.put("text", "Mật khẩu cũ không đúng!");
+	        return response;
+	    }
+
+	    if (!newPassword.equals(confirmPassword)) {
+	        response.put("success", false);
+	        response.put("text", "Mật khẩu xác nhận không khớp!");
+	        return response;
+	    }
+
+	    // ✅ Cập nhật mật khẩu mới
+	    user.setPassword(passwordEncoder.encode(newPassword));
+	    service.update(user);
+
+	    // ✅ Bước 6: đăng xuất sau khi đổi mật khẩu
+	    request.getSession().invalidate(); // xóa session hiện tại
+	    response.put("redirect", "/user/sign-in"); // đường dẫn chuyển hướng
+
+	    response.put("success", true);
+	    response.put("text", "Đổi mật khẩu thành công! Vui lòng đăng nhập lại.");
+	    return response;
+	}
+
+
 }

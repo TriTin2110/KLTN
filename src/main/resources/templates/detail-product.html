@@ -183,10 +183,13 @@
 													<select id="size-selection" class="form-select"
 														aria-label="Default select example" onchange="setPrice()"
 														name="size-selection">
-														<option th:if="${product.eventStatus == null || product.eventStatus.name() != 'IS_GOING_ON'}" th:each="map: ${product.sizePrice}"
+														<option th:if="${product.eventStatus == null || product.eventStatus.name() != 'IS_GOING_ON'}" 
+														th:each="map: ${product.sizePrice}"
 															th:value="${map.value}" th:text="${map.key}"></option>
-															<option th:if="${product.eventStatus != null || product.eventStatus.name() == 'IS_GOING_ON'}" th:each="map: ${product.sizePrice}"
-															th:value="${T(java.lang.Math).round(T(java.lang.Math).ceil((map.value * (1 - product.discount/100.0)) / 1000) * 1000)}" th:text="${map.key}"></option>
+															<option th:if="${product.eventStatus != null && product.eventStatus.name() == 'IS_GOING_ON'}" 
+															th:each="map: ${product.sizePrice}"
+															th:value="${T(java.lang.Math).round(T(java.lang.Math).ceil((map.value * (1 - product.discount/100.0)) / 1000) * 1000)}" 
+															th:text="${map.key}"></option>
 													</select>
 												</div>
 											</div>
