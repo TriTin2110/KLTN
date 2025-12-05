@@ -64,8 +64,7 @@ public class ProductServiceImpl implements ProductService {
 	public boolean add(Product product) {
 		// TODO Auto-generated method stub
 		try {
-			if (product.getIngredients().isEmpty() || product.getCategory() == null
-					|| product.getSizePrice().values().isEmpty())
+			if (product.getCategory() == null || product.getSizePrice().values().isEmpty())
 				return false;
 
 			repository.save(product);

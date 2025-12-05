@@ -75,6 +75,15 @@ function submitForm(){
 	let pricesJoining = pricesInputValues.join(', ')
 	let sizeResult = document.getElementById('size-result')
 	let priceResult = document.getElementById('price-result')
+	
+	let categorySelect = document.getElementById('category-select').value
+	let categoryError = document.getElementById('category-error')
+	categoryError.style.display = 'none'
+	if(categorySelect == 'default') //Khi chưa chọn danh mục
+	{
+		categoryError.style.display = 'block'
+		return
+	}
 	sizeResult.value = sizesJoining
 	priceResult.value = pricesJoining
 	let productForm = document.getElementById('productForm')

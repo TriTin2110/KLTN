@@ -20,9 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriUtils;
 
+import vn.kltn.KLTN.entity.Category;
 import vn.kltn.KLTN.entity.Product;
 import vn.kltn.KLTN.enums.ProductStatus;
 import vn.kltn.KLTN.repository.ProductRepository;
+import vn.kltn.KLTN.service.CategoryService;
 import vn.kltn.KLTN.service.CommentService;
 import vn.kltn.KLTN.service.FileService;
 import vn.kltn.KLTN.service.ProductService;
@@ -43,13 +45,18 @@ public class ProductController {
 	@Autowired
 	private CommentService commentService;
 
+	@Autowired
+	private CategoryService categoryService;
+
 	@Value("${upload.dir:src/main/resources/static/images/}")
 	private String uploadDir;
 
 	@GetMapping("/show-page")
 	public String showAdminPage(Model model) {
 		List<Product> products = productService.findAll();
+		List<Category> categories = categoryService.findAll();
 		model.addAttribute("products", products);
+		model.addAttribute("categories", categories);
 		model.addAttribute("product", new Product());
 		return "admin";
 	}
@@ -63,20 +70,23 @@ public class ProductController {
 			redirectAttributes.addFlashAttribute("error", "Sản phẩm không tồn tại!");
 			return "redirect:/product/admin/show-page";
 		}
+		List<Category> categories = categoryService.findAll();
+		model.addAttribute("categories", categories);
 		model.addAttribute("products", productService.findAll());
 		model.addAttribute("editProduct", product);
 		return "admin";
 	}
 
-//	fileService.uploadImageFileToCloudFly(imageFile)
 	@PostMapping("/insert")
 	public String insert(@RequestParam("name") String name, @RequestParam("prices") String prices,
-			@RequestParam("sizes") String sizes, @RequestParam("imageFile") MultipartFile imageFile,
-			RedirectAttributes redirectAttributes) {
+			@RequestParam("category") String categoryName, @RequestParam("sizes") String sizes,
+			@RequestParam("imageFile") MultipartFile imageFile, RedirectAttributes redirectAttributes) {
 		try {
+			Category category = categoryService.findById(categoryName);
 			Product p = new Product();
 			p.setName(name);
 			p.setProductStatus(ProductStatus.STILL);
+			p.setCategory(category);
 			// Upload ảnh lên cloud
 			String imageUrl;
 			if (imageFile != null && !imageFile.isEmpty()) {
@@ -120,6 +130,7 @@ public class ProductController {
 
 	@PostMapping("/update")
 	public String update(@RequestParam("name") String name, @RequestParam("status") String status,
+			@RequestParam("category") String categoryName,
 			@RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
 			@RequestParam("prices") String prices, @RequestParam("sizes") String sizes,
 			RedirectAttributes redirectAttributes) {
@@ -165,6 +176,12 @@ public class ProductController {
 			}
 			existing.setSizePrice(sizePrice);
 
+			// Cập nhật danh mục
+			if (!categoryName.equals(existing.getCategory().getName())) {
+				Category category = categoryService.findById(categoryName);
+				existing.setCategory(category);
+			}
+
 			// Lưu lại sản phẩm
 			productService.update(existing);
 			productService.updateCache();
@@ -184,6 +201,7 @@ public class ProductController {
 		} else {
 			productRepository.deleteById(name);
 			redirectAttributes.addFlashAttribute("success", "Xoá sản phẩm thành công!");
+			productService.updateCache();
 		}
 		return "redirect:/product/admin/show-page";
 	}
@@ -191,6 +209,7 @@ public class ProductController {
 	@PostMapping("/import-xlsx")
 	public String importDataFormXLSXFile(@RequestParam("file") MultipartFile file, Model model) {
 		fileService.readXLSXFile(file);
+		productService.updateCache();
 		model.addAttribute("products", productRepository.findAll());
 		model.addAttribute("product", new Product());
 		return "redirect:/product/admin/show-page";
@@ -203,9 +222,9 @@ public class ProductController {
 
 		Product product = productService.findById(name);
 		if (product == null) {
-	        return "redirect:/?error=product_not_found";
-	    }
-		
+			return "redirect:/?error=product_not_found";
+		}
+
 		model.addAttribute("product", product);
 		model.addAttribute("comments", commentService.findAllByProductId(name));
 

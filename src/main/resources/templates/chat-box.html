@@ -15,11 +15,11 @@
 				<div id="employee-panel">
 					<table>
 						<tr>
-							<td rowspan="2"><img width="40" style="border-radius: 50%" th:src="@{https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCNd2LZxcvUCyW1N5UVQJ9fejpX2Yf3oW4aA&s}"></td>
+							<td rowspan="2"><img id="chat-avatar" width="40" style="border-radius: 50%" th:src="@{https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCNd2LZxcvUCyW1N5UVQJ9fejpX2Yf3oW4aA&s}"></td>
 						</tr>
 						<tr>
 							<td>
-								<div><b>Nhân viên Anus</b></div>
+								<div><b id="chat-title">Nhân viên Anus</b></div>
 								<button id="change-conversation" data-conversation="employee" th:data-id="${user.chat.id}" th:data-username="${user.username}" onclick="changeConversation(this)">Chuyển sang <b>Chat bot</b></button>
 							</td>
 						</tr>

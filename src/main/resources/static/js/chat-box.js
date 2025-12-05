@@ -133,15 +133,21 @@ function changeConversation(e)
 	let currentConversation = button.dataset.conversation
 	let userId = button.dataset.username
 	let idRoom = button.dataset.id
+	let chatTitle = document.getElementById('chat-title')
+	let chatAvatar = document.getElementById('chat-avatar')
 	let conversationStatement
 	if('employee' === currentConversation)//Chuyển sang chat bot
 	{
+		chatTitle.innerText = 'Chat bot Aunes'
+		chatAvatar.src = 'https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg?semt=ais_se_enriched&w=740&q=80'
 		button.innerHTML = "Chuyển sang <b>Chat trực tiếp</b>"
 		conversationStatement = 'chat bot'
 		//khi kết nối với chat bot thì sẽ không truyền id (do cuộc trò chuyện với chat bot sẽ không được lưu trên DB)
 		openConnection(`ws://localhost:8080/chat-bot?role=user&userId=${userId}`)
 	}
 	else{//Chuyển sang chat với nhân viên
+		chatTitle.innerText = 'Nhân viên Aunes'
+		chatAvatar.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCNd2LZxcvUCyW1N5UVQJ9fejpX2Yf3oW4aA&s'
 		button.innerHTML = "Chuyển sang <b>Chat bot</b>"
 		conversationStatement = 'employee'
 		openConnection(`ws://localhost:8080/chat?role=user&userId=${userId}`, idRoom)
