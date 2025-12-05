@@ -46,14 +46,14 @@ public class UserController {
 	private ChatService chatService;
 	private NotificationService notificationService;
 	private OrderService orderService;
-	
+	private UserService userService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	public UserController(RoleService roleService, UserService service, VerifyService verifyService,
 			PointService pointService, ChatService chatService, NotificationService notificationService,
-			OrderService orderService) {
+			OrderService orderService, UserService userService) {
 		this.roleService = roleService;
 		this.service = service;
 		this.verifyService = verifyService;
@@ -61,6 +61,7 @@ public class UserController {
 		this.chatService = chatService;
 		this.notificationService = notificationService;
 		this.orderService = orderService;
+		this.userService = userService;
 	}
 
 	@GetMapping("/sign-up")
@@ -111,12 +112,17 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> sendVerifyCode(@RequestBody Map<String, String> request) {
 		String email = request.get("email");
-		verifyService.sendMail(email);
 		Map<String, Object> response = new HashMap<String, Object>();
-		if (email != null) {
-			response.put("success", true);
-			response.put("text", "Mã xác thực đã được gửi");
+		// Xác thực mail
+		User user = userService.findByEmail(email);
+		if (user == null || email == null) {
+			response.put("success", false);
+			response.put("text", "Email không hợp lệ!");
+			return response;
 		}
+		verifyService.sendMail(email);
+		response.put("success", true);
+		response.put("text", "Mã xác thực đã được gửi");
 		return response;
 	}
 
@@ -153,7 +159,7 @@ public class UserController {
 	@GetMapping("/profile")
 	public String userProfile(Model model, HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
-		Point point = pointService.findById(user.getUsername());
+		Point point = user.getPoint();
 		List<OrderDetailProfileDTO> orders = orderService.findByPointId(point.getId());
 		orders = orders.stream()
 				.sorted(Comparator.comparing(OrderDetailProfileDTO::getStatus)
@@ -204,53 +210,52 @@ public class UserController {
 		result.put("result", notificationService.findByUserIdOrderByLocalDateTimeDesc(map.get(("userName"))));
 		return result;
 	}
-	
+
 	// Trang đổi mật khẩu
 	@GetMapping("/change-password")
 	public String showChangePasswordPage() {
-	    return "user/change-password";
+		return "user/change-password";
 	}
 
 	@PostMapping("/change-password")
 	@ResponseBody
 	public Map<String, Object> changePassword(@RequestBody Map<String, String> data, HttpServletRequest request) {
-	    Map<String, Object> response = new HashMap<>();
+		Map<String, Object> response = new HashMap<>();
 
-	    User user = (User) request.getSession().getAttribute("user");
-	    if (user == null) {
-	        response.put("success", false);
-	        response.put("text", "Bạn cần đăng nhập để đổi mật khẩu!");
-	        return response;
-	    }
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null) {
+			response.put("success", false);
+			response.put("text", "Bạn cần đăng nhập để đổi mật khẩu!");
+			return response;
+		}
 
-	    String oldPassword = data.get("oldPassword");
-	    String newPassword = data.get("newPassword");
-	    String confirmPassword = data.get("confirmPassword");
+		String oldPassword = data.get("oldPassword");
+		String newPassword = data.get("newPassword");
+		String confirmPassword = data.get("confirmPassword");
 
-	    if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-	        response.put("success", false);
-	        response.put("text", "Mật khẩu cũ không đúng!");
-	        return response;
-	    }
+		if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+			response.put("success", false);
+			response.put("text", "Mật khẩu cũ không đúng!");
+			return response;
+		}
 
-	    if (!newPassword.equals(confirmPassword)) {
-	        response.put("success", false);
-	        response.put("text", "Mật khẩu xác nhận không khớp!");
-	        return response;
-	    }
+		if (!newPassword.equals(confirmPassword)) {
+			response.put("success", false);
+			response.put("text", "Mật khẩu xác nhận không khớp!");
+			return response;
+		}
 
-	    // ✅ Cập nhật mật khẩu mới
-	    user.setPassword(passwordEncoder.encode(newPassword));
-	    service.update(user);
+		// ✅ Cập nhật mật khẩu mới
+		user.setPassword(passwordEncoder.encode(newPassword));
+		service.update(user);
 
-	    // ✅ Bước 6: đăng xuất sau khi đổi mật khẩu
-	    request.getSession().invalidate(); // xóa session hiện tại
-	    response.put("redirect", "/user/sign-in"); // đường dẫn chuyển hướng
+		// ✅ Bước 6: đăng xuất sau khi đổi mật khẩu
+		request.getSession().invalidate(); // xóa session hiện tại
+		response.put("redirect", "/user/sign-in"); // đường dẫn chuyển hướng
 
-	    response.put("success", true);
-	    response.put("text", "Đổi mật khẩu thành công! Vui lòng đăng nhập lại.");
-	    return response;
+		response.put("success", true);
+		response.put("text", "Đổi mật khẩu thành công! Vui lòng đăng nhập lại.");
+		return response;
 	}
-
 
 }

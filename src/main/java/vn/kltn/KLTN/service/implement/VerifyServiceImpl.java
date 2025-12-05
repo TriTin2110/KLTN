@@ -13,7 +13,7 @@ import vn.kltn.KLTN.service.VerifyService;
 
 @Service
 public class VerifyServiceImpl implements VerifyService {
-	private Map<String, String> verifyPool;
+	private Map<String, String> verifyPool; // Gán email với OTP
 	private JavaMailSender mailSender;
 	private final String FROM = "t13524357@gmail.com";
 	private final String SUBJECT = "Mã xác thực từ Aunes";

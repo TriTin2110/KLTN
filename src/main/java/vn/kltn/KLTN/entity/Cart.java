@@ -19,7 +19,7 @@ public class Cart {
 	// orphanRemoval = true khác với cascade. Nó chuyên dùng để xóa các entity không
 	// còn liên kết với parent.
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "cart_id")
+	@JoinColumn(name = "cart_item_id")
 	private List<CartItem> cartItems;
 	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinColumn(name = "order_id")

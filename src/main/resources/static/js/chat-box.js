@@ -45,7 +45,7 @@ if (role != 'user') {
 	}
 }
 
-async function loadContentForUser(id) {
+async function loadContentForUser(id) { //Thực hiện load nội dung đoạn chat từ DB lên
 	let res = await fetch(`/chat/${id}`)
 	let messages = await res.json()
 	content.innerHTML = messages.map(m => {

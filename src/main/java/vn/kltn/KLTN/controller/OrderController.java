@@ -74,14 +74,16 @@ public class OrderController {
 		List<OrderItem> orderItems = cart.getCartItems().stream().map(o -> o.convertOrderItem()).toList();
 		String notificationImage = orderItems.get(0).getProductImage();
 		int totalPrice = cart.getTotalPrice();
-		if (userDTO.getCouponId() != null && !userDTO.getCouponId().isBlank()) {
+		point = pointService.addOrder(point.getId(), order); // để lên trên để tránh tình trạng point bị làm mới => dữ
+																// liệu point không được cập nhật ở khối lệnh bên dưới
+		if (userDTO.getCouponId() != null && !userDTO.getCouponId().isBlank()) { // trường hợp có mã giảm giá
 			Coupon coupon = couponService.findById(userDTO.getCouponId());
 			totalPrice = (int) (Math.ceil(Math.ceil(totalPrice * (1 - (coupon.getDiscountRate() / 100.0))) / 1000)
 					* 1000);
 			point.setAccumulatedPoint(point.getAccumulatedPoint() - coupon.getScore());
-		}
+			user.setPoint(point);
 
-		point = pointService.addOrder(point.getId(), order);
+		}
 		order.setPhoneNumber(userDTO.getPhoneNumber());
 		order.setAddress(userDTO.getAddress());
 		order.setCreatedDate(new Date(System.currentTimeMillis()));
@@ -101,7 +103,7 @@ public class OrderController {
 		orderService.add(newOrder); // Cập nhật order mới cho cart
 		Notification notification = new Notification("Đơn hàng: " + order.getId(), notificationImage, order.getId(),
 				LocalDateTime.now(), user.getUsername(), order.getStatus().getValue());
-		notificationService.add(notification);
+		notificationService.add(notification);// Tạo thông báo mới và gửi thông báo cho nhân viên
 		return "redirect:/user/profile";
 	}
 

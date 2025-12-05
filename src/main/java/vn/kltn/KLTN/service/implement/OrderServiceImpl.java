@@ -53,6 +53,7 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		try {
 			System.out.println("Bắt đầu cập nhật");
+			System.out.println("order.getPoint().getAccumulatedPoint(): " + order.getPoint().getAccumulatedPoint());
 			repository.saveAndFlush(order);
 			return true;
 		} catch (Exception e) {
